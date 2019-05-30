@@ -1,0 +1,667 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage{ucs}
+\usepackage[german]{babel}
+\usepackage[left=2.00cm, right=2.00cm, top=2.00cm, bottom=2.00cm]{geometry}
+\renewcommand\familydefault{\sfdefault}
+
+\title{Zusammenfassung - Regelungstechnik}
+\author{}
+\date{2019}
+
+%math
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{mathtools}
+
+%graphics
+\usepackage{graphicx}
+\usepackage{floatflt}
+\usepackage{float}
+
+%tabular
+\usepackage{tabularx}
+\usepackage[font=small,labelfont=small]{caption}
+\usepackage{colortbl}
+\usepackage[dvipsnames]{xcolor}
+\renewcommand{\arraystretch}{1.5}
+%\arrayrulecolor{white}
+
+%tikz
+\usepackage{tikz}
+\usetikzlibrary{shapes, petri}
+\tikzstyle{ell}=[ellipse,draw, yshift=-2mm]
+\tikzstyle{rec} = [rectangle, draw]
+\tikzstyle{dia} = [diamond, aspect=2, draw, yshift=-5mm]
+\tikzstyle{cir} = [circle, draw, minimum size=3mm]
+\tikzstyle{arrHV} = [to path={-| (\tikztotarget)}]
+\tikzstyle{arrVH} = [to path={|- (\tikztotarget)}]
+\tikzstyle{whileright} = [xshift=20mm, yshift=-3mm]
+\tikzstyle{whileleft} = [xshift=-20mm, yshift=-3mm]
+\tikzstyle{txtright} = [above, xshift=15mm]
+\tikzstyle{txtleft} = [above, xshift=-15mm]
+\tikzstyle{empty} = [coordinate]
+\usetikzlibrary{positioning}
+
+%listings
+\usepackage{listings}
+\lstdefinestyle{costum} {
+	language=Bash,
+	basicstyle=\footnotesize\ttfamily,
+	keywordstyle=\bfseries\color{cyan!50!blue},
+	commentstyle=\itshape\color{black!50},
+	%identifierstyle=\color{blue},
+	stringstyle=\color{green!50!black},
+	morekeywords={returns, loop, each},
+	escapeinside={\%*}{*)}
+}
+\lstset{style=costum}
+
+
+%costum layout
+\setlength{\parindent}{0cm}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{
+	\strut\rlap{\color{cyan!50!blue}\rule[-\dp\strutbox]{\headwidth}{\headheight}}
+	\textcolor {white} {Zusammenfassung: Regelungstechnik}}
+\fancyfoot[L]{
+	\strut\rlap{\color{cyan!50!blue}\rule[-\dp\strutbox]{\headwidth}{\headheight}}
+	\textcolor {white} {zuletzt aktualisiert: \today}}
+\fancyhead[R]{\textcolor{white}{Sommersemester 2019}}
+%\lfoot{}
+\fancyfoot[R]{\textcolor{white} {\thepage}}
+%\renewcommand{\footrulewidth}{1pt}
+
+%multicol
+\usepackage{multicol}
+%\setlength{\columnseprule}{0pt}
+%\setlength{\columnsep}{20.0pt}
+
+
+
+%custom title color
+\usepackage{titlesec}
+%\titleformat{\section}
+%{\color{cyan!80!blue}\normalfont\Large\bfseries}
+%{\color{black}\thesection}{1em}{}
+
+%\titleformat{\subsubsection}
+%{\color{blue!30!black!70}\normalfont\bfseries}
+%{\color{black}\thesection}{1em}{}
+
+\setcounter{secnumdepth}{4}
+
+%\titleformat{\paragraph}
+%{\color{green!30!black!70}\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+%\titlespacing*{\paragraph}
+%{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+%tab
+\newcommand{\tab}[1][1]{\hspace*{#1cm}}
+
+%color_summary
+\newcommand{\sumcolor}[1]{\textcolor{red!10!green!40!blue}{#1}}
+
+%coloring
+\newcommand{\redr}{\textcolor{red}{r}}
+\newcommand{\greeng}{\textcolor{green}{g}}
+\newcommand{\blueb}{\textcolor{blue}{b}}
+
+%vector
+\newcommand{\vect}[1]{\ensuremath{\begin{bmatrix}#1\end{bmatrix}}}
+
+%other
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{mathpartir}
+
+
+%TODO
+% Hinweise:
+% -----
+% Ruhelage
+% Partialbruchzerlegung
+%
+% Fix:
+% ---
+% 2.1.1 Blockschaltbild P-Glieder
+
+
+
+\begin{document}
+	\tableofcontents
+	\pagebreak
+	
+\section{Begriff der Regelung}
+
+\subsection{Dynamisches System}
+\subsubsection*{Signale und Blöcke:}
+\begin{tabularx}{\columnwidth}{llX}
+	Bezeichnung & Var. & Beschreibung \\
+	\hline
+	Ausgangsgröße & $y(t)$ & Ausgangsgröße, der ein gewünschtes Verhalten aufgeprägt werden soll \\
+	Stellgröße & $u(t)$ & Eingangsgröße, durch die das System gezielt beeinflusst werden kann \\
+	Störgröße & $z(t)$ & Eingangsgröße, die störend und mit zumeist nur ungenau oder gar nicht bekannten Zeitverlauf auf das System wirkt \\
+\end{tabularx}
+
+\subsubsection*{Blockschaltbild}
+\begin{figure}[H]
+	\includegraphics[width=0.5\columnwidth]{imgs/abb1_3.png}
+\end{figure}
+
+\subsection{Vorgeschaltete Steuereinrichtung}
+\label{steuerung}
+\subsubsection*{Ziel}
+\begin{itemize}
+	\item Übertragungsglied, das den Stellgrößenverlauf $u(t)$ derart generiert, dass $y(t)$ einem vorgegebenen Sollverlauf $w(t)$ folgt.
+\end{itemize}
+
+\subsubsection*{Signale und Blöcke:}
+\begin{tabularx}{\columnwidth}{llX}
+	Bezeichnung & Var. & Beschreibung \\
+	\hline
+	Führungsgröße & $w(t)$ & Von außen vorgegebener Soll-Verlauf für die Regelgröße y(t) \\
+	Ausgangsgröße & $y(t)$ & Ausgangsgröße, der ein gewünschtes Verhalten aufgeprägt werden soll \\
+	Stellgröße & $u(t)$ & Eingangsgröße, durch die das System gezielt beeinflusst werden kann \\
+	Störgröße & $z(t)$ & Eingangsgröße, die störend und mit zumeist nur ungenau oder gar nicht bekannten Zeitverlauf auf das System wirkt \\
+\end{tabularx}
+
+\subsubsection*{Blockschaltbild}
+\begin{figure}[H]
+	\includegraphics[width=0.8\columnwidth]{imgs/abb1_4.png}
+\end{figure}
+
+
+\subsection{Regelung}
+\label{regelung}
+\subsubsection*{Ziel:}
+\begin{itemize}
+		\item Minderung des Einflusses von (nicht-messbaren) Störungen
+		\item Minderung des Einflusses von Ungenauigkeiten des Streckenmodells
+		\item Verbesserung des Folgeverhaltens
+\end{itemize}
+
+\subsubsection*{Signale und Blöcke:}
+
+\begin{tabularx}{\columnwidth}{llX}
+	Bezeichnung & Var. & Beschreibung \\
+	\hline
+	Führungsgröße & $w(t)$ & Von außen vorgegebener Soll-Verlauf für die Regelgröße y(t) \\
+	Regelgröße & $y(t)$ & Ausgangsgröße, der ein gewünschtes Verhalten aufgeprägt werden soll \\
+	Regelabweichung & $e(t)$ & Entsteht durch Vergleich der Führungsgröße mit der gemessenen Regelgröße und soll klein gehalten werden ($e(t) = w(t) - y'(t)$) \\
+	Stellgröße & $u(t)$ & Eingangsgröße, durch die das System gezielt beeinflusst werden kann \\
+	Störgröße & $z(t)$ & Eingangsgröße, die störend und mit zumeist nur ungenau oder gar nicht bekannten Zeitverlauf auf das System wirkt \\
+	Messrauschen & $n(t)$ & \\
+	Regler && Übertragungsglied, das aus der Regelabweichung das Stellsignal $u$ generiert, sodass $y$ möglichst $w$ folgt \\
+	Messglied/Messeinrichtung && Erfasst die Regelgröße $y$ mittels eines Sensors und erzeugt ein zu $y(t)$ möglichst äquivalentes Signal $y'(t)$	
+\end{tabularx}
+
+\subsubsection*{Blockschaltbild}
+\begin{figure}[H]
+	\includegraphics[width=0.8\columnwidth]{imgs/abb1_6.png}
+\end{figure}
+
+
+\subsection{Zwei-Freiheitsgrade-Regelung (Steuerung + Regelung)}
+\subsubsection*{Ziel:}
+\begin{itemize}
+		\item Kombination der Vorteile der Regelschleife (see section \ref{regelung}) und der Vorteile der Steuerung (see section \ref{steuerung})
+\end{itemize}
+
+\subsubsection*{Signale und Blöcke:}
+
+\begin{tabularx}{\columnwidth}{llX}
+	Bezeichnung & Var. & Beschreibung \\
+	\hline
+	Führungsgröße & $w(t)$ & Von außen vorgegebener Soll-Verlauf für die Regelgröße y(t) \\
+	Regelgröße & $y(t)$ & Ausgangsgröße, der ein gewünschtes Verhalten aufgeprägt werden soll \\
+	Regelabweichung & $e(t)$ & Entsteht durch Vergleich der Führungsgröße mit der gemessenen Regelgröße und soll klein gehalten werden ($e(t) = w(t) - y'(t)$) \\
+	Stellgröße & $u(t)$ & Eingangsgröße, durch die das System gezielt beeinflusst werden kann \\
+	Störgröße & $z(t)$ & Eingangsgröße, die störend und mit zumeist nur ungenau oder gar nicht bekannten Zeitverlauf auf das System wirkt \\
+	Regler && Übertragungsglied, das aus der Regelabweichung das Stellsignal $u$ generiert, sodass $y$ möglichst $w$ folgt \\
+	Steuereinrichtung && Übertragungsglied, das den Stellgrößenverlauf $u(t)$ derart generiert, dass $y(t)$ einem vorgegebenen Sollverlauf $w(t)$ folgt.
+\end{tabularx}
+
+\subsubsection*{Blockschaltbild}
+\begin{figure}[H]
+	\includegraphics[width=0.8\columnwidth]{imgs/abb1_8.png}
+\end{figure}
+
+%TODO evtl Blockschaltbild mit Trajectorienplaner
+
+\subsubsection{Störgrößenaufschaltung}
+\subsubsection*{Ziel:}
+\begin{itemize}
+	\item Mindern des Einflusses einer messbaren Störgröße auf den Ausgang
+\end{itemize}
+
+\subsubsection*{Signale und Blöcke:}
+\begin{tabularx}{\columnwidth}{llX}
+	Bezeichnung & Var. & Beschreibung \\
+	\hline
+	Führungsgröße & $w(t)$ & Von außen vorgegebener Soll-Verlauf für die Regelgröße y(t) \\
+	Regelgröße & $y(t)$ & Ausgangsgröße, der ein gewünschtes Verhalten aufgeprägt werden soll \\
+	Regelabweichung & $e(t)$ & Entsteht durch Vergleich der Führungsgröße mit der gemessenen Regelgröße und soll klein gehalten werden ($e(t) = w(t) - y'(t)$) \\
+	Stellgröße & $u(t)$ & Eingangsgröße, durch die das System gezielt beeinflusst werden kann \\
+	Störgröße & $z_1(t)$ & Messbare Eingangsgröße, die störend auf das System wirkt \\
+	Störgröße & $z_2(t)$ & Nicht-Messbare Eingangsgröße, die störend auf das System wirkt \\
+	Regler && Übertragungsglied, das aus der Regelabweichung das Stellsignal $u$ generiert, sodass $y$ möglichst $w$ folgt \\
+	Steuereinrichtung && Übertragungsglied, das den Stellgrößenverlauf $u(t)$ derart generiert, dass $y(t)$ einem vorgegebenen Sollverlauf $w(t)$ folgt. Besteht aus Störgrößenaufschaltung und Führungsgrößenaufschaltung \\
+	Störgrößenaufschaltung && Übertragungspfad zur Aufschaltung einer messbaren Störgröße auf die Stellgröße \\
+	Führungsgrößenaufschaltung && Übertragungspfad zur Aufschaltung der Führungsgröße auf die Stellgröße
+\end{tabularx}
+
+\subsubsection*{Blockschaltbild}
+\begin{figure}[H]
+	\includegraphics[width=0.8\columnwidth]{imgs/abb1_11.png}
+\end{figure}
+
+\section{Modelle}
+\subsection{Zustandsdarstellung}
+\renewcommand{\arraystretch}{2}
+\begin{tabularx}{\columnwidth}{lX}
+	Zustandsdarstellung/Zustandsraummodell & Ein Modell bestehend aus
+	$$
+		\begin{array}{ll}
+			\begin{rcases}
+				\dot x_1 = f_1(x_1 \dots x_n, z, u) \\
+				\tab \vdots \\
+				\dot x_n = f_n(x_1 \dots x_n, z, u)
+			\end{rcases} & \text{Zustandsdifferentialgleichungen} \\
+			y = g(x_1 \dots x_n) & \text{Ausgangsgleichung}
+		\end{array}
+	$$
+	\text{bzw.} 
+	$$
+		\begin{array}{l}
+			\dot{x} = f(x,z,u) \\
+			y = g(x)
+		\end{array}		
+	$$
+	wenn bei bekannten Eingangssignalen $u(t)$ und $z(t)$ und gegebenen Anfangswerten $x_1(0), \dots, x_n(0)$ die Zeitverläufe $x_1(t), \dots, x_n(t)$ für $t > 0$ eindeutig bestimmt sind. \\
+	Zustandsgleichungen & Zustandsdifferentialgleichungen und die Ausgangsgleichung zusammen \\
+	Trajektorie & Die $n$ Zeitverläufe $x_1(t), \dots, x_n(t)$ \\
+	Zustandsvariablen & $x_1, \dots, x_n$ \\
+	Zustand des Systems & Die Gesamtheit der Werte $x_1, \dots, x_n$ zu einem festen Zeitpunkt $t$ \\
+	Zustandsvektor & 
+	$$
+		x(t) = \vect{x_1(t) \\ \vdots \\ x_n(t)}
+	$$	
+\end{tabularx}
+\renewcommand{\arraystretch}{1.5}
+
+\subsubsection{Zustandsdarstellung bei Linearkombinationen}
+Bestehen die rechten Seiten der Zustandsgleichungen ausschließlich aus Linearkombinationen, d.h.:
+$$
+\begin{array}{l}
+	\dot x_1 = a_{11} x_1 + \dots + a_{1n} x_n + e_1 z + b_1 u \\
+	\tab \vdots \\
+	\dot x_n = a_{n1} x_1 + \dots + a_{nn} x_n + e_n z + b_n u \\
+	y = c_1 x_1 + \dots + c_n x_n
+\end{array}	
+$$
+so gilt:
+$$
+\begin{array}{lcl}
+	\dot{x} = A x + e z + b u & ≡ & \vect{\dot x_1 \\ \vdots \\ \dot x_n} = \vect{a_{11} & \dots & a_{1n} \\ \vdots & \ddots & \vdots \\ a_{n1} & \dots & a_{nn}} \vect{x_1 \\ \vdots \\ x_n} + \vect{e_1 \\ \vdots \\ \dot e_n} z(t) + \vect{b_1 \\ \vdots \\ \dot b_n} u(t) \\
+	y = c^Tx & ≡ & y = \vect{c_1 & \dots & c_n} \vect{x_1 \\ \vdots \\ x_n}
+\end{array}
+$$
+
+\paragraph*{Blockschaltbild:} ~\\
+\begin{figure}[H]
+	\includegraphics[width=0.8\columnwidth]{imgs/abb2_12.png}
+\end{figure}
+
+\subsection{Blockschaltbild}
+\subsubsection*{Funktion:}
+\begin{itemize}
+	\item Das Blockschaltbild ist eine graphische Darstellung der Funktionsbeziehungen zwischen den zeitveränderlichen Größen durch Blöcke und Wirkungslinien. Ein Block ordnet dabei jedem Zeitverlauf der Eingangsgröße eindeutig einen Zeitverlauf der Ausgangsgröße zu und wirkt so als Übertragungsglied.
+	Die Zuordnungsvorschrift wird dabei in den Block hineingeschrieben.
+\end{itemize}
+
+\subsubsection*{Blockschaltbild:} ~\\
+\begin{figure}[H]
+	\includegraphics[width=0.8\columnwidth]{imgs/abb2_4.png}
+\end{figure}
+
+\subsection{Elementare Übertragungsglieder}
+\textbf{Summationsglied:}
+\begin{figure}[H]
+	\includegraphics[width=0.2\columnwidth]{imgs/sumglied.png}
+\end{figure}
+
+\textbf{Weitere Übertragungsglieder:}
+\begin{figure}[H]
+	\includegraphics[width=1\columnwidth]{imgs/bb2_2a.png}
+\end{figure}
+\begin{figure}[H]
+	\includegraphics[width=1\columnwidth]{imgs/bb2_2b.png}
+\end{figure}
+\begin{figure}[H]
+	\includegraphics[width=1\columnwidth]{imgs/bb2_2c.png}
+\end{figure}
+\begin{figure}[H]
+	\includegraphics[width=1\columnwidth]{imgs/bb2_2d.png}
+\end{figure}
+
+Die Übertragungsglieder Summationsglied, Proportionalglied, Integrierglied, Differenzierglied und Totzeitglied sind linear.
+
+\subsubsection{Sprungfunktion, Impulsfunktion}
+\renewcommand{\arraystretch}{2}
+$$
+\begin{array}{ll}
+	\text{Sprungfunktion} &	\sigma(t) = \begin{cases}
+	0 & \text{für } t < 0 \\
+	1 & \text{für } t ≥ 0
+	\end{cases} \\
+	\text{Impulsfunktion} & \delta(t) = \frac{d \sigma(t)}{dt} \\
+	\text{Es gilt:} & \int_{-∞}^{∞} \delta(t) dt = 1 \\
+	& \int_{-∞}^t \delta(t) dt = \sigma(t)
+\end{array}
+$$
+\renewcommand{\arraystretch}{1.5}
+
+\subsection{Lineare zeitinvariante Modelle (LZI-Modelle)}
+\subsubsection*{Eigenschaften}
+\begin{itemize}
+	\item \textbf{Linearität:} Für $y(t) = \varphi(u(t))$ gilt:
+	\begin{itemize}
+		\item $\varphi(c_1 u_1(t) + c_2 u_2(t)) = c_1 \varphi(u_1(t)) + c_2 \varphi(u_2(t))$
+	\end{itemize}
+	\item \textbf{Zeitinvarianz:}
+	\begin{itemize}
+		\item $y(t) = \varphi(u(t))$ folgt $\varphi(u(t-T)) = y(t-T)$
+	\end{itemize}
+\end{itemize}
+
+\subsubsection{Regelungsnormalform}
+Das System $y^{(n)} + a_{n-1} y^{(n-1)} + \dots + a_1 \dot y + a_0 y = b_0 u$ \\
+besitzt die Zustandsdarstellung
+$$
+	\dot x = \begin{bmatrix}
+		0 & 1 & 0 & \dots & 0 \\
+		0 & 0 & 1 & \ddots & \vdots \\
+		\vdots & \vdots & \ddots & \ddots & 0 \\
+		0 & 0 & \dots & 0 & 1 \\
+		-a_0 & -a_1 & \dots & -a_{n-2} & -a_{n-1}
+	\end{bmatrix} x + \vect{0 \\ \vdots \\ \vdots \\ 0 \\ b_0} u
+$$
+$$
+	y = \vect{1 & 0 & \dots & 0} x
+$$
+Sie heißt Regelungsnormalform
+
+\subsubsection{Regelungsnormalform mit Ableitungen von u}
+
+Das System $y^{(n)} + a_{n-1} y^{(n-1)} + \dots + a_1 \dot y + a_0 y = b_{n-1} u^{n-1} + \dots + b_1 \dot u + b_0 u$ \\
+besitzt die Zustandsdarstellung
+$$
+\dot x = \begin{bmatrix}
+0 & 1 & 0 & \dots & 0 \\
+0 & 0 & 1 & \ddots & \vdots \\
+\vdots & \vdots & \ddots & \ddots & 0 \\
+0 & 0 & \dots & 0 & 1 \\
+-a_0 & -a_1 & \dots & -a_{n-2} & -a_{n-1}
+\end{bmatrix} x + \vect{0 \\ \vdots \\ \vdots \\ 0 \\ 1} u
+$$
+$$
+y = \vect{b_0 & b_1 & \dots & b_{n-1}} x
+$$
+Sie heißt Regelungsnormalform
+
+\subsubsection{Beobachtungsnormalform}
+Das System $y^{(n)} + a_{n-1} y^{(n-1)} + \dots + a_1 \dot y + a_0 y = b_{n-1} u^{n-1} + \dots + b_1 \dot u + b_0 u$ \\
+besitzt die Zustandsdarstellung
+$$
+\dot x = \begin{bmatrix}
+0 & 0 & \dots & 0 & -a_0 \\
+1 & 0 & \ddots & 0 & -a_1 \\
+0 & 1 & \ddots & 0 & -a_2\\
+\vdots & \ddots & \ddots & 0 & \vdots \\
+0 & \dots & 0 & 1 & -a_{n-1}
+\end{bmatrix} x + \vect{b_0 \\ b_1 \\ b_2 \\ \vdots \\ b_{n-1}} u
+$$
+$$
+y = \vect{0 & \dots & 0 & 1} x
+$$
+Sie heißt Beobachtungsnormalform
+
+\subsection{Linearisierung im Arbeitspunkt}
+\subsubsection{Ein Eingabeparameter} ~\\
+Sei $y = F(u)$ eine Übertragungsfunktion. \\
+Die linearisierte Funktion um den Arbeitspunkt $u_s$ ist berechnet als:
+$$
+	\Delta y = f(\Delta u, u_s) = \frac{\partial F(u)}{\partial u}\bigg|_{u = u_s} ⋅ \Delta u
+$$
+mit
+$$
+	\Delta y = y - y_s
+$$
+$$
+	y_s = F(u_s)
+$$
+$$
+	\Delta u = u - u_s
+$$
+Die um den Arbeitspunkt linearisierte Beziehung zwischen den absoluten Größen ist definiert als:
+$$
+	y_{lin} = f(u,u_s) = \Delta y + y_s \tab \text{(Ersetze $\Delta u$ durch $u - u_s$)}
+$$
+
+\subsubsection{Mehere Eingabeparameter} ~\\
+Sei $y = F(u_1, \dots u_n)$ eine Übertragungsfunktion ($n \in \mathbb{N}$). \\
+Die linearisierte Funktion um den Arbeitspunkt $(u_{1,s}, \dots, u_{n,s})$ wird wie folgt berechnet:
+$$
+\Delta y = f(\Delta u_1, \dots, \Delta u_n, u_{1,s}, \dots, u_{n,s}) = \frac{\partial F(u_1, \dots u_n)}{\partial u_1}\Bigg|_\textrm{AP} ⋅ \Delta u_1 + \dots + \frac{\partial F(u_1, \dots u_n)}{\partial u_n}\Bigg|_\textrm{AP} ⋅ \Delta u_n
+$$
+$$
+	\textrm{AP} ≡ u_1 = u_{1,s}, \dots, u_n = u_{n,s}
+$$
+mit
+$$
+	\Delta y = y - y_s
+$$
+$$
+	y_s = F(u_s)
+$$
+$$
+	\Delta u_1 = u_1 - u_{1,s}, \dots, \Delta u_n = u_n - u_{n,s}
+$$
+Die um den Arbeitspunkt linearisierte Beziehung zwischen den absoluten Größen ist definiert als:
+$$
+y_{lin} = f(u_1, \dots, u_n, u_{1,s}, \dots, u_{n,s}) = \Delta y + y_s  \tab \text{(Ersetze $\Delta u_1$ durch $u_1 - u_{1,s}, \dots$)}
+$$
+
+\subsubsection{Regelungsnormalform}
+Gegeben sei ein System in der Form $\dot x = Ax + ez + bu$, $y = c^T x$. \\
+Die $n$ algebraischen Gleichungen seien definiert als: \\
+$\begin{array}{l}
+	f_1(x_1, \dots, x_n, z, u) = a_{11} x_1 + \dots + a_{1n} x_n + e_1 z + b_1 u \\
+	\tab \vdots \\
+	f_n(x_1, \dots, x_n, z, u) = a_{n1} x_1 + \dots + a_{nn} x_n + e_n z + b_n u
+\end{array}$ \\
+Die Ausgangsgröße sei definiert als:
+$g(x_1, \dots, x_n) = y = c_1 x_1 + \dots + c_n x_n$ \\
+Das linearisierte Modell wird wie folgt berechnet:
+$$
+	\Delta \dot x(t) = A_l \Delta x(t) + e_l \Delta z(t) + b_l \Delta u(t)
+$$
+$$
+	\Delta y(t) = c_l^T \Delta x(t)
+$$
+$$
+	A_l = \left. \begin{bmatrix}
+		\frac{\partial f_1}{\partial x_1} & \dots & \frac{\partial f_1}{\partial x_n} \\
+		\vdots & \ddots & \vdots \\
+		\frac{\partial f_n}{\partial x_1} & \dots & \frac{\partial f_n}{\partial x_n} \\
+	\end{bmatrix}\right |_\textrm{AP}
+$$
+$$
+	e_l = \left.\vect{\frac{\partial f_1}{\partial z} \\ \vdots \\ \frac{\partial f_n}{\partial z}}\right |_\textrm{AP}
+$$
+$$
+	b_l = \left.\vect{\frac{\partial f_1}{\partial u} \\ \vdots \\ \frac{\partial f_n}{\partial u}}\right |_\textrm{AP}
+$$
+$$
+	c_l^T = \left.\vect{\frac{\partial g}{\partial x_1} & \dots & \frac{\partial g}{\partial x_n}}\right |_\textrm{AP}
+$$
+
+\section{Laplace-Transformation}
+
+
+\section{Mathematische Grundlagen}
+%TODO Komplexe Zahlen
+
+\section{Elektrotechnische Grundlagen}
+\subsection{Widerstand}
+\textbf{Schaltzeichen:} \\
+\begin{figure}[H]
+	\includegraphics[width=0.15\columnwidth]{imgs/widerstand.pdf}
+\end{figure}
+\textbf{Formel:}
+$$
+	U = R ⋅ I
+$$
+
+\subsection{Kondensator}
+\textbf{Schaltzeichen:} \\
+\begin{figure}[H]
+	\includegraphics[width=0.1\columnwidth]{imgs/kondensator.pdf}
+\end{figure}
+\textbf{Formel:}
+$$
+	U = \frac 1 C \int I \textrm{ dt} \iff \dot U = \frac I C
+$$
+
+\subsection{Spule}
+\textbf{Schaltzeichen:} \\
+\begin{figure}[H]
+	\includegraphics[width=0.1\columnwidth]{imgs/spule.pdf} bzw. 
+	\includegraphics[width=0.1\columnwidth]{imgs/spule_alt.pdf}	
+\end{figure}
+\textbf{Formel:}
+$$
+	U = L ⋅ \dot I
+$$
+
+\subsection{Kirchoff'sches Spannungsgesetz}
+In einem geschlossenen Stromkreis (Masche) ist die Summe aller Spannungen gleich null \\
+
+\textbf{Beispiel:}
+\begin{figure}[H]
+	\includegraphics[width=0.5\columnwidth]{imgs/kvl.png}
+\end{figure}
+Für Masche $M_1$ gilt:
+$$
+U_R + U_C - U_e = 0
+$$
+
+\subsection{Kirchoff'sches Stromgesetz}
+In jedem Knotenpunkt ist die Summe aller Ströme gleich null.
+
+\textbf{Beispiel:}
+\begin{figure}[H]
+	\includegraphics[width=0.5\columnwidth]{imgs/kcl.png}
+\end{figure}
+$$
+	I_C + I_L - I = 0
+$$
+
+\section{Physikalische Grundlagen}
+\subsection{Kräfte}
+\textbf{Kräftegleichgewicht:} \\
+Die Summe aller Kräfte, die an einem Körper angreifen, addieren sich zu null.
+$$
+	\sum F_i = 0
+$$
+
+\textbf{Newtonsche Gesetze}
+\begin{enumerate}
+	\item Wirkt auf einen Körper keine Kraft oder befindet er sich im Kräftegleichgewicht, so bleibt er in Ruhe oder er bewegt sich mit konstanter Geschwindigkeit geradlinig weiter.
+	\item $F = m ⋅ a$ \tab[2] ($m$: Masse des Körpers, $a$: Beschleunigung, die der Körper erfährt)
+	\item $F_1 = -F_2$ \tab[2] (Kraft gleich Gegenkraft)
+\end{enumerate}
+
+\textbf{Masse-Feder-Dämpfer System}
+\begin{figure}[H]
+	\includegraphics[width=0.5\columnwidth]{imgs/mass-spring-damper.png}
+\end{figure}
+$m$: Masse des Körpers, $d$: Dämpferkonstante, $k$: Federkonstante, $F$: Stellkraft
+$$
+	F = m ⋅ \ddot x + d \dot x + k x
+$$
+
+
+\subsection{Drehmomente}
+\textbf{Momentengleichgewicht:} \\
+Die Summe aller Momente um jeden (einen) beliebigen Punkt eines Körpers addieren sich zu null.
+$$
+	\sum M_i = 0
+$$
+
+\textbf{Berechnung in Abhängigheit von F:} \\
+$r$: Abstand der Wirkungslinie der Kraft von der Drehachse, $F$: wirkende Kraft
+$$
+	M = r \times F
+$$
+
+\subsection{Drehimpuls:}
+$J$: Trägheitsmoment, $\omega$: Winkelgeschwindigkeit
+$$
+	L = J ⋅ \omega
+$$
+
+
+\section{Tipps}
+\subsection{Zeichnen eines Blockschaltbildes}
+\begin{itemize}
+	\item Verzweigungen von Signalen werden durch einen schwarzen Punkt markiert, um die Verwechslungsgefahr mit Kreuzungen ohne Kontakt zu vermeiden.
+	\item Signale werden immer explizit mit Summationsgliedern aufaddiert.
+	\item Proportionalitätsfaktoren von 1 können weggelassen werden.
+	\item Das Vorzeichen beim Summationsglied steht immer rechts vom Pfeil. Die Pluszeichen müssen nicht explizit angegeben werden.
+	\item Das Vorzeichen einer Rückführung steht am Soll-/Istwert-Vergleich
+\end{itemize}
+\textbf{Allgemeine Vorgehensweise:}
+\begin{enumerate}
+	\item Differentialgleichung nach höchster Ableitung auflösen
+	\item $n$ I-Glieder mit zugehörigen Anfangswerten nebeneinander zeichnen, verbinden und beschriften
+	\item Summationsglieder für die höchste Ableitung bilden
+	\item Jeden Term der rechten Seite aus bestehenden Signalen bilden
+\end{enumerate}
+
+%TODO Beispiel
+
+
+
+
+\pagebreak
+\section*{Anmerkungen}
+Dies ist eine Zusammenfassung der Vorlesung Regelungstechnik an der Technischen Universität München.
+Gehalten wurde diese Vorlesung durch Lohmann B. im Sommersemester 2019.
+Ersteller dieser Zusammenfassung ist Gaida B.
+Alle Angaben sind ohne Gewähr.
+
+
+\section*{Literaturverzeichnis}
+Werner Skolaut. \textit{Maschinenbau. Ein Lehrbuch für das ganze Bachelor-Studium}. Springer Vieweg. Heidelberg, 2018, S. 1271 - 1387
+
+
+
+
+\end{document}
+
+%TODO check for todos
+
+
+
+
+
+
+
+
