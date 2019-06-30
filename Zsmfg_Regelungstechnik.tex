@@ -681,6 +681,7 @@ Die komplexe Übertragungsfunktion $G(s)$ ist:
 $$
 	G(s) = c^T(sI - A)^{-1} b = \frac{c^T(\textrm{Adjunkte}(sI-A))b}{\det(sI-A)} = \frac{Z(s)}{N(s)}
 $$
+%TODO add G(s)
 
 \subsubsection{Polstellen}
 Jeder Pol von $G(s)$ ist Eigenwert von $A$. Ein Eigenwert von $A$ ist genau dann Pol von $G(s)$, wenn er sich nicht herauskürzt, d.h. nicht gleichzeitig Nullstelle von $Z(s)$ ist.
@@ -724,6 +725,120 @@ $$
 $$
 
 \section{Analyse dynamischer Systeme}
+\subsection{Systemantworten}
+\subsubsection{Impulsantwort}
+\begin{figure}[H]
+	\includegraphics[width = \columnwidth]{imgs/impulsantwort.png}
+\end{figure}
+Sei $Y(s) = G(s) U(s)$ ein lineares zeitinvariantes System mit der komplexen Übertragungsfunktion $G(s)$. \\
+Die Impulsantwort dieses Systems ist:
+$$
+	Y(s) = G(s) ~\Laplace ~g(t)
+$$
+mit $u(t) = \delta(t) ~\laplace ~U(s) = 1$,
+
+\paragraph{Eigenschaften} ~\\
+Sei $G(s)$ ein R-Glied in der Form: $G(s) = \sum_{i = 1}^n \frac{r_i}{s - p_i} ~\Laplace ~g(t) = \sum_{i = 1}^n r_i e^{p_i t}$ \\
+und sei $p_i$ der zugehörige $i$-te Pol. \\
+Für den Charakter des zugehörigen Zeitsignals folgt: \\
+\begin{tabularx}\columnwidth{Xlll}
+	einfacher negativ reeller Pol $p_i$, & $p_i \in \mathbb{R}^-$: & abklingende $e$-Funktion, & $r_ie^{p_it}$ \\
+	einfacher Pol in null, & $p_i = 0$: & konstanter Anteil, & $r_i$\\
+	einfacher positiv reeller Pol $p_i$, & $p_i \in \mathbb{R}^+$: & aufklingende $e$-Funktion, & $r_ie^{p_it}$ \\	
+	einfaches, in der linken Halbebene gelegenes konjugiert komplexes Polpaar, & $p_{1/2} = -\delta \pm j \omega \in \mathbb{C}, \Re(p_{1/2}) < 0$: & abklingende Schwingung, & $e^{-\delta t} \sin(\omega t + \phi)$ \\
+	einfaches, auf der imaginären Achse gelegenes komplexes Polpaar, & $p_{1/2} = \pm j \omega \in \mathbb{C} \backslash \mathbb{R}$: & harmonische Dauerschwingung, & $\sin(\omega t + \varphi)$ \\
+	einfaches, in der rechten Halbebene gelegenes konjugiert komplexes Polpaar, & $p_{1/2} = +\delta \pm j \omega \in \mathbb{C}, \Re(p_{1/2}) > 0$: & aufklingende Schwingung, & $e^{\delta t} \sin(\omega t + \varphi)$ \\
+\end{tabularx}
+\begin{figure}[H]
+	\includegraphics[width = 0.7\columnwidth]{imgs/polstellen.png}
+\end{figure}
+
+\paragraph{Impulsantwort bei Zustandsdarstellung} ~\\
+Sei ein LZI-System gegeben mit $\dot x = Ax + bu$ und $y = c^T x$. \\
+Die Impulsantwort dieses Systems ist:
+$$
+	g(t) = c^T e^{At} b \sigma(t)
+$$
+wobei $x(0) = 0$
+
+\subsubsection{Sprungantwort}
+\begin{figure}[H]
+	\includegraphics[width = \columnwidth]{imgs/sprungantwort.png}
+\end{figure}
+Sei $Y(s) = G(s) U(s)$ ein lineares zeitinvariantes System mit der komplexen Übertragungsfunktion $G(s)$. \\
+Die Sprungantwort dieses Systems ist:
+$$
+	Y(s) = \frac{G(s)} s = H(s) ~\Laplace ~h(t) = \int_0^t g(\tau) d\tau
+$$
+mit $u(t) = \sigma(t) ~\laplace ~U(s) = 1/s$,
+
+\subsubsection{Systemantwort mittels Faltung}
+Sei ein lineares zeitinvariantes System gegeben mit Eingangssignal $u(t)$, Ausgangssignal $y(t)$ und der Übertragungsfunktion $g(t)$. \\
+Das Ein-Ausgangsverhalten dieses Systems lässt beschreiben durch:
+$$
+	y(t) = g(t) * u(t)
+$$
+wobei $g(t) * u(t) = \int_0^t g(t - \tau) u(\tau) d \tau$ die Faltungsoperation ist.
+
+\subsubsection{Anfangswertsatz der Laplace-Transformation}
+Sei $y(t)$ eine Zeitfunktion sowie $Y(s)$ deren Laplace-Transformierte. \\
+Es gilt:
+$$
+	y(t → 0^+) = \lim_{s → ∞} [sY(s)], \tab \text{sofern $y(t → 0^+)$ existiert}
+$$
+
+Für die Sprungantwort gilt:
+$$
+	h(t → 0^+) = G(∞)
+$$
+
+\subsubsection{Endwertsatz der Laplace-Transformation}
+Sei $y(t)$ eine Zeitfunktion sowie $Y(s)$ deren Laplace-Transformierte. \\
+Es gilt:
+$$
+y(t → ∞) = \lim_{s → 0} [sY(s)], \tab \text{sofern $y(t → ∞)$ existiert}
+$$
+
+Für die Sprungantwort gilt:
+$$
+h(t → ∞) = G(0), \tab \text{sofern alle Pole von $G(s)$ links der $j$-Achse sind}
+$$
+
+\subsection{Stabilität}
+\subsubsection{Sprungantwortstabilität}
+Ein lineares zeitinvariantes System ist sprungantwortstabil, falls
+$$
+	h(t → ∞) = \int_0^∞ g(\tau) d \tau  = c < ∞
+$$
+wobei $h(t) = \int_0^t g(\tau) d \tau$ die Sprungantwort des Systems ist. \\
+
+Ein rationales Übertragungsglied (R-Glied) ist genau dann sprungantwortstabil, wenn alle Pole der Übertragungsfunktion $G(s)$ in der linken komplexen Halbebene liegen.
+
+\subsubsection{Übertragungsstabilität, BIBO-Stabilität}
+\begin{itemize}
+	\item Ein dynamisches System heißt übertragungsstabil, wenn es auf jedes beschränkte Eingangssignal mit einem beschränkten Ausgangssignal antwortet. 
+	\item Andere Bezeichnungen sind: äußere Stabilität, Ein-/Ausgangsstabilität, BIBO (Bounded Input Bounded Ouput) Stabilität
+	\item Sprungantwortstabilität $\iff$ Übertragungsstabilität
+\end{itemize}
+
+\subsubsection{Asymptotische Stabilität}
+Sei ein LZI-System gegeben mit $\dot x = Ax + bu$ und $y = c^T x$
+\begin{itemize}
+	\item Das Zustandsraummodell heißt asymptotisch stabil, wenn $x(t) → 0$ für $u(t) = 0$ und beliebige Anfangswerte $x(0)$
+	\item Das Zustandsraummodell ist genau dann asymptotisch stabil, wenn alle Eigenwerte der Matrix $A$ in der linken komplexen Halbebene liegen.
+	\item Andere Bezeichnungen sind: Zustandsstabilität, innere Stabilität
+	\item Asymptotische Stabilität $\implies$ Übertragungsstabilität
+	\item Übertragungsstabilität $\implies$ Asymptotische Stabilität, falls \\ das Zählerpolynom der Übertragungsfunktion $G(s)$ keine der Nennernullstellen kürzt und der Nennergrad von $G(s)$ tatsächlich die Ordnung des Zustandsraummodells widerspiegelt.
+\end{itemize}
+
+\paragraph{Asymptotisch stabiles R-Glied} ~\\
+Sei $G(s) = \frac{b_m s^m + \dots + b_0}{a_n s^n + \dots + a_0}, n ≥ m, a_n ≠ 0$ die komplexe Übertragungsfunktion eines R-Gliedes und \\
+sei $a_n y^{(n)} + \dots + a_1 \dot y + a_0 y = b_m u^{(m)} + \dots + b_1 \dot u + b_0 u$ das zugehörige Zustandsraummodell der Ordnung $n$. \\
+Das Zustandsraummodell der Ordnung $n$ ist genau dann asymptotisch stabil, wenn alle $n$ Systempole, also die Lösungen der charakteristischen Gleichung $a_n s^n + \dots + a_1 s + a_0 = 0$ in der linken komplexen Halbebene liegen.
+
+\subsection{Pole, Nullstellen und Modellreduktion}
+
+
 
 
 
@@ -788,6 +903,8 @@ $$
 $$
 	z_1 ⋅ z_2 = |z_1| ⋅ |z_2| ⋅ e^{j(\varphi_1 + \varphi_2)}
 $$
+
+
 
 
 
@@ -910,6 +1027,8 @@ $$
 	\item Summationsglieder für die höchste Ableitung bilden
 	\item Jeden Term der rechten Seite aus bestehenden Signalen bilden
 \end{enumerate}
+
+%TODO Impulsfunktion, Sprungfunktion
 
 %TODO Beispiel
 
