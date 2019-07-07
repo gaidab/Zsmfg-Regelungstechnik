@@ -837,8 +837,181 @@ sei $a_n y^{(n)} + \dots + a_1 \dot y + a_0 y = b_m u^{(m)} + \dots + b_1 \dot u
 Das Zustandsraummodell der Ordnung $n$ ist genau dann asymptotisch stabil, wenn alle $n$ Systempole, also die Lösungen der charakteristischen Gleichung $a_n s^n + \dots + a_1 s + a_0 = 0$ in der linken komplexen Halbebene liegen.
 
 \subsection{Pole, Nullstellen und Modellreduktion}
+\subsubsection{Dominierende Pole}
+\begin{figure}[H]
+	\includegraphics[width = 0.5\columnwidth]{imgs/pole_dominanz.png}
+\end{figure}
+\begin{itemize}
+	\item näher an der imaginären Achse (links) liegende Pole sind dominante Pole → langsam abklingende $e$-Funktion
+	\item weiter von der imaginären Achse entfernt (links) liegende Pole sind nicht-dominante Pole → schnell abklingende $e$-Funktion
+\end{itemize}
 
+\subsubsection{Nullstelleneffekte}
+\paragraph{Blockiereigenschaft einer Nullstelle} ~\\
+Sei $G(s)$ eine komplexe Übertragungsfunktion mit der Nullstelle $\eta$. \\
+Die spezielle Anregung $u(t) = u_0 e^{\eta t}$ bewirkt in der Systemantwort $y(t)$ keinen Anteil $re^{\eta t}$, \\
+d.h. die Nullstelle blockiert.
 
+\paragraph{Wirkung der Nullstellenlage auf den Verlauf der Sprungantwort} ~\\
+\begin{itemize}
+	\item In der linken Halbebene gelegene Nullstellen
+	\begin{itemize}
+		\item links von den dominanten Polen: geringe Wirkung
+		\item rechts von den dominanten Polen: Überschwingen oder sonstigen "Verbeulen" der Sprungantwort
+	\end{itemize}
+	\item In der rechten Halbebene gelegene Nullstellen
+	\begin{itemize}
+		\item schwieriger zu regeln
+		\item z.B. Allpassglied: $G(s) = - \frac{(Ts - 1)}{(Ts + 1)}$, Sprungantwort beginnt bei $-1$ und endet bei $1$ für alle $T > 0$
+	\end{itemize}
+\end{itemize}
+
+\subsubsection{Modellreduktion}
+\textbf{Ziel:} \\
+Entferne nicht dominierende Pole aus der komplexen Übertragungsfunktion und gelange so zu einem reduzierten Modell. \\
+
+\textbf{Verfahren:} \\
+Aus $G(s) = \sum_{v = 1}^n \frac{r_v}{s - p_v}$ werden diejenigen Summanden ersatzlos gestrichen, deren Dominanzmaß $D_v = |\frac{r_v}{p_v}|$ vergleichsweise klein ist. \\
+Rechts oder auf der imaginären Achse gelegene Pole werden nicht gestrichen.
+
+\subsection{Approximation des Totzeitgliedes}
+Sei $G(s) = e^{-T_t s}$ die komplexe Übertragunsfunktion eines Totzeitgliedes. \\
+Das Totzeitglied kann durch eine rationale Übertragungsfunktion angenähert und ersetzt werden. \\
+Je höher die Ordnung $n$ ist, desto genauer ist die Approximation.
+
+\subsubsection{Approximation durch ein PTn-Glied}
+Wird für die Annäherung ein PT$n$-Glied angesetzt, so folgt:
+$$
+	G(s) \approx \frac{1}{(1 + \frac{T_t}{n}s)^n}
+$$
+
+\subsubsection{Padé-Approximation}
+Wird für die Annäherung eine Padé-Approximation vorgenommen, so wird ein allgemeines rationales Übertragungsglied angesetzt und die Zähler- und Nennerkoeffizienten so gewählt, dass die zugehörige Taylorreihe um $s = 0$ in möglichst vielen Gliedern mit der Taylorreihe von $e^{-T_t s}$ übereinstimmt. \\
+
+\textbf{Padé-Approximationen des Totzeitgliedes:} \\
+\renewcommand{\arraystretch}{2}
+$\begin{array}{l|c|c}
+	\text{Ordnung} & \text{Padé-Approximation mit Zählergrad }n & \text{Padé-Approximation mit Zählergrad }n-1 \\
+	\hline
+	n = 1 & \frac{1 - \frac 1 2 T_t s}{1 + \frac 1 2 T_t s} & \frac{1}{1 + T_t s} \\
+	n = 2 & \frac{1 - \frac 1 2 T_t s + \frac 1 {12} T_t^2 s^2}{1 + \frac 1 2 T_t s + \frac 1 {12} T_t^2 s^2} & \frac{1 - \frac 1 3 T_t s}{1 + \frac 2 3 T_t s + \frac 1 6 T_t^2 s^2} \\
+	n = 3 & \frac{1 - \frac 1 2 T_t s + \frac 1 {10} T_t^2 s^2 - \frac 1 {120} T_t^3 s^3}{1 + \frac 1 2 T_t s + \frac 1 {10} T_t^2 s^2 + \frac 1 {120} T_t^3 s^3} & \frac{1 - \frac 2 5 T_t s + \frac 1 {20} T_t^2 s^2}{1 + \frac 3 5 T_t s + \frac 3 {20} T_t^2 s^2 + \frac 1 {60} T_t^3 s^3} \\	
+\end{array}$
+\renewcommand{\arraystretch}{1.5}
+
+\subsection{Modellidentifikation im Zeitbereich}
+Sei die Sprungantwort eines Systems als $t-\Delta y(t)$ Diagramm gegeben. \\
+
+\textbf{Annäherung durch Totzeitglied und PT1-Glied:} \\
+\begin{figure}[H]
+	\includegraphics[width = 0.4\columnwidth]{imgs/modellidentifikation_1.png}
+\end{figure}
+Der Verlauf kann durch ein Totzeitglied und ein nachgeschaltetes PT1-Glied angenähert werden.
+\begin{enumerate}
+	\item Lege zeichnerisch die Wendetangente an die Kurve und bestimme die Totzeit $T_t$ und die Zeitkonstante $T$ des PT1-Gliedes wie im Bild angegeben.
+	\item $G(s) = \frac{K_s}{1 + Ts} e^{-T_ts}$
+\end{enumerate}
+
+\textbf{Annäherung durch ein PTn-Glied:} \\
+\begin{figure}[H]
+	\includegraphics[width = 0.4\columnwidth]{imgs/modellidentifikation_2.png}
+\end{figure}
+Der Verlauf kann durch ein PT$n$-Glied angenähert werden.
+\begin{enumerate}
+	\item Lege zeichnerisch die Wendetangente an die Kurve und bestimme die Verzugszeit $T_U$, die Ausgleichszeit $T_G$, sowie $t_W$ und $y_W$ wie im Bild angegeben.
+	\item $K = \frac{\Delta y(∞)}{\Delta u}$, wobei $\Delta u$ die Höhe des sprungförmigen Eingangssignal bezeichnet
+	\item Die Ordnung $n$ wird aus der Tabelle abgelesen, anhand von $\frac{T_U}{T_G}$ oder $\frac{y_w}{\Delta y(∞)}$
+	\item Mithilfe der Werte $T_U, T_G, t_W$ und $n$ und der Tabelle bestimmt man drei Werte für $T$. Der Mittelwert wird schließlich verwendet.	
+	\item $G(s) = \frac{K}{(1 + Ts)^n}$
+\end{enumerate}
+
+Tabelle: \\
+\begin{tabular}{|c|c|c|c|c|c|}
+	\hline
+	$n$ & $\frac{T_U}{T_G}$ & $\frac{y_W}{\Delta y(∞)}$ & $\frac{t_W}{T}$ & $\frac{T_G}{T}$ & $\frac{T_U}{T}$ \\
+	\hline
+	1 & 0 & 0 & 0 & 1 & 0 \\
+	\hline
+	2 & 0,104 & 0,264 & 1 & 2,718 & 0,282 \\
+	\hline
+	3 & 0,218 & 0,323 & 2 & 3,695 & 0,805 \\
+	\hline
+	4 & 0,319 & 0,353 & 3 & 4,463 & 1,425 \\
+	\hline
+	5 & 0,410 & 0,371 & 4 & 5,119 & 2,100 \\
+	\hline
+	6 & 0,493 & 0,384 & 5 & 5,699 & 2,811 \\
+	\hline
+	7 & 0,570 & 0,394 & 6 & 6,226 & 3,549 \\
+	\hline
+	8 & 0,642 & 0,401 & 7 & 6,711 & 4,307 \\
+	\hline
+	9 & 0,709 & 0,407 & 8 & 7,164 & 5,081 \\
+	\hline
+	10 & 0,773 & 0,413 & 9 & 7,590 & 5,869 \\
+	\hline
+\end{tabular}
+
+\subsection{Frequenzgang}
+\subsubsection{Systemantwort auf harmonische Anregung}
+Sei $Y(s) = G(s)U(s)$ die beschreibende Gleichung eines R-Gliedes, welches mit $u(t) = \sin(\omega t)$ angeregt wird. \\
+Die Antwort diese R-Gliedes ist:
+$$
+	y(t) = y_D(t) + y_G(t)
+$$
+mit dem Dauerschwingungsanteil
+$$
+	y_D(t) = |G(j\omega)| \sin(\omega t + \angle G(j \omega))
+$$ \\
+
+Ist das System $G(s)$ stabil, so gilt für große $t$:
+$$
+	y(t) = y_D(t)
+$$
+
+\textbf{Größen:} \\
+\begin{tabular}{ll}
+	Frequenzgang des Systems: & $G(j \omega)$ \\
+	Betrag des Frequenzgangs: & $|G(j \omega)|$ \\
+	Phase des Frequenzgangs: & $\angle G(j \omega) = \arctan(-\omega T)$
+\end{tabular} \\
+
+wobei
+$$
+	G(j \omega) = |G(j \omega)| e^{j \angle G(j \omega)}
+$$
+
+\subsubsection{Frequenzgangortskurve und Bode-Diagramm}
+\textbf{Frequenzgangortskurve:} \\
+Die Frequenzgangortskurve ist die Ortskurve $G(j \omega)$ für $0 ≤ \omega < ∞$ in der komplexen Zahlenebene. \\
+Die Pfeilspitze zeigt in Richtung wachsender Frequenz $\omega$. \\
+
+\textbf{Amplitudengang:} \\
+Der Amplitudengang/Betragskennlinie ist $|G(j \omega)|$ für $0 < \omega < ∞$. \\
+Die $|G(j \omega)|$-Achse wird in Dezibel (dB) skaliert, mit $|G|_{dB} = 20\log|G|$. \\
+
+\textbf{Phasengang:} \\
+Der Phasengang/Phasenkennlinie ist $\angle G(j \omega)$ für $0 < \omega < ∞$. \\
+Die $\angle G(j \omega)$-Achse wird in Grad angegeben; die $\omega$-Achse wird logarithmisch aufgetragen. \\
+
+\textbf{Bode-Diagramm:} \\
+Betrags- und Phasenkennlinie zusammen heißen Bode-Diagramm bzw. Frequenzkennlinien des Systems $G(s)$.
+
+\subsubsection{Konstruktion von Bode-Diagramm}
+Sei die komplexe Übertragungsfunktion eines R-Gliedes als Produkt einfacher Glieder gegeben, d.h.:
+$$
+	G(s) = K ⋅ \frac{(s-q_1) ⋅ \dots ⋅ (s - q_m)}{(s - p_1) ⋅ \dots ⋅ (s - p_n)} = K ⋅ (s - q_1) ⋅ \dots ⋅ (s - q_m) ⋅ \frac{1}{s - p_1} ⋅ \dots ⋅ \frac{1}{s - p_n} = K ⋅ G_1 ⋅ \dots ⋅ G_m ⋅ G_{m+1} ⋅ \dots ⋅ G_{n + m}
+$$
+
+Die Betragskennlinie ist:
+$$
+	|G(j \omega)|_{dB} = 20 \log |G_1| + \dots + 20 \log |G_{n + m}
+$$
+
+Die Phasenkennlinie ist:
+$$
+	\angle G(j \omega) = \angle G_1 + \dots + \angle G_{n + m}
+$$
 
 
 
@@ -904,12 +1077,225 @@ $$
 	z_1 ⋅ z_2 = |z_1| ⋅ |z_2| ⋅ e^{j(\varphi_1 + \varphi_2)}
 $$
 
+\subsection{Partialbruchzerlegung}
+Sei $R(s) = \frac{b_ns^n + \dots + b_1s + b_0}{a_ms^m + \dots + a_1s + a_0}$ \\
 
+1. Finde alle Polstellen $p_i$ von $R(s)$ \\
 
+2. Setze Partialbrüche an: \\
+$R(s) = G_1 + \dots + G_m = \frac{Z_1}{N_1} + \dots + \frac{Z_m}{N_m}, \tab G_i = \frac{Z_i}{N_i}$, wobei
+\begin{itemize}
+	\item $G_i = \frac{r_i}{s - p_i}$, für jeden einfachen reellen Pol $p_i$
+	\item $G_i + G_{i+1} = \frac{r_i s + r_{i + 1}}{(s - p_i)(s - p_{i + 1})}$, für jedes konjugiert komplexes Polpaar $p_i, p_{i+1} = p_i^*$
+	\item $G_i + \dots + G_k = \frac{r_i}{s - p_i} + \frac{r_{i+1}}{(s - p_i)^2} + \dots + \frac{r_{i + k - 1}}{(s - p_i)^k}$, für jeden k-fachen reellen Pol $p_i = p_{i+1} = \dots = p_{i + k - 1}$
+\end{itemize}
 
+3. Bringe alle Brüche auf denselben Nenner und addiere sie: \\
+$R(s) = \frac{Z_1}{N_1} + \dots + \frac{Z_m}{N_m} = \frac{Z_1(N_2 + \dots + N_m)}{N_1 ⋅ \dots ⋅ N_n} + \dots + \frac{Z_m(N_1 + \dots + N_{m-1})}{N_1 ⋅ \dots ⋅ N_n} = \frac{Z_1(N_2 + \dots + N_m) + \dots + Z_m(N_1 + \dots + N_{m-1})}{N_1 ⋅ \dots ⋅ N_n}$ \\
 
-%TODO Partialbruchzerlegung
-%TODO Matrizenrechnung
+4. Multipliziere den Zähler aus und forme um zu: \\
+$ f(x) = \frac{(c_{1,m}r_1 + \dots + c_{m,m}r_m)s^m + \dots + (c_{1,0}r_1 + \dots + c_{m,0}r_m)s^0}{N_1 ⋅ \dots ⋅ N_n}$ \\
+
+5. Löse folgendes lineare Gleichungssystem: \\
+$\begin{array}{c}
+(c_{1,m}r_1 + \dots + c_{m,m}r_m) = b_m \\
+\vdots \\
+(c_{1,0}r_1 + \dots + c_{m,0}r_m) = b_0
+\end{array}$ \\
+
+6. Setze $r_1$ bis $r_m$ in die Gleichung aus Schritt 2 ein ($R(s) = G_1 + \dots + G_m$)
+
+%\subsubsection{Integration mit Partialbruchzerlegung}
+%Sei $R(s) = \int \frac{b_ns^n + \dots + b_1s + b_0}{a_ms^m + \dots + a_1s + a_0} ds$ \\
+%
+%Befolge Schritt 1 - 6 \\
+%
+%$\implies R(s) = \int \frac{r_1}{s - p_1} + \dots + \frac{r_m}{s - s_l} + G_{l+1} + \dots + G_m ds$ \\
+%$ = r_1\ln|s - p_1| + \dots + r_l\ln|s - p_l| + \int G_{l+1} + \dots + G_m ds$
+
+\subsubsection{Beispiel}
+Sei $R(s) = \frac{5s-1}{s^2-1}$ \\
+
+1. Finde alle Polstellen $p_i$ von $R(s):$ \\
+$p_1 = -1$ und $p_2 = 1$ \\
+
+2. Setze Partialbrüche an: \\
+$\implies R(s) = \frac {r_1} {s - 1} + \frac {r_2} {s + 1}$ \\
+
+3. Bringe alle Brüche auf denselben Nenner und addiere sie: \\
+$R(s) = \frac{r_1(s + 1)}{s^2-1} + \frac{r_2(s - 1)}{s^2-1} = \frac{r_1(s + 1) + r_2(s - 1)}{s^2-1}$\\
+
+4. Multipliziere den Zähler aus und forme um: \\
+$ R(s) = \frac{(r_1 + r_2)s + (r_1 - r_2)}{s^2-1}$ \\
+
+5. Löse folgendes lineare Gleichungssystem: \\
+$r_1 + r_2 = 5$ \\
+$r_1 - r_2 = -1$ \\
+$\implies r_1 = 2 \land r_2 = 3$ \\
+
+6. Setze $r_1$ und $r_2$ in die Gleichung aus Schritt 2 ein ($R(s) = \frac {r_1} {s - 1} + \frac {r_2} {s + 1}$): \\
+$R(s) = \frac {2} {s - 1} + \frac {3} {s + 1}$
+
+\subsection{Matrizen}
+\subsubsection{Matrix}
+$$
+	A = \begin{bmatrix}
+		a_{11} & \dots & a_{1m} \\
+		\vdots & \ddots & \vdots \\
+		a_{n1} & \dots & a_{nm}
+	\end{bmatrix} \in \mathbb{R}^{n \times m}, \tab a_{ij} \in \mathbb{R}, i \in \{1, \dots, n\}, j \in \{1, \dots, m\}
+$$
+
+\subsubsection{Addition}
+Seien $A, B \in \mathbb{R}^{n \times m}$ zwei Matrizen. \\
+Die Summe dieser Matrizen ist definiert als:
+$$
+	A + B = \begin{bmatrix}
+	a_{11} + b_{11} & \dots & a_{1m} + b_{1m}\\
+	\vdots & \ddots & \vdots \\
+	a_{n1} + b_{n1} & \dots & a_{nm} + b_{nm}
+	\end{bmatrix} \in \mathbb{n \times m}
+$$
+
+\subsubsection{Multiplikation mit Skalar}
+Sei $A \in \mathbb{R}^{n \times m}$ eine Matrix und $\alpha \in \mathbb{R}$ ein Skalar. \\
+Das Produkt $\alpha A$ ist definiert als:
+$$
+\alpha A = \begin{bmatrix}
+\alpha ⋅ a_{11} & \dots & \alpha ⋅ a_{1m} \\
+\vdots & \ddots & \vdots \\
+\alpha ⋅ a_{n1} & \dots & \alpha ⋅ a_{nm}
+\end{bmatrix} \in \mathbb{R}^{n \times m}
+$$
+
+\subsubsection{Matrizenmultiplikation}
+Seien $A \in \mathbb{R}^{l \times m}$ und $B \in \mathbb{R}^{m \times n}$ zwei Matrizen. \\
+Das Produkt dieser Matrizen ist definiert als:
+$$
+	C = A ⋅ B = \begin{bmatrix}
+		c_{11} & \dots & c_{1n} \\
+		\vdots & \ddots & \vdots \\
+		c_{l1} & \dots & c_{ln}
+	\end{bmatrix} \in \mathbb{R}^{l \times n}, \tab c_{ik} = \sum_{j = 1}^m a_{ij}⋅b_{ik} \in \mathbb{R}, i \in \{1, \dots, l\}, k \in \{1, \dots, n\}
+$$
+ 
+Es gelten folgende Gesetze:
+\begin{itemize}
+	\item Assoziativgesetz: $(AB)C = A(BC)$
+	\item Distributivgesetz: $A(B + C) = AB + AC$
+\end{itemize}
+
+Es gilt kein Kommutativgesetz:
+$AB ≠ BA$
+
+\subsubsection{Transponierte}
+Sei $A \in \mathbb{R}^{n \times m}$ eine Matrix. \\
+Die Transponierte von A ist definiert als:
+$$
+	A^T =  \begin{bmatrix}
+	a_{11} & \dots & a_{n1} \\
+	\vdots & \ddots & \vdots \\
+	a_{1m} & \dots & a_{nm}
+	\end{bmatrix} \in \mathbb{R}^{m \times n}
+$$
+
+\subsubsection{Einheitsmatrix}
+$$
+I = \begin{bmatrix}
+1 & 0 & \dots & 0 \\
+0 & 1 & \ddots & \vdots \\
+\vdots & \ddots & \ddots & 0 \\
+0 & \dots & 0 & 1
+\end{bmatrix}
+$$
+
+Sei $A \in \mathbb{R}^{n \times m}$. \\
+Es gilt:
+$$
+A ⋅ I = I ⋅ A = A
+$$
+
+\subsubsection{Skalarprodukt}
+Sei $v, w \in \mathbb{R}^n$ \\
+Das Skalarprodukt dieser Vektoren ist:
+$$
+\langle v, w \rangle = v^T ⋅ w = v_1w_1 + \dots + v_nw_n
+$$
+
+\subsubsection{Determinante}
+\textbf{Determinante einer $2 \times 2$ Matrix}
+Sei $A \in \mathbb{R}^{2 \times 2}$. \\
+Die Determinante dieser Matrix ist definiert als:
+$$
+	\det(A) = |A| = a_{11}a_{22} - a_{21}a_{12}
+$$
+
+\textbf{Determinante einer $3 \times 3$ Matrix}
+Sei $A \in \mathbb{R}^{3 \times 3}$. \\
+Die Determinante dieser Matrix ist definiert als:
+$$
+	\det(A) = |A| = a_{11}a_{22}a_{33} + a_{12}a_{23}a_{31} + a_{13}a_{21}a_{32} - a_{31}a_{22}a_{13} - a_{32}a_{23}a_{11} - a_{33}a_{21}a_{12}
+$$
+
+\textbf{Eigenschaften}
+\begin{itemize}
+	\item $\det(A) ≠ 0 \implies$ Spaltenvektoren von $A$ sind linear unabhängig
+	\item $\det(A) ≠ 0 \implies$ Inverse von $A$ existiert
+	\item $\det(A^{-1}) = \det(A)^{-1}$
+\end{itemize}
+
+\subsubsection{Inverse}
+Sei $A \in \mathbb{R}^{n \times m}$. \\
+Die Inverse von A existiert, falls $\det(A) ≠ 0$. \\
+Sie ist definiert als:
+$$
+	A^{-1} = \frac{1}{\det A} ⋅ \textrm{ad}A
+$$
+Es gilt:
+$$
+	AA^{-1} = A^{-1}A = I
+$$
+
+\subsubsection{Adjunkte}
+Sei $A \in \mathbb{R}^{n \times n}$. \\
+Die Adjunkte von A ist definiert als:
+$$
+	\textrm{ad} A  = \begin{bmatrix}
+	a^*_{11} & \dots & a^*_{1n} \\
+	\vdots & \ddots & \vdots \\
+	a^*_{n1} & \dots & a^*_{nn}
+	\end{bmatrix} \in \mathbb{R}^{n \times n}, \tab a^*_{ik} = (-1)^{i + k} \det A_{ki}, \tab i,k \in \{1, \dots, n\}
+$$
+
+\subsubsection{Eigenvektoren und Eigenwerte}
+Sei $A \in \mathbb{R}^{n \times n}$ und \\
+sei $Av = v\lambda$. \\
+Dann ist $v \in \mathbb{R}^n$ ein Eigenvektor von $A$ und $\lambda \in \mathbb{R}$ der dazugehörige Eigenwert von $A$. \\
+
+Die Eigenwerte $\lambda$ werden durch Lösen des charakteristischen Polynoms bestimmt:
+$$
+	\det(\lambda I - A) = 0
+$$
+
+\subsubsection{Matrix-Exponentialfunktion}
+Die Matrix-Exponentialfunktion ist definiert als:
+$$
+	e^{At} = I + A\frac{t}{1!} + A^2 \frac{t^2}{2!} + \dots
+$$
+
+\textbf{Eigenschaften:}
+\begin{itemize}
+	\item $e^{At_1} ⋅ e^{At_2} = e^{A(t_1 + t_2)}$
+	\item $e^{At} ⋅ e^{-At} = I$
+	\item $\frac{d}{dt} e^{At} = Ae^{At} = e^{At}A$
+\end{itemize}
+
+\subsubsection{Zeitliche Ableitung eines Matrizenprodukts}
+Seien $P,Q$ zwei Matrizen. \\
+Es gilt:
+$$
+	\frac{d}{dt}(PQ) = P \dot Q + \dot P Q
+$$
 
 \section{Elektrotechnische Grundlagen}
 \subsection{Widerstand}
