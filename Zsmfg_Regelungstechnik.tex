@@ -681,7 +681,7 @@ Die komplexe Übertragungsfunktion $G(s)$ ist:
 $$
 	G(s) = c^T(sI - A)^{-1} b = \frac{c^T(\textrm{Adjunkte}(sI-A))b}{\det(sI-A)} = \frac{Z(s)}{N(s)}
 $$
-%TODO add G(s)
+%TODO add G(s) (geschweifte Klammer unten ...)
 
 \subsubsection{Polstellen}
 Jeder Pol von $G(s)$ ist Eigenwert von $A$. Ein Eigenwert von $A$ ist genau dann Pol von $G(s)$, wenn er sich nicht herauskürzt, d.h. nicht gleichzeitig Nullstelle von $Z(s)$ ist.
@@ -982,6 +982,8 @@ $$
 $$
 
 \subsubsection{Frequenzgangortskurve und Bode-Diagramm}
+Sei $Y(s) = G(s)U(s)$ die beschreibende Gleichung eines Systems. \\
+
 \textbf{Frequenzgangortskurve:} \\
 Die Frequenzgangortskurve ist die Ortskurve $G(j \omega)$ für $0 ≤ \omega < ∞$ in der komplexen Zahlenebene. \\
 Die Pfeilspitze zeigt in Richtung wachsender Frequenz $\omega$. \\
@@ -1013,8 +1015,214 @@ $$
 	\angle G(j \omega) = \angle G_1 + \dots + \angle G_{n + m}
 $$
 
+\section{Regelkreis und Stabilität}
+\subsection{Umformung von Blockschaltbildern}
+Blockschaltbilder lassen sich gemäß folgender Regeln umformen, wobei jeweils die linke und rechte Darstellung äquivalent sind. \\
+
+\textbf{Serienschaltung:}
+\begin{figure}[H]
+	\includegraphics[width = \columnwidth]{imgs/serienschaltung.png}
+\end{figure}
+$$
+	Y(s) = G_1(s) ⋅ (G_2(s) ⋅ U(s)) = (G_1(s) ⋅ G_2(s)) ⋅ U(s)
+$$ \\
+
+\textbf{Parallelschaltung:}
+\begin{figure}[H]
+	\includegraphics[width = \columnwidth]{imgs/parallelschaltung.png}
+\end{figure}
+$$
+	Y(s) = G_1(s) ⋅ U(s) + G_2(s) ⋅ U(s) = (G_1(s) + G_2(s)) ⋅ U(s)
+$$ \\
+
+\textbf{Gegenkopplung:}
+\begin{figure}[H]
+	\includegraphics[width = \columnwidth]{imgs/gegenkopplung.png}
+\end{figure}
+$$
+	Y(s) = G_1(s) ⋅ (U(s) - G_2(s) ⋅ Y(s)) \implies Y(s) = \frac{G_1(s)}{1 + G_1(s) ⋅ G_2(s)} ⋅ U(s)
+$$ \\
+
+\textbf{Mitkopplung:}
+\begin{figure}[H]
+	\includegraphics[width = \columnwidth]{imgs/mitkopplung.png}
+\end{figure}
+$$
+	Y(s) = G_1(s) ⋅ (U(s) + G_2(s) ⋅ Y(s)) \implies Y(s) = \frac{G_1(s)}{1 - G_1(s) ⋅ G_2(s)} ⋅ U(s)
+$$ \\
+
+\textbf{Vertauschen zweier Blöcke:}
+\begin{figure}[H]
+	\includegraphics[width = \columnwidth]{imgs/vertauschen_zweier_bloecke.png}
+\end{figure}
+$$
+	Y(s) = G_2(s) ⋅ G_1(s) ⋅ U(s) = G_1(s) ⋅ G_2(s) ⋅ U(s)
+$$ \\
+
+\textbf{Vertauschen eines Blockes vor ein Summier-Glied:}
+\begin{figure}[H]
+	\includegraphics[width = \columnwidth]{imgs/vertauschen_block_vor_summierer.png}
+\end{figure}
+$$
+	Y(s) = G(s) ⋅(U_1(s) + U_2(s)) = G(s) ⋅ U_1(s) + G(s) ⋅ U_2(s)
+$$ \\
+
+\textbf{Verlegung eines Blocks hinter ein Summier-Glied:}
+\begin{figure}[H]
+	\includegraphics[width = \columnwidth]{imgs/verlegung_block_hinter_summierer.png}
+\end{figure}
+$$
+	Y(s) = G(s) ⋅U_1(s) + U_2(s) = G(s) ⋅ (U_1(s) + \frac{1}{G(s)} ⋅ U_2(s))
+$$ \\
+
+\textbf{Verlegung eines Blocks vor eine Verzweigungsstelle:}
+\begin{figure}[H]
+	\includegraphics[width = \columnwidth]{imgs/verlegung_block_vor_verzweigung.png}
+\end{figure}
+
+\textbf{Verlegung eines Blocks hinter eine Verzweigungsstelle:}
+\begin{figure}[H]
+	\includegraphics[width = \columnwidth]{imgs/verlegung_block_hinter_verzweigung.png}
+\end{figure}
+
+\subsection{Standardregelkreis}
+%Sei folgender Regelkreis gegeben:
+%\begin{figure}[H]
+%	\includegraphics[width = \columnwidth]{imgs/standardregelkreis_1.png}
+%\end{figure}
+%wobei $G_1(s), G_2(s), G_3(s)$ durch das technische System vorgegeben sind und nur der Regler $R(s)$ frei entworfen werden %kann. \\
+
+Der Standardregelkreis ist definiert als:
+\begin{figure}[H]
+	\includegraphics[width = \columnwidth]{imgs/standardregelkreis_2.png}
+\end{figure}
+mit dem Übertragungsverhalten:
+$$
+	Y(s) =\underbrace{ \frac{F_o(s)}{1 + F_o(s)}}_{\substack{T(s) \\ \text{Führungsübertra-} \\ \text{gungsfunktion}}} W(s) + \underbrace{\frac{1}{1 + F_o(s)}}_{\substack{S(s) \\ \text{Störübertragungs-} \\ \text{funktion}}} Z(s)
+$$
+wobei $F_o(s) = G(s)R(s)$ die Übertragungsfunktion des offenen Kreises ist.
+
+\subsubsection{Eigenschaften des Standardregelkreises}
+\begin{itemize}
+	\item Die Führungsübertragungsfunktion $T(s)$ beschreibt den Einfluss der Führungsgröße $w(t)$ auf die Regelgröße $y(t)$
+	\item Die Störübertragungsfunktion bzw. Empfindlichkeitsfunktion $S(s)$ beschreibt den Einfluss der Störgröße $z(t)$ auf $y(t)$
+	\item Es gilt: $T(s) + S(s) = 1$
+	\item Die Regelabweichung $e$ ist: $E(s) = W(s) - Y(s) = \frac{1}{1 + F_o(s)}W(s) - \frac{1}{1 + F_o(s)} Z(s)$
+	\item Die Stellgröße $u$ ist: $U(s) = R(s)E(s) = \frac{R(s)}{1 + F_o(s)}W(s) - \frac{R(s)}{1 + F_o(s)} Z(s)$
+\end{itemize}
+
+\subsection{Stabilität des Standardregelkreises}
+\subsubsection{Übertragungsstabilität des Standardregelkreises}
+Der Standardregelkreis ist genau dann übertragungsstabil bezüglich $S(s)$ und $T(s)$, wenn sämtliche Lösungen der charakteristischen Gleichung 
+$$
+	F_o(s) + 1 = 0
+$$
+in der linken komplexen Halbebene liegen.
+
+\subsubsection{Asymptotische Stabilität des Standardregelkreises}
+\textbf{Kriterium 1:} \\
+Der Standardregelkreis ist genau dann asymptotisch stabil, wenn alle Lösungen der charakteristischen Gleichung 
+$$
+	Z_0(s) + N_0(s) = 0
+$$
+in der linken  komplexen Halbebene liegen. Diese Lösungen sind die Systempole der Regelung. \\
+Es gilt: 
+$$
+	Z_0(s) = Z_G(s)Z_R(s), \tab N_0(s) = N_G(s)N_R(s)
+$$
+$$
+	G(s) = \frac{Z_G(s)}{N_G(s)}, \tab R(s) = \frac{Z_R(s)}{N_R(s)}
+$$ \\
+
+\textbf{Kriterium 2:} \\
+Der Standardregelkreis ist genau dann asymptotisch stabil, wenn alle Lösungen der charakteristischen Gleichung
+$$
+	F_o(s) + 1 = 0
+$$
+in der linken komplexen Halbebene liegen und alle eventuelle Pol-Nullstellenkürzungen innerhalb der Strecke ($G(s)$), innerhalb des Reglers ($R(s)$) und zwischen Regler und Strecke ($G(s)R(s)$) ausschließlich links gelegene Pol-Nullstellenpaare betreffen.
+
+\subsubsection{Asymptotische Stabilität beim Reglerentwurf}
+Für asymptotische Stabilität der Regelung ist beim Entwurf zu beachten: \\
+Rechts oder auf der imaginären Achse gelegene Pole und Nullstellen der Strecke dürfen durch den Regler nicht gekürzt werden.
+
+\subsection{Nyquist-Kriterium}
+\subsubsection{Einfaches Nyquist-Kriterium}
+Sei $F_o(j \omega)$ die Frequenzgangortskurve des offenen Kreises des Standardregelkreises (auch Nyquist-Kurve genannt) und
+seien die unten genannten Voraussetzungen erfüllt. \\
+Liegt der Punkt $-1$ links der von der in Richtung wachsender $\omega$ durchlaufenden Frequenzgangortskurve $F_o(j \omega)$, so ist der Regelkreis übertragungsstabil. \\
+
+\textbf{Voraussetzungen:}
+\begin{enumerate}
+	\item $F_o(s) = \frac{b_0 + b_1s + \dots + b_ms^m}{a_0 + a_1s + \dots + a_ns^n} ⋅ e^{-T_ts}$ mit $m < n$ und $T_t ≥ 0$
+	\item Eines der folgenden Voraussetzungen ist erfüllt:
+	\begin{enumerate}
+		\item Alle Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_0} > 0$
+		\item Ein Pol liegt in null, alle anderen Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_1} > 0$
+		\item Zwei Pole liegen in null, alle anderen Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_2} > 0$
+	\end{enumerate}
+\end{enumerate}
+
+\subsubsection{Allgemeines Nyquist-Kriterium}
+Sei $F_o(j \omega)$ die Frequenzgangortskurve des offenen Kreises des Standardregelkreises, \\
+wobei $F_o(s) = \frac{b_0 + b_1s + \dots + b_ms^m}{a_0 + a_1s + \dots + a_ns^n} ⋅ e^{-T_ts}$ mit $m < n$ und $T_t ≥ 0$ ,\\
+sei $r_0$ die Anzahl der in der rechten komplexen Halbebene liegende Pole von $F_o(s)$ und \\
+sei $a_0$ die Anzahl der auf der imaginären Achse gelegenen Pole von $F_o(s)$ \\
+
+Der Regelkreis ist genau dann übertragungsstabil, wenn die Winkeländerung $\omega_+$ des Fahrstrahls vom Punkt $-1$ aus betrachtet
+$$
+	\omega_+ = r_0 \pi + a_0 \frac{\pi}{2}
+$$
+	beträgt, während die Nyquist-Ortskurve $F_o(j \omega)$ von $\omega = 0$ bis $\omega = ∞$ durchlaufen wird.
+
+\subsubsection{Vereinfachtes Nyquist-Kriterium im Bode-Diagramm}
+\begin{figure}[H]
+	\includegraphics[width = 0.4\columnwidth]{imgs/nyquist_bode.png}
+\end{figure}
+Sei $F_o(j \omega)$ die Frequenzgangortskurve des offenen Kreises des Standardregelkreises, \\
+wobei $F_o(s) = \frac{b_0 + b_1s + \dots + b_ms^m}{a_0 + a_1s + \dots + a_ns^n} ⋅ e^{-T_ts}$ mit $m < n$ und $T_t ≥ 0$ und \\
+sei $\omega_c$ die Durchtrittsfrequenz mit $|F_o(j \omega_c)| = 1$. \\
+Der Regelkreis ist übertragungsstabil, wenn
+$$
+	-180° < \angle F_o(j \omega_c) < 0
+$$
+
+\paragraph{Phasenreserve} ~\\
+Die Phasenreserve $\varphi_r$ ist definiert als:
+$$
+	\varphi_r = \angle F_o(j \omega_c) + \pi
+$$ \\
+
+Ist $\varphi_r > 0$, so ist der Regelkreis übertragungsstabil.
+
+\paragraph{Amplitudenreserve} ~\\
+Sei $\omega_a$ die Frequenz, bei der der Phasengang gleich $-180°$ ist, d.h. $\angle F_o(j \omega_a) = -180°$ \\
+Die Amplitudenreserver ist definiert als:
+$$
+	A_r = -|F_o(j \omega_a)|
+$$ \\
+
+Ist $A_r > 1$, so ist der Regelkreis stabil
+
+\subsection{Robustheit der Stabilität}
+$\varphi_r$ und $A_r$ werden häufig als Maße der Robustheit der Stabilität gegenüber Fehlern oder Veränderungen des Modells $F_o(s)$ verwendet. Faustregel für gute Robustheit:
+$$
+	\varphi_r > 60° \tab \text{und/oder} \tab A_r > 2
+$$ \\
+
+Für gute Robustheit der Stabilität soll der kleinste Abstand
+$$
+	|d|_{min} = \min_{\omega}|F_o(j \omega) + 1|
+$$
+der Nyquist-Ortskurve vom Punkt $-1$ möglichst groß sein, Faustregel: 
+$$
+	|d|_{min} ≥ 0,5
+$$
+
+\section{Reglerentwurf}
 
 
+
+\appendix
 
 \pagebreak
 \section{Mathematische Grundlagen}
@@ -1395,6 +1603,8 @@ $J$: Trägheitsmoment, $\omega$: Winkelgeschwindigkeit
 $$
 	L = J ⋅ \omega
 $$
+
+%TODO überarbeiten
 
 
 \section{Tipps}
