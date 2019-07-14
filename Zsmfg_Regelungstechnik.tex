@@ -999,6 +999,8 @@ Die $\angle G(j \omega)$-Achse wird in Grad angegeben; die $\omega$-Achse wird l
 \textbf{Bode-Diagramm:} \\
 Betrags- und Phasenkennlinie zusammen heißen Bode-Diagramm bzw. Frequenzkennlinien des Systems $G(s)$.
 
+%TODO Beispieldiagramme
+
 \subsubsection{Konstruktion von Bode-Diagramm}
 Sei die komplexe Übertragungsfunktion eines R-Gliedes als Produkt einfacher Glieder gegeben, d.h.:
 $$
@@ -1219,6 +1221,324 @@ $$
 $$
 
 \section{Reglerentwurf}
+\subsection{Anforderungen an das Regelverhalten}
+\begin{enumerate}
+	\item \textbf{Dynamisches Verhalten:}
+	\begin{itemize}
+		\item Es sind gleichzeitig Schnelligkeit und gute Dämpfung des Einschwingverhaltens (z.B. nach einer Änderung von $w$ oder $z$ anzustreben)
+		\item Gleichzeitige Schnelligkeit und gute Dämpfung sind gegenläufig → Kompromiss wird angestrebt
+		\item Hohe Dynamik und Robustheit der Stabilität sind gegenläufig
+	\end{itemize}
+	\item \textbf{Stationäre Genauigkeit:}
+	\begin{itemize}
+		\item Die Regelabweichung $e(t)$ soll für konstante Störungen als auch für konstante Führungsgrößen für große $t$ gegen null gehen, d.h.
+		\begin{itemize}
+			\item konstante Störungen sollen stationär ohne Wirkung auf $y$ sein (Störkompensation)
+			\item $y$ soll sich stationär auf den konstanten Wert $w$ der Führungsgröße einstellen (Sollwertfolge)
+		\end{itemize}
+	\end{itemize}
+	\item \textbf{Robuste Stabilität:}
+	\begin{itemize}
+		\item Die zu fordernde Stabilität einer Regelung muss robust gegen Fehler und langsame Veränderungen des Streckenmodells sein. Robustheitsmaße sind u.a.:
+		\begin{itemize}
+			\item Phasenreserve
+			\item Amplitudenreserve
+			\item kleinster Abstand der Nyquist-Ortskurve vom Punkt $-1$
+			\item Robustheit der Regelgüte
+		\end{itemize}
+	\end{itemize}
+	\item \textbf{Realisierbarkeit des Reglers:}
+	\begin{itemize}
+		\item Rationale Übertragungsglieder sind realisierbar, wenn für ihre Übertragungsfunktion gilt: Zählergrad $≤$ Nennergrad
+	\end{itemize}
+	\item \textbf{Einhaltung von Begrenzungen:}
+	\begin{itemize}
+		\item Systemgrößen dürfen nicht an ihre technisch bedingten Grenzen stoßen.
+		\item Häufig betroffen sind die Stellgrößen (z.B: Einhalten eines Maximalwerts)
+	\end{itemize}
+\end{enumerate}
+
+\subsection{Dynamik, Robustheit der Stabilität und Grenzen der Regelgüte}
+Sei $d = F_o(j \omega) + 1$ der Fahrstrahl der Nyquist-Ortskurve $F_o(j \omega)$ (welche dem kritischen Punkt $-1$ am nächsten kommt, wo $d$ den kleinsten Betrag hat). \\
+Für die Störübertragungsfunktion $S(s)$ folgt:
+$$
+	|S(s)| = \begin{cases}
+		< 1 & \text{ für } |d| > 1  \tab\text{Störungen werden durch die Regelung gemindert}\\
+		= 1 & \text{ für } |d| = 1 \\
+		> 1 & \text{ für } |d| < 1  \tab\text{Störungen werden durch die Regelung verstärkt}\\
+	\end{cases}
+$$
+
+\subsubsection{Bode-Theorem}
+Sei der Regelkreis stabil, \\
+sei Zählergrad von $F_o(s) + 2 ≤ $ Nennergrad von $F_o(s)$ und \\
+sei $p_i$ die in der rechten komplexen Halbebene liegende Pol von $F_o(s)$
+Es folgt:
+$$
+	\begin{array}{ll}
+		\int_0^∞ \ln|S(j \omega)| d \omega = 0, & \text{sofern $F_o(s)$ stabil} \\
+		\int_0^∞ \ln|S(j \omega)| d \omega = \pi \sum_i  \Re(p_i), & \text{sofern $F_o(s)$ instabil}
+	\end{array}
+$$
+
+\textbf{Eigenschaften:}
+\begin{itemize}
+	\item Die Summe der Flächen, wo $|S(s)| < 1|$ gleicht der Summe der Flächen, wo $|S(s) > 1$, sofern $F_o(s)$ stabil ist.
+	\item Jede Verbesserung des Störverhaltens in einem gewissen Frequenzbereich muss mit einer Verschlechterung in einem anderen Frequenzbereich bezahlt werden.
+	\item Die störungsmindernde Wirkung einer Regelung findet vor allem bei niedrigen Frequenzen statt und endet im Wesentlichen beim kleinsten $\omega$ für das gilt: $|S(j \omega)| = 1$.
+\end{itemize}
+
+\textbf{Voraussetzungen für gute Robustheit der Stabilität und gute Dämpfung des Einschwingverhaltens}
+\begin{itemize}
+	\item Die Ortskurve $F_o(j \omega)$ soll dem Punkt $-1$ nicht sehr nahe kommen bzw. es soll gelten $|S(j \omega)| < 2 = 6dB, \forall \omega$.
+	\item Oberhalb von $\omega_1$ soll $F_o(j \omega)$ sehr klein werden, wobei $\omega_1$ das kleinste $\omega$ ist, für das $|S(j \omega)| = 1$ ist.
+\end{itemize}
+
+\subsection{Stationäres Verhalten}
+\begin{itemize}
+	\item Für stationäre Genauigkeit muss zwischen Soll-Ist-wertvergleich und Störeingriff ein Integrierglied enthalten sein. Andernfalls ist die stationäre Regelabweichung $e_{stat} ≠ 0$, kann aber durch Vergrößern von der Verstärkung $V$ kleiner gemacht werden.
+	\item Ein Erhöhen der Verstärkung $V$ verschlechtert sich die Robustheit der Stabilität und kann Instabilität bewirken.
+	\item Ein Einfügen eines I-Gliedes $\frac{K_I}{s}$ erschwert die Stabilisierung eines Regelkreises und macht ihn langsamer.
+\end{itemize}
+
+\subsection{Grundtypen linearer Regler}
+Sei im folgenden die Regelabweichung $e(t)$ die Eingangsgröße der Regler und die Stellgröße $u(t)$ die Ausgangsgröße der Regler im Zeitbereich bzw. \\
+$R(s)$ die komplexe Übertragungsfunktion des Reglers.
+
+\subsubsection{P-Regler}
+\textbf{Definition:}
+$$
+	\begin{array}{ll}
+	\text{Zeitbereich:} & u(t) = K_R e(t) \\
+	\text{Bildbereich:} & R(s) = K_R
+	\end{array}
+$$ \\
+
+\textbf{Wahl der Variablen:} \\
+$K_R:$ wird so gewählt, dass Phasen- und Amplitudenreserve groß genug sind, z.B: $A_r > 2, \varphi_r > 60°$ \\
+
+\textbf{Vorteile/Nachteile:}
+\begin{itemize}
+	\item Vorteile:
+	\begin{itemize}
+		\item gute Dynamik bei einfachem Regleraufbau
+	\end{itemize}
+	\item Nachteile:
+	\begin{itemize}
+		\item stationäre Genauigkeit ist nicht gesichert (außer wenn $G(s)$ ein I-Glied enthält und die Störung erst hinter dem I-Glied eingreift)
+	\end{itemize}
+\end{itemize}
+
+\subsubsection{I-Regler}
+\textbf{Definition:}
+$$
+	\begin{array}{ll}
+	\text{Zeitbereich:} & u(t) = K_I \int_0^t e(\tau) d\tau \\
+	\text{Bildbereich:} & R(s) = \frac{K_I}{s}
+	\end{array}
+$$ \\
+
+\textbf{Wahl der Variablen:} \\
+$K_I:$ wird so gewählt, dass Phasen- und Amplitudenreserve groß genug sind, z.B: $A_r > 2, \varphi_r > 60°$ \\
+
+\textbf{Vorteile/Nachteile:}
+\begin{itemize}
+	\item Vorteile:
+	\begin{itemize}
+		\item sichert stationäre Genauigkeit
+	\end{itemize}
+	\item Nachteile:
+	\begin{itemize}
+		\item tendenziell langsame Dynamik der Regelung
+	\end{itemize}
+\end{itemize}
+
+\textbf{Bode-Diagramm:}
+\begin{figure}[H]
+	\includegraphics[width = 0.4\columnwidth]{imgs/i-regler.png}
+\end{figure}
+
+\subsubsection{PI-Regler}
+\textbf{Definition:}
+$$
+	\begin{array}{ll}
+	\text{Zeitbereich:} & u(t) = K_R e(t) + K_I \int_0^t e(\tau) d\tau \\
+	\text{Bildbereich:} & R(s) = \frac{K_I}{s} (1 + T_R s) = \frac{K_I}{s} + K_R
+	\end{array}
+$$ \\
+
+\textbf{Wahl der Variablen:} \\
+$K_R = K_I ⋅ T_R$  \\
+$T_R =$ größte Nennerzeitkonstante der Strecke \\
+$K_I:$ wird so gewählt, dass Phasen- und Amplitudenreserve groß genug sind, z.B: $A_r > 2, \varphi_r > 60°$ \\
+
+\textbf{Vorteile/Nachteile:}
+\begin{itemize}
+	\item Vorteile:
+	\begin{itemize}
+		\item schneller als I-Regler
+		\item gesicherte stationäre Genauigkeit
+	\end{itemize}
+%	\item Nachteile:
+%	\begin{itemize}
+%		\item 
+%	\end{itemize}
+\end{itemize}
+
+\textbf{Bode-Diagramm:}
+\begin{figure}[H]
+	\includegraphics[width = 0.4\columnwidth]{imgs/pi-regler.png}
+\end{figure}
+
+
+\subsubsection{Idealer PD-Regler}
+\textbf{Definition:}
+$$
+	\begin{array}{ll}
+	\text{Zeitbereich:} & u(t) = K_R (e(t) + T_R \dot e(t)) = K_R e(t) + K_D \dot e(t) \\
+	\text{Bildbereich:} & R(s) = K_R(1 + T_R s) = K_R + K_D s
+	\end{array}
+$$ \\
+
+\textbf{Wahl der Variablen:} \\
+$K_D = K_R + T_R $  \\
+
+\textbf{Vorteile/Nachteile:}
+\begin{itemize}
+	\item Vorteile:
+	\begin{itemize}
+		\item hohe Dynamik der Regelung erreichbar
+	\end{itemize}
+	\item Nachteile:
+	\begin{itemize}
+		\item Verstärkung der höherfrequenten Störwelligkeit in $e(t)$
+		\item D-Anteil kann die Stellgröße in die Begrenzung treiben
+	\end{itemize}
+\end{itemize}
+
+
+\subsubsection{Realer PD-Regler}
+\textbf{Definition:}
+$$
+	\begin{array}{ll}
+	\text{Bildbereich:} & R(s) = K_R \frac{1 + T_R s}{1 + T_N s}, \tab T_N < T_R
+	\end{array}
+$$ \\
+
+\textbf{Wahl der Variablen:} \\
+$T_R=$ größte Streckenzeitkonstante  \\
+$K_R:$ wird so gewählt, dass Phasen- und Amplitudenreserve groß genug sind, z.B: $A_r > 2, \varphi_r > 60°$ \\
+$T_N: \frac{T_R}{50} < T_N < \frac{T_R}{5}$ \\
+
+\textbf{Vorteile/Nachteile:}
+\begin{itemize}
+	\item Vorteile:
+	\begin{itemize}
+		\item hohe Dynamik erreichbar
+	\end{itemize}
+	\item Nachteile:
+	\begin{itemize}
+		\item D-Anteil kann Messstörungen verstärken
+		\item D-Anteil kann die Stellgröße in die Begrenzung treiben
+	\end{itemize}
+\end{itemize}
+
+\textbf{Bode-Diagramm:}
+\begin{figure}[H]
+	\includegraphics[width = 0.4\columnwidth]{imgs/pd-regler.png}
+\end{figure}
+
+\subsubsection{Idealer PID-Regler}
+\textbf{Definition:}
+$$
+	\begin{array}{ll}
+	\text{Zeitbereich:} & u(t) = K_R e(t) + K_I \int_0^t e(\tau) d\tau + K_I ⋅ T_{R1} ⋅ T_{R2} ⋅ \dot e(t)\\
+	\text{Bildbereich:} & R(s) = K_I(T_{R1} + T_{R2}) + \frac{K_I}{s} + K_I ⋅ T_{R1} ⋅ T_{R2} ⋅ s \\
+	& = K_R(1 + \frac{1}{T_I ⋅ s} + T_D s) \\
+	& = \frac{K_I}{s}(1 + T_{R1} ⋅ s)(1 + T_{R2} ⋅ s)
+	\end{array}
+$$ \\
+
+
+\textbf{Wahl der Variablen:} \\
+$K_R = K_I(T_{R1} + T_{R2})$  \\
+$T_I = \frac{K_R}{K_I}$ \\
+$T_D = \frac{K_I ⋅ T_{R1} ⋅ T_{R2}}{K_R}$ \\
+
+%\textbf{Vorteile/Nachteile}
+%\begin{itemize}
+%	\item Vorteile:
+%	\begin{itemize}
+%		\item 
+%	\end{itemize}
+%	\item Nachteile:
+%	\begin{itemize}
+%		\item 
+%	\end{itemize}
+%\end{itemize}
+
+\subsubsection{Realer PID-Regler}
+\textbf{Definition:}
+$$
+	\begin{array}{ll}
+	\text{Bildbereich:} & R(s) = \frac{K_I(1 + T_{R1} ⋅ s)(1 + T_{R2} ⋅ s)}{s(1 + T_N ⋅ s)}
+	\end{array}
+$$ \\
+
+\textbf{Wahl der Variablen:} \\
+$T_{R1} =$ größte Streckenzeitkonstante  \\
+$T_{R2} =$ zweitgrößte Streckenzeitkonstante \\
+$K_I:$ wird so gewählt, dass Phasen- und Amplitudenreserve groß genug sind, z.B: $A_r > 2, \varphi_r > 60°$ \\
+$T_N: \frac{T_R}{50} < T_N < \frac{T_R}{5}$ \\
+
+\textbf{Vorteile/Nachteile:}
+\begin{itemize}
+	\item Vorteile:
+	\begin{itemize}
+		\item hohe Dynamik
+		\item stationäre Genauigkeit
+	\end{itemize}
+	\item Nachteile:
+	\begin{itemize}
+		\item D-Anteil kann Messstörungen verstärken
+		\item D-Anteil kann die Stellgröße in die Begrenzung treiben 
+	\end{itemize}
+\end{itemize}
+
+\textbf{Bode-Diagramm:}
+\begin{figure}[H]
+	\includegraphics[width = 0.4\columnwidth]{imgs/pid-regler.png}
+\end{figure}
+
+\subsubsection{Einstellregeln nach Ziegler und Nichols}
+Die Regelstrecke weise rein verzögerndes Verhalten auf (PTn-Glieder mit reellen Polen, Totzeitglieder) und \\
+sei $K_{R,krit}$ der Wert für $K_R$ ab dem Dauerschwingungen auftreten, wenn der Regelkreis zunächst nur mit einem P-Regler mit $R(s) = K_R$ betrieben wird und \\
+sei $T_{krit}$ die zugehörige Schwingungsdauer. \\
+
+Den gewählten Regler stellt man nach folgender Tabelle ein: \\
+
+\begin{tabular}{l|lll}
+	& P-Regler & PI-Regler & PID-Regler \\
+	\hline
+	$K_R$ & $0,5 ⋅ K_{R,krit}$ & $0,45 ⋅ K_{R,krit}$ & $0,6 ⋅ K_{R,krit}$ \\
+	$T_I$ & & $0,85 ⋅ T_{krit}$ & $0,5 ⋅ T_{krit}$ \\
+	$T_D$ & & & $0,12 ⋅ T_{krit}$
+\end{tabular}
+
+\subsection{Regelungsentwurf im Bodediagramm}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
