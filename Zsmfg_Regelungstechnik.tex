@@ -1526,17 +1526,161 @@ Den gewählten Regler stellt man nach folgender Tabelle ein: \\
 \end{tabular}
 
 \subsection{Regelungsentwurf im Bodediagramm}
+Sei $R_{alt}(s)$ der Regler eines Systems. \\
+Weitere Freiheitsgrade zur Gestaltung von Reglern erhält man durch sukzessives Hinzufügen von phasenanhebenden oder phasenabsenkenden Korrekturgliedern $R_{korr}(s)$. \\
+Der neue Regler ist dann:
+$$
+R_{neu}(s) = R_{alt}(s) ⋅ R_{korr}(s)
+$$
 
+\subsubsection{Phasenanhebendes Glied (Lead-Glied)}
+Die Übertragungsfunktion des phasenanhebenden Glieds ist definiert als:
+$$
+	R_{korr}(s) = \frac{1 + T_Ds}{1 + T_Vs}, \tab T_D > T_V
+$$
 
+\textbf{Eigenschaften:}
+\begin{itemize}
+	\item Das Korrekturglied kann die Durchtrittsfrequenz und/oder die Phasenreserve der Regelung vergrößern.
+	\item Es sind höhere Stellgrößenausschläge zu erwarten
+	\item Das Korrekturglied hat die Übertragungsfunktion eines realen PD-Reglers
+\end{itemize}
 
+\textbf{Bode-Diagramm:}
+\begin{figure}[H]
+	\includegraphics[width = 0.4\columnwidth]{imgs/lead-glied.png}
+\end{figure}
 
+\subsubsection{Phasenabsenkendes Glied (Lag-Glied)}
+Die Übertragungsfunktion des phasenabsenkenden Glieds ist definiert als:
+$$
+	R_{korr}(s) = \frac{1 + T_Ds}{1 + T_Vs}, \tab T_D < T_V
+$$
 
+\textbf{Eigenschaften:}
+\begin{itemize}
+	\item Wird typischerweise bei Frequenzen deutlich unterhalb der Durchtrittsfrequenz eingesetzt.
+	\item Ermöglicht im offenen Kreis eine Erhöhung der Verstärkung niedriger Frequenzen ohne die Robustheit ungünstig zu verändern
+\end{itemize}
 
+\textbf{Bode-Diagramm:}
+\begin{figure}[H]
+	\includegraphics[width = 0.4\columnwidth]{imgs/lag-glied.png}
+\end{figure}
 
+\subsection{Kompensationsregler}
+Sei ein beliebiges Übertragungsverhalten für den geschlossenen Regelkreis vorgegeben. \\
+Durch Kompensation kann der passende Regler ermittelt werden. \\
 
+\textbf{Voraussetzungen:} \\
+Sei ein geschlossener Regelkreis gegeben mit zusätzlichen Störeingriff $z_2$ vor der Strecke $G(s)$ und \\
+sei $T(s) = \frac{G(s)R(s)}{1 + G(s)R(s)}$ die zugehörige Führungsübertragungsfunktion, \\
+sei $S(s) = \frac{1}{1 + G(s)R(s)}$ die zugehörige Störübertragungsfunktion und \\
+seien $F_{z_2,y}(s) = \frac{G(s)}{1 + G(s)R(s)}$ und $F_{w,u}(s) = \frac{R(s)}{1 + G(s)R(s)}$ zwei weitere zugehörige Übertragungsfunktionen. \\
+Für die Stabilität der Regelung müssen allesamt stabil sein.
 
+\subsubsection{Vorgabe der Führungsübertragungsfunktion T(s)}
+\textbf{Realisierbarkeit von R(s):} \\
+Der Regler $R(s)$ ist realisierbar, wenn bei der Vorgabe von $T(s)$ gilt:
+$$
+	\text{Nennergrad}(T) - \text{Zählergrad}(T) ≥ \text{Nennergrad}(G) - \text{Zählergrad}(G)
+$$
 
+\textbf{Stationäre Genauigkeit:} \\
+Sei stationäre Genauigkeit vorausgesetzt ($T(0) = \frac{Z_T(0)}{N_T(0) = 1}$), dann erhält $R(s)$ einen Pol in null (außer die Strecke besitzt bereits eine Pol in null). \\
 
+\textbf{Stabilität:} \\
+Für Stabilität der vier Übertragungsfunktionen ($T(s), S(s), F_{z2,y}(s), F_{w,u}(s)$) müssen alle Pole von $T$ in der linken komplexen Halbebene liegen.
+\begin{itemize}
+	\item Für die Stabilität von $F_{w,u}(s) = \frac{T(s)}{G(s)}$ müssen eventuell vorhandene rechtes gelegene Nullstellen von $G(s)$ gleichzeitig Zählernullstellen von $T(s)$ sein.
+	\item Für die Stabilität von $F_{z2,y}(s) = \frac{T(s)}{R(s)}$ liegt es nahe die Strecke $G(s)$ als stabil vorauszusetzen.
+\end{itemize}
+
+\textbf{Definition des Reglers:} \\
+Sei $G(s) = \frac{Z_G(s)}{N_G(s)}$ und \\
+sei $T(s) = \frac{Z_T(s)}{N_T(s)}$ \\
+Der Regler $R(s)$ lässt sich berechnen gemäß:
+$$
+	R(s) = \frac{T(s)}{G(s)(1 - T(s))} = \frac{Z_TN_G}{Z_G(N_T - Z_T)}
+$$
+
+\subsubsection{Vorgabe der Störübertragungsfunktion S(s)}
+\textbf{Realisierbarkeit von R(s):} \\
+Für die Realisierbarkeit von $R(s)$ ist $S(s)$ anzusetzen als:
+$$
+	S(s) = \frac{s^q + a_{q-1}s^{q-1} + \dots + a_{q-n+m}s^{q-n+m} + b_{q-n+m-1}s^{q-n+m-1} + \dots + b_1s + b_0}{s^q + a_{q-1}s^{q-1} + \dots + a_1s + a_0}, \tab q ≥ n - m
+$$
+
+\textbf{Stationäre Genauigkeit:}
+Für stationäre Genauigkeit ist $b_0 = 0$ zu wählen
+
+\textbf{Störübertragungsfunktion minimaler Ordnung} \\
+Die Störübertragungsfunktion minimaler Ordnung ($q = n - m$) mit stationärer Genauigkeit ist:
+$$
+	S(s) = \frac{s^{n-m} + a_{n-m-1}s^{n-m-1} + \dots + a_1s}{s^{n-m} + a_{n-m-1}s^{n-m-1} + \dots + a_1s + a_0}
+$$
+
+\textbf{Stabilität:} \\
+Für die Stabilität der Regelung müssen $Z_s$ und $N_s$ ($S(s) = \frac{Z_s(s)}{N_s(s)}$) so gewählt werden, dass eventuell vorhandene rechts gelegene Pole und Nullstellen der Strecke sich herauskürzen. \\
+
+\textbf{Definition des Reglers:} \\
+Sei $G(s) = \frac{Z_G(s)}{N_G(s)}$ und \\
+sei $S(s) = \frac{Z_S(s)}{N_S(s)}$ \\
+Der Regler $R(s)$ lässt sich berechnen gemäß:
+$$
+	R(s) = \frac{1 - S(s)}{G(s)S(s)} = \frac{(N_S - Z_S)N_G}{Z_GZ_S}
+$$
+
+\subsubsection{Grenzen der Kompensationsregelung}
+Als Indikator für eine zu schnell eingestellte Regelung dient die Übertragungsfunktion von der Störung $z$ auf die Stellgröße $u$:
+$$
+	F_{zu}(s) = \frac{U(s)}{Z(s)} = - \frac{R(s)}{1 + R(s) G(s)}
+$$
+Weist sie starke Überhöhungen auf, so ist mit hohen Stellgrößenausschlägen zu rechen.
+
+\subsection{Gütekriterien und optimale lineare Regelung}
+\subsubsection{Kennwerte der Sprungantwort}
+\begin{itemize}
+	\item Überschwingweite: Ziel: möglichst gering
+	\item Ausregelzeit: Zeit, die bis zum entgültigen Eintreten der Sprungantwort in einem $\pm 5 \%$-Toleranzbereich um den stationären Endwert verstreicht, Ziel: möglichst kurz.
+\end{itemize}
+\begin{figure}[H]
+	\includegraphics[width = 0.4\columnwidth]{imgs/sprungantwort_kennwerte.png}
+\end{figure}
+
+\subsubsection{Integralkriterien im Zeitbereich}
+Die Integralkriterien bewerten den gesamten Verlauf der Regelabweichung $e(t)$ bei sprungförmiger Änderung der Führungsgröße.
+
+\paragraph{Betragsregelfläche (IAE, Integral of Absolute Error)} ~\\
+$$
+	\int_0^∞ |e(t)| dt
+$$
+
+Ein kleiner Wert des Integrals bedeutet einen kleinen mittleren Regelfehler.
+
+\paragraph{Zeitgewichtete Betragsregelfläche (ITAE, Integral of Time weighted Absolute Error)} ~\\
+$$
+	\int_0^∞ t|e(t)| dt
+$$
+
+Der Regelfehler wird für kleine Zeiten schwächer gewichtet als für große.
+
+\paragraph{Quadratische Regelfläche (ISE, Integral of Squared Error)} ~\\
+$$
+	\int_0^∞ e^2(t) dt
+$$
+
+Hier gehen große Regelabweichungen besonders stark ein.
+
+\paragraph{Integralkriterium mit Berücksichtigung des Stellgrößenverlaufs}
+$$
+	\int_0^∞ [e^2(t) + qu^2(t)] dt
+$$
+wobei $q$ eine positive reelle vorzugebene Konstante ist. \\
+Größere Werte für $q$ verringern die Stellgrößenausschläge und verbessern die Robustheit der Stabilität. \\
+Kleinere Werte für $q$ erhöhen die Dynamik der Regelung.
+
+\section{Erweiterte Regelstrukturen und Zustandsregelung}
 
 
 
