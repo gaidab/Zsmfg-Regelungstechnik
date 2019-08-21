@@ -2010,8 +2010,75 @@ $$
 \end{itemize}
 
 \section{Digitale Realisierung}
+\begin{figure}[H]
+	\includegraphics[width=\columnwidth]{imgs/abb8_1.png}
+\end{figure}
+
+\begin{itemize}
+	\item \textbf{Abtaster:} Entnimmt dem elektrischen Messsignal $y$ zu den diskreten Zeiten $t = 0, T, 2T, \dots$ dessen Wert (Samples).
+	\item \textbf{Analog-Digital-Wandler (AD-Wandler):} Wertediskretisiert die Samples (Wandelt die zeitdiskreten Messwerte in Binärzahlen um).
+	\item \textbf{Digital-Analog-Wandler (DA-Wandler):} Wandelt den jeweils aktuellen Wert $u[k]$ in einen elektrischen Spannungswert, welcher bis zum nächsten Abtastzeitpunkt gehalten wird. \\
+	→ treppenförmiges Stellgrößensignal $\bar u(t)$
+	\item \textbf{Abtastzeit $T$:} Zeit zwischen zwei Samples.
+\end{itemize}
 
 
+
+\subsection{Tustin-Transformation}
+Sei $z ⋅ u[k] = u[k + 1]$ sowie $z^{-1} ⋅ u[k] = u[k-1]$ \\
+Die Tustin-Transformation ist definiert als:
+\renewcommand{\arraystretch}{2}
+$$
+	\begin{array}{lll}
+		R(z) = \frac{u[k]}{e[k]} = \frac{T(1+z^{-1})}{2(1 + z^{-1})} & \text{entspricht} & R(s) = \frac 1 s \\
+		R(z) = \frac{u[k]}{e[k]} = \frac{2(1-z^{-1})}{T(1 + z^{-1})} & \text{entspricht} & R(s) = s \\	
+	\end{array}
+$$
+\renewcommand{\arraystretch}{1.5}
+\subsection{Glieder und Regler}
+Sei $T$ die Abtastzeit zwischen zwei Samples und \\
+sei $e[k]$ die Regelabweichung zum Zeitpunkt $t = kT$ \\
+
+\subsubsection{Digitales I-Glied}
+Sei das I-Glied definiert als $R(s) = \frac 1 s$ \\
+Der Algorithmus für das I-Glied ist definiert als:
+$$
+u[k] = u[k-1] + \frac T 2 (e[K-1] + e[k])
+$$
+
+\subsubsection{Diskreter PD-Regler}
+Sei der PD-Regler definiert als $R(s) = K_R(1 + T_R s)$ \\
+Der Algorithmus für den PD-Regler ist definiert als:
+$$
+	u[k] = -u[k-1] + d_0e[k] + d_1e[k-1]
+$$
+wobei \tab $d_0 = \frac{K_R}{T}(T + 2T_R)$, \tab $d_1 = \frac{K_R}{T}(T - 2T_R)$
+
+\subsubsection{Diskreter PID-Regler}
+Sei der PID-Regler definiert als $R(s) = K_R(1 + \frac{1}{T_I s} + T_D s)$ \\
+Der Algorithmus für den PID-Regler ist definiert als:
+$$
+	u[k] = u[k-1] + d_0e[k] + d_1e[k-1] + d_2e[k-2]
+$$
+wobei \tab $d_0 = K_R(\frac{T_D}{T} + \frac{T}{T_I} + 1)$, \tab $d_1 = -K_R(1 + 2\frac{T_D}{T})$, \tab $d_2 = K_R \frac{T_D}{T}$
+
+
+\subsection{Zeitdiskrete Zustandsdarstellung}
+Sei ein System in Zustandsdarstellung gegeben mit $\dot x = Ax + bu$ und $y = c^T x$ \\
+Die zeitdiskrete Zustandsdarstellung ist definiert als:
+$$
+	x[k+1] = \Phi x[k] = \beta u[k]
+$$
+$$
+	y[k] = c^T x[k]
+$$
+wobei
+$$
+	\Phi = e^{AT}
+$$
+$$
+	\beta = A^{-1}(\Phi - I) b
+$$
 
 
 
