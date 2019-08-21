@@ -1681,6 +1681,344 @@ Größere Werte für $q$ verringern die Stellgrößenausschläge und verbessern 
 Kleinere Werte für $q$ erhöhen die Dynamik der Regelung.
 
 \section{Erweiterte Regelstrukturen und Zustandsregelung}
+\subsection{Kompensation von Aktor- und Sensorkennlinien}
+\begin{itemize}
+	\item \textbf{Problem:} Aktoren und Sensoren eines Regelkreises weisen häufig ein-eindeutige nichtlineare Kennlinien auf.
+	\item \textbf{Lösung:} Vor- bzw. Nachschalten der inversen Kennlinien
+	\begin{itemize}
+		\item[→] Lineares Übertragungsverhalten (je ein P-Glied mit Verstärkung eins)
+	\end{itemize}
+\end{itemize}
+
+\subsection{Zwei-Freiheitsgrade-Regelung}
+\textbf{Grundsatz:}
+\begin{itemize}
+	\item Regelkreise sollen vorrangig auf gutes Störverhalten und Robustheit der Stabilität ausgelegt werden! Das Führungsverhalten kann unabhängig durch eine Steuereinrichtung (Vorsteuerung) manipuliert werden.
+\end{itemize}
+
+\begin{figure}[H]
+	\includegraphics[width=0.5\columnwidth]{imgs/abb7_2.png}
+\end{figure}
+
+\textbf{Verhalten der Regelung:}
+\begin{itemize}
+	\item Keine Störung ($z = 0$) und variable Führungsgröße $w$:
+	\begin{itemize}
+		\item $e = w - y$ (Regler bleibt inaktiv)
+		\item $Y(s) = G(s)G^{-1}(s)W(s) = W(s)$ (ideales Führungsverhalten)
+	\end{itemize}
+	\item $w = 0$ und $z(t) ≠ 0$:
+	\begin{itemize}
+		\item Steuereinrichtung bleibt ohne Einfluss.
+	\end{itemize}
+\end{itemize}
+
+\textbf{Sonderfälle:}
+\begin{itemize}
+	\item Führungsgröße ist nicht beeinflussbar:
+	\begin{itemize}
+		\item Einfügen je eines PT$n$-Glieds bei $1$ und $2$ mit \\
+		$V(s) = G_{PTn}(s) = \frac{1}{(1 + Ts)^n}$
+		\item[→] Führungsverhalten nicht mehr ideal
+	\end{itemize}
+	\item $G(s)$ besitzt eine rechts gelegene Nullstelle $\eta$:
+	\begin{itemize}
+		\item Einfügen je eines Glieds bei $1$ und $2$ mit \\
+		$V(s) = \frac{1 - \frac 1 q s}{1 + Ts}$
+	\end{itemize}
+	\item  $G(s)$ enthält eine Totzeit $T_t$:
+	\begin{itemize}
+		\item Einfügen je eines Glieds bei $1$ und $2$ mit \\
+		$V(s) = e^{-T_ts}$
+	\end{itemize}
+	\item Für alle Fälle gilt:
+	\begin{itemize}
+		\item Führungsübertragungsverhalten ist: $V(s)$
+		\item $Y(s) = V(s) ⋅ W(s) + \frac{1}{1 + G(s) R(s)} Z(s)$
+	\end{itemize}
+	
+\end{itemize}
+
+\subsection{Störgrößenaufschaltung}
+\begin{figure}[H]
+	\includegraphics[width=0.7\columnwidth]{imgs/abb7_4.png}
+\end{figure}
+
+$$
+	Y(s) = \frac{G_2(G_1 F_A + 1)}{1 + G_2 G_1 R} Z(s)
+$$
+
+\textbf{Ideale Störgrößenaufschaltung:}
+$$
+	F_A(s) = -\frac{1}{G_1(s)}, \tab \text{realisierbar, falls Zählergrad $<$ Nennergrad}
+$$ ~\\
+
+\textbf{Reale Störgrößenaufschaltung:}
+$$
+	F_A(s) = -\frac{1}{G_1(s)} ⋅ \frac{1}{(1 + Ts)^n}
+$$ ~\\
+
+\textbf{Statische Störgrößenaufschaltung:}
+$$
+	F_A(s) = -\frac{1}{G_1(0)}
+$$
+
+\subsection{Kaskadenregelung}
+\begin{figure}[H]
+	\includegraphics[width=0.8\columnwidth]{imgs/abb7_5.png}
+\end{figure}
+
+\textbf{Ziel:}
+\begin{itemize}
+	\item Schnelleres Reagieren auf Störungen in der inneren Schleife durch Verwenden einer zusätzlichen verfügbaren Messgröße
+\end{itemize}
+
+\textbf{Entwurf:}
+\begin{enumerate}
+	\item Entwurf eines Reglers $R_i(s)$ für die Regelstrecke $G_i(s)$, sodass ein günstiges Störverhalten von $y_i$ bei robuster Stabilität eintritt. \\
+	Die Führungsübertragungsfunktion ist:
+	$$
+		T_i(s) = \frac{Y_i(s)}{W_i(s)} = \frac{G_i R}{1 + G_i R_i}
+	$$
+	\item Innere Schleife wird mit $G_a(s)$ zu der äußeren Schleife $\bar{G}_a(s) = T_i(s)G_a(s)$
+	\item Entwurf eines Reglers $R_a(s)$ für die Regelstrecke $\bar G_a(s)$, sodass ein günstiges Störverhalten von $y_a$ mit zumeist stationärer Genauigkeit eintritt. \\
+\end{enumerate}
+
+\subsection{Kaskade aus Zwei-Freiheitsgrade-Regelung}
+\begin{figure}[H]
+	\includegraphics[width=0.8\columnwidth]{imgs/abb7_8.png}
+\end{figure}
+
+\textbf{Ziel:}
+\begin{itemize}
+	\item Kombination der Vorteile der Kaskadenregelung und der Zwei-Freiheitsgrade-Regelung
+\end{itemize}
+
+\textbf{Eigenschaften:} ~\\
+\begin{tabularx}{\columnwidth}{llX}
+	Bezeichnung & Var. & Beschreibung \\
+	\hline
+	Regler (innere Schleife) & $R_i$ & Wird für gutes Störverhalten der Strecke $G_i$ ausgelegt. \\
+	Vorsteuerung (innere Schleife) & $G_i^{-1}$ & Sorgt für ideales Führungsverhalten $T_i(s) = 1$ der inneren Schleife \\
+	Regler (äußere Schleife) & $R_a$ & wird für gutes Störverhalten der Strecke $G_a$ ausgelegt \\
+	Vorsteuerung (äußere Schleife) & $G_a^{-1}$ & sorgt für ideales Führungsverhalten der äußeren Schleife \\
+\end{tabularx}
+
+\subsection{Zustandsregelung}
+\subsubsection{Konstante Zustandsrückführung und Vorsteuerung}
+\label{zustandsrueckfuehrung}
+\begin{figure}[H]
+	\includegraphics[width=0.7\columnwidth]{imgs/abb7_10.png}
+\end{figure}
+
+Sei die Strecke in Zustandsdarstellung. \\
+
+\textbf{Formeln}
+$$
+	\dot x(t) = Ax(t) + bu(t)
+$$
+$$
+	y(t) = c^Tx(t)
+$$
+$$
+	u(t) = r^Te(t) + m_uw(t) = r^T(m_xw(t)-x(t)) + m_u w(t)
+$$
+$$
+	G_{wy}(s) = \frac{Y(s)}{W(s)} = c^T(sI-A_r)^{-1}b_r \tab (\text{Komplexe Übertragungsfunktion:})
+$$ ~\\
+
+\textbf{Variablen} ~\\
+\begin{tabularx}{\columnwidth}{ll}
+	Bezeichnung & Var. \\
+	\hline
+	P-Glied Verstärkung & $m_u \in \mathbb{R}$ \\
+	\tab - & $m_x \in \mathbb{R}^{n \times 1}$  \\
+	Zustands-Sollverlauf & $x_{soll}(t) = m_xw(t) \in \mathbb{R}^{n \times 1}$  \\
+	vektorielle Regelabweichung & $e(t) = \vect{e_1(t) \\ \vdots \\ e_n(t)} = x_{soll}(t) - x(t)$  \\
+	Faktoren & $r^T = \vect{r_1 & \dots & r_n}$ \\
+	Systemordnung & $n$ (Zahl der Elemente von $x$)
+\end{tabularx} ~\\
+
+\textbf{Anforderungen} ~\\
+\textbf{1. Anforderung:} ~\\
+Im stationären Fall (d.h. im eingeschwungenen Zustand mit $\dot x = 0$) soll die Regelgröße $y$ den Sollwert $w$ annehmen, also $y = w$, und die vektorielle Regelabweichung $e = x_{soll} − x$ soll null werden, also $x = x_{soll}$ \\
+Es folgt:
+$$
+	\vect{A & b \\ c^T & 0} ⋅ \vect{m_x \\ m_u} = \vect{0 \\ 1}
+$$
+
+\textbf{2. Anforderung:} ~\\
+Das dynamische Verhalten der Regelung soll asymptotisch stabil sein und eine gewünschte Schnelligkeit und Dämpfung aufweisen. \\
+Es folgt:
+$$
+	\dot x(t) = (A - br^T)x(t)
+$$
+Für asymptotische Stabilität müssen die Eigenwerte $p_1, \dots, p_n$ der Matrix $A - br^T$ (Regelungseigenwerte) in der linken komplexen Halbebene liegen. \\
+
+Entwurf:
+\begin{enumerate}
+	\item $\det(sI - A + br^T) = s^n + c_{n-1}(r_1, \dots, r_n) ⋅ s^{n-1} + \dots + c_0(r_1, \dots, r_n)$, \tab wobei $c_i = f(r_1, \dots, r_n)$
+	\item $P(s) = (s - p_1) ⋅ \dots ⋅ (s - p_n) = s^n + a_{n-1}s^{n - 1} + \dots + a_1s + a_0$, \tab wobei $p_i$ die gewünschten Eigenwerte sind
+	\item Auflösen nach $r_1, \dots, r_n$: \\
+	$$\begin{array}{c}
+		c_{n-1}(r_1, \dots, r_n) = a_{n-1} \\
+		\vdots \\
+		c_0(r_1, \dots, r_n) = a_0
+	\end{array}$$
+\end{enumerate}
+
+\textbf{Eigenschaften}
+\begin{itemize}
+	\item Alle Eigenwerte und somit die vollstädige Dynamik der Regelung können vom Entwerfer vorgegeben werden. Dazu ist die Messung aller n Zustandsvariablen nötig (oder deren Schätzung durch einen sogenannten Zustandsbeobachter).
+	\item Die Entwürfe des Reglers $r^T$ und der Vorsteuerung $m_u, m_x$ geschehen unabhängig.
+	\item Die Vorgabe der Eigenwerte erlaubt eine sehr gezielte und umfassende Gestaltung der gesamten Systemdynamik. Je weiter links die Regelungseigenwerte platziert werden, desto schneller das Regelverhalten, desto höher	aber auch die Stellgrößenausschläge.
+\end{itemize}
+
+\paragraph{Berücksichtigung des Eingriffs einer äußeren Störung $z(t)$}
+$$
+	\dot x = (A - br^T) x + b (r^T m_x + m_u) w + \bar e z
+$$
+$$
+	Y(s) = c^T(sI-A_r)^{-1}b_rW(s) + c^T(sI-A_r)^{-1}\bar eZ(s)
+$$
+
+\subsubsection{Zustandsbeobachter}
+\begin{figure}[H]
+	\includegraphics[width=0.7\columnwidth]{imgs/abb7_12.png}
+\end{figure}
+
+\textbf{Ziel:}
+\begin{itemize}
+	\item Schätzung des Zustandsvektors $x$ (, da $x(t)$ nicht messbar)
+	\item Einführung eines Vektors $\hat x$ als Schätzung für $x$
+\end{itemize} ~\\
+
+\textbf{Formeln:} ~\\
+$
+	\begin{array}{ll}
+		\text{Zustandsschätzung} & \dot {\hat x} = A \hat x + bu + k(y - \hat y) = (A + kc^T)\hat x + bu + ky\\
+		\text{Schätzung für }y & \hat y = c^T\hat x \\
+		\text{Schätzfehler} & \tilde{x} = x - \hat x \\
+		\text{Ableitung des Schätzfehlers} & \dot{\tilde x} = (A - kc^T)\tilde x = A_k \tilde x
+	\end{array}
+$ \\~\\
+
+\textbf{Entwurf:}
+\begin{enumerate}
+	\item $\det(sI - A + kc^T) = s^n + c_{n-1}(k_1, \dots, k_n) ⋅ s^{n-1} + \dots + c_0(k_1, \dots, k_n)$, \tab wobei $c_i = f(k_1, \dots, k_n)$
+	\item $P(s) = (s - p_1) ⋅ \dots ⋅ (s - p_n) = s^n + a_{n-1}s^{n - 1} + \dots + a_1s + a_0$, \tab wobei $p_i$ die gewünschten Eigenwerte sind
+	\item Auflösen nach $k_1, \dots, k_n$: \\
+	$$\begin{array}{c}
+	c_{n-1}(k_1, \dots, k_n) = a_{n-1} \\
+	\vdots \\
+	c_0(k_1, \dots, k_n) = a_0
+	\end{array}$$
+\end{enumerate} ~\\
+
+\textbf{Eigenschaften:}
+\begin{itemize}
+	\item $\lim_{t → ∞} \hat x = x$
+	\item Der Zustandsbeobachter wird vollständig im Digitalrechner	realisiert.
+	\item Der Zustandsbeobachter kann auf Fälle erweitert werden, in denen nicht nur eine, sondern mehrere Messgrößen zur Verfügung stehen.
+	\item Je weiter links die Eigenwerte liegen, desto schneller klingt der Schätzfehler ab, desto empfindlicher wird die Schätzung aber gegenüber Störungen durch Messrauschen.
+\end{itemize}
+
+\subsubsection{Zustandsrückführung mit Beobachter}
+\begin{figure}[H]
+	\includegraphics[width=0.7\columnwidth]{imgs/abb7_13.png}
+\end{figure}
+
+\textbf{Ziel:}
+\begin{itemize}
+	\item Verwendung der Zustandsrückführung trotz nicht-messbarer Zustandsvariablen
+\end{itemize}
+
+\subsubsection{Mehrgrößenregelung im Zustandsraum}
+\begin{figure}[H]
+	\includegraphics[width=0.7\columnwidth]{imgs/abb7_14.png}
+\end{figure}
+\begin{figure}[H]
+	\includegraphics[width=0.7\columnwidth]{imgs/abb7_15.png}
+\end{figure}
+
+\textbf{Ziel:}
+\begin{itemize}
+	\item Verwenden von mehreren Stell- und Regelgrößen
+\end{itemize} ~\\
+
+\textbf{Formeln:}
+$$
+	\dot x = Ax + Bu
+$$
+$$
+	y = Cx
+$$ 
+$$
+	Y(s) = C(sI-A_R)^{-1} B_R W(s) + C(sI-A_R)^{-1} E Z(s) \tab A_R = A - BR, B_R = B(RM_x + M_u)
+$$~\\
+
+\textbf{Variablen} ~\\
+\begin{tabularx}{\columnwidth}{llllll}
+	Stellgrößen & $u = \vect{u_1 \\ \vdots \\ u_p} \in \mathbb{R}^{p \times 1}$ \\
+	Regelgrößen & $y = \vect{y_1 \\ \vdots \\ y_n} \in \mathbb{R}^{p \times 1}$ \\
+	 $B \in \mathbb{R}^{n \times p}$, 
+	 & $C \in \mathbb{R}^{p \times n}$, 
+	 & $R \in \mathbb{R}^{p \times n}$, 
+	 & $M_u \in \mathbb{R}^{p \times p}$, 
+	 & $M_x \in \mathbb{R}^{n \times p}$
+\end{tabularx} ~\\
+
+\textbf{Entwurf:}
+\begin{enumerate}
+	\item $
+	\vect{A & B \\ C & 0} \vect{M_x \\ M_u} = \vect{0 \\ I}
+	$
+	\item Bestimmung der Reglermatrix $R$ wie in \ref{zustandsrueckfuehrung}
+\end{enumerate}
+
+\subsection{Nichtlineare Zustandsregelung durch Ein-/Ausgangslinearisierung}
+\textbf{Ziel:}
+\begin{itemize}
+	\item Verfahren, mit dem man gewisse nichtlineare Strecken durch ein nichtlineares Zustandsrückführungsgesetz derart regeln kann, dass lineares Ein-/Ausgangsverhalten (lineares Führungsverhalten) eintritt.
+\end{itemize}
+
+\textbf{Vorgehen:}
+\begin{enumerate}
+	\item Formulieren der nichtlinearen Streckenbeschreibung in der Zustandsdarstellung: \\
+	$\dot x = a(x) + b(x) u$ \\
+	$y = c(x) := c_0(x)$
+	\item Ableiten von $y$ nach $x$ solange bis $u$ auftaucht: \\
+	Wiederhole solange bis $b_q(x) ≠ 0$, starte mit $q = 0$, inkrementiere $q$ nach jedem Schritt um 1\\
+	$y^{(q)} = \frac{\partial c_{q-1}}{\partial x_1} \dot x_1 + \dots + \frac{\partial c_{q-1}}{\partial x_n} \dot x_n = c_q(x) + b_q(x) u$
+	\item Einsetzen in Wunschdifferentialgleichung (hier: $y^{(q)} + a_{q - 1}y^{(q-1)} + \dots + a_1 \dot y + a_0y = a_0 w$): \\
+	$c_q(x) + b_q(x) u + a_{q-1} y^{(q-1)} + \dots + a_1 \dot y + a_0 y = a_0 w$
+	\item Auflösen nach $u$: \\
+	$u = \frac 1 {b_q(x)} (-c_q(x) - a_{q-1} y^{(q-1)} - a_1 \dot y - a_0 y + a_0 w)$
+	\item Einsetzen von $y^{(i)} = c_i(x)$ aus Schritt 2: \\
+	$u = \frac 1 {b_q(x)} (-c_q(x) - a_{q-1} c_{q-1}(x) - a_1 c_1(x) - a_0 c(x) + a_0 w)$
+\end{enumerate}
+Es folgt:
+$$
+	Y(s) = \frac{a_0}{s^q + a_{q-1}s^{q-1} + \dots + a_0} W(s)
+$$
+
+\textbf{Eigenschaften:}
+\begin{itemize}
+	\item Der sogenannte relative Grad $q$ ist bei technisch sinnvollen Systemen stets kleiner oder gleich der Systemordnung $n$.
+	\item Der Entwurf sichert lineares Ein-/Ausgangsverhalten.
+	\item Die Dynamik der Zustandsvariablen bleibt nichtlinear.	Falls $q < n$ ist, können nur $q$ Pole vorgegeben werden. Die verbleibenden $n − q$ Freiheitsgrade der Systemdynamik bleiben im Systeminnern „versteckt“. Diese versteckte, man sagt auch interne Dynamik, kann instabiles Verhalten von Zustandsvariablen aufweisen. Falls $q = n$ ist und alle oben verwendeten Ausdrücke frei von Singularitäten sind (zumindest im interessierenden Bereich des Zustandsraums), dann darf man im Allgemeinem von einem stabilen Systemverhalten ausgehen.
+\end{itemize}
+
+\section{Digitale Realisierung}
+
+
+
+
+
+
+
+
+
 
 
 
