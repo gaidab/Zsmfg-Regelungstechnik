@@ -132,6 +132,21 @@
 % ---
 % 2.1.1 Blockschaltbild P-Glieder
 
+%checklist:
+% section 1: y
+% section 2: y ohne linearisierung am AP
+% section 3: y ohne zustandsgleichungen mit stoergroesse
+% section 4: y 
+% section 5: y
+% section 6: y
+% section 7: y
+% section 8: y
+% section A: y
+% section B: y
+% section C: y
+% section D: y
+
+
 
 
 \begin{document}
@@ -145,9 +160,9 @@
 \begin{tabularx}{\columnwidth}{llX}
 	Bezeichnung & Var. & Beschreibung \\
 	\hline
-	Ausgangsgröße & $y(t)$ & Ausgangsgröße, der ein gewünschtes Verhalten aufgeprägt werden soll \\
-	Stellgröße & $u(t)$ & Eingangsgröße, durch die das System gezielt beeinflusst werden kann \\
-	Störgröße & $z(t)$ & Eingangsgröße, die störend und mit zumeist nur ungenau oder gar nicht bekannten Zeitverlauf auf das System wirkt \\
+	Ausgangsgröße & $y(t)$ & Ausgangsgröße, der ein gewünschtes Verhalten aufgeprägt werden soll. \\
+	Stellgröße & $u(t)$ & Eingangsgröße, durch die das System gezielt beeinflusst werden kann. \\
+	Störgröße & $z(t)$ & Eingangsgröße, die störend und mit zumeist nur ungenau oder gar nicht bekannten Zeitverlauf auf das System wirkt. \\
 \end{tabularx}
 
 \subsubsection*{Blockschaltbild}
@@ -213,6 +228,13 @@
 \begin{itemize}
 		\item Kombination der Vorteile der Regelschleife (see section \ref{regelung}) und der Vorteile der Steuerung (see section \ref{steuerung})
 \end{itemize}
+
+\subsubsection*{Eigenschaften:}
+\begin{itemize}
+	\item Treten keine Störungen $z$ auf und gelingt es der Steuereinrichtung $y$ exakt dem Verlauf	$w(t)$ folgen zu lassen, dann treten keine Regelabweichungen $e$ auf und der Regler bleibt inaktiv.
+	\item Tritt hingegen eine Störung auf, während $w$ über längere Zeit null oder konstant ist, so wird die Störung vom Regler bekämpft und die Steuereinrichtung bleibt davon unberührt.
+\end{itemize}
+
 
 \subsubsection*{Signale und Blöcke:}
 
@@ -309,7 +331,7 @@ $$
 so gilt:
 $$
 \begin{array}{lcl}
-	\dot{x} = A x + e z + b u & ≡ & \vect{\dot x_1 \\ \vdots \\ \dot x_n} = \vect{a_{11} & \dots & a_{1n} \\ \vdots & \ddots & \vdots \\ a_{n1} & \dots & a_{nn}} \vect{x_1 \\ \vdots \\ x_n} + \vect{e_1 \\ \vdots \\ \dot e_n} z(t) + \vect{b_1 \\ \vdots \\ \dot b_n} u(t) \\
+	\dot{x} = A x + e z + b u & ≡ & \vect{\dot x_1 \\ \vdots \\ \dot x_n} = \vect{a_{11} & \dots & a_{1n} \\ \vdots & \ddots & \vdots \\ a_{n1} & \dots & a_{nn}} \vect{x_1 \\ \vdots \\ x_n} + \vect{e_1 \\ \vdots \\ \dot e_n} z + \vect{b_1 \\ \vdots \\ \dot b_n} u \\
 	y = c^Tx & ≡ & y = \vect{c_1 & \dots & c_n} \vect{x_1 \\ \vdots \\ x_n}
 \end{array}
 $$
@@ -320,7 +342,7 @@ $$
 \end{figure}
 
 \subsection{Blockschaltbild}
-\subsubsection*{Funktion:}
+\subsubsection*{Ziel:}
 \begin{itemize}
 	\item Das Blockschaltbild ist eine graphische Darstellung der Funktionsbeziehungen zwischen den zeitveränderlichen Größen durch Blöcke und Wirkungslinien. Ein Block ordnet dabei jedem Zeitverlauf der Eingangsgröße eindeutig einen Zeitverlauf der Ausgangsgröße zu und wirkt so als Übertragungsglied.
 	Die Zuordnungsvorschrift wird dabei in den Block hineingeschrieben.
@@ -362,8 +384,8 @@ $$
 	1 & \text{für } t ≥ 0
 	\end{cases} \\
 	\text{Impulsfunktion} & \delta(t) = \frac{d \sigma(t)}{dt} \\
-	\text{Es gilt:} & \int_{-∞}^{∞} \delta(t) dt = 1 \\
-	& \int_{-∞}^t \delta(t) dt = \sigma(t)
+	\text{Es gilt:} & \int_{-∞}^{∞} \delta(t) ~dt = 1 \\
+	& \int_{-∞}^t \delta(t) ~dt = \sigma(t)
 \end{array}
 $$
 \renewcommand{\arraystretch}{1.5}
@@ -433,6 +455,7 @@ y = \vect{0 & \dots & 0 & 1} x
 $$
 Sie heißt Beobachtungsnormalform
 
+%TODO check
 \subsection{Linearisierung im Arbeitspunkt}
 \subsubsection{Ein Eingabeparameter} ~\\
 Sei $y = F(u)$ eine Übertragungsfunktion. \\
@@ -522,7 +545,7 @@ $$
 Sei $f(t)$ eine Zeitfunktion mit $f(t) = 0$ für $t < 0$. \\
 Die Laplace-Transformierte dieser Zeitfunktion ist definiert als:
 $$
-	F(s) = \mathcal{L}\{f(t)\} = \int_0^{∞} f(t) e^{-st} dt
+	F(s) = \mathcal{L}\{f(t)\} = \int_0^{∞} f(t) e^{-st} ~dt
 $$
 wobei
 $s = \delta + j \omega$ \\
@@ -536,7 +559,7 @@ $$
 Sei $F(s)$ die Laplace-Transformierte zu $f(t)$. \\
 Die Rücktransformation ist definiert als:
 $$
-	f(t) = \mathcal{L}^{-1}\{F(s)\} = \frac 1 {2\pi j} \int_{c - j ∞}^{c + j∞} F(s) e^{st} ds
+	f(t) = \mathcal{L}^{-1}\{F(s)\} = \frac 1 {2\pi j} \int_{c - j ∞}^{c + j∞} F(s) e^{st} ~ds
 $$
 mit $c$ in der Konvergenzhalbebene.
 
@@ -629,12 +652,12 @@ $\alpha$ beliebig komplex.
 \end{tabularx}
 
 \subsection{Lösung linearer zeitinvarianter Differentialgleichungen mittels Laplace-Transformation}
-Sei $a_ny^{(n)} + \dots + a_1 \dot y + a_0 y = b_m u^{(m)} + \dots + b_1 \dot u + b u$ mit $m ≤ n$ und $a_n ≠ 0$ die systembeschreibende Differentialgleichung.
+Sei $a_ny^{(n)} + \dots + a_1 \dot y + a_0 y = b_m u^{(m)} + \dots + b_1 \dot u + b_0 u$ mit $m ≤ n$ und $a_n ≠ 0$ die systembeschreibende Differentialgleichung.
 Die Lösung dieser DGL erfolgt durch die folgenden 5 Schritte:
 \begin{enumerate}
 	\item Transformation der DGL in den Bildbereich mittels Laplace-Transformation
 	\item Auflösen nach $Y(s)$. Sind alle Anfangswerte gleich null, resultiert: \\
-	$Y(s) = \frac{b_ms^m + \dots + b_1s + b_0}{a_ns^n + \dots + a_1s + a_0} U(s) ≡ Y(s) = G(s) ⋅ U(s)$
+	$Y(s) = \frac{b_ms^m + \dots + b_1s + b_0}{a_ns^n + \dots + a_1s + a_0} ⋅ U(s) ≡ Y(s) = G(s) ⋅ U(s)$
 	\item Einsetzen von $U(s) ~\Laplace ~u(t)$ in $Y(s) = G(s) ⋅ U(s)$
 	\item Durchführung einer Partialbruchzerlegung von $Y(s)$
 	\item Rücktransformation in den Zeitbereich $y(t) ~\laplace ~Y(s)$
@@ -672,20 +695,20 @@ Es folgt: \\
 Sei ein LZI-System gegeben mit $\dot x = Ax + bu$ und $y = c^T x$. \\
 Die Zustandsgleichungen im Bildbereich sind:
 $$
-	X(s) = (sI-A)^{-1} b U(s) + (sI-A)^{-1} x(0) ~\Laplace ~x(t)
+	X(s) = \underbrace{(sI-A)^{-1} b U(s)}_{\text{Anregungsterm}} + \underbrace{(sI-A)^{-1} x(0)}_{\text{Anfangswertterm}} ~\Laplace ~x(t)
 $$
 $$
-	Y(s) = c^T(sI-A)^{-1} b U(s) + c^T (sI - A)^{-1} x(0) ~\Laplace ~y(t)
+	Y(s) = \underbrace{c^T(sI-A)^{-1} b U(s)}_{\text{Anregungsterm}} + \underbrace{c^T (sI - A)^{-1} x(0)}_{\text{Anfangswertterm}} ~\Laplace ~y(t)
 $$
 Die komplexe Übertragungsfunktion $G(s)$ ist:
 $$
 	G(s) = c^T(sI - A)^{-1} b = \frac{c^T(\textrm{Adjunkte}(sI-A))b}{\det(sI-A)} = \frac{Z(s)}{N(s)}
 $$
-%TODO add G(s) (geschweifte Klammer unten ...)
 
 \subsubsection{Polstellen}
 Jeder Pol von $G(s)$ ist Eigenwert von $A$. Ein Eigenwert von $A$ ist genau dann Pol von $G(s)$, wenn er sich nicht herauskürzt, d.h. nicht gleichzeitig Nullstelle von $Z(s)$ ist.
 
+%TODO check
 \subsubsection{Zustandsgleichung mit Störgröße}
 Seien die Zustandsgleichungen des LZI-Systems gegeben durch $\dot x = Ax + ez + bu$ und $y = c^T x$. \\
 Die Zustandsgleichung im Bildbereich ist:
@@ -745,7 +768,7 @@ Für den Charakter des zugehörigen Zeitsignals folgt: \\
 	einfacher negativ reeller Pol $p_i$, & $p_i \in \mathbb{R}^-$: & abklingende $e$-Funktion, & $r_ie^{p_it}$ \\
 	einfacher Pol in null, & $p_i = 0$: & konstanter Anteil, & $r_i$\\
 	einfacher positiv reeller Pol $p_i$, & $p_i \in \mathbb{R}^+$: & aufklingende $e$-Funktion, & $r_ie^{p_it}$ \\	
-	einfaches, in der linken Halbebene gelegenes konjugiert komplexes Polpaar, & $p_{1/2} = -\delta \pm j \omega \in \mathbb{C}, \Re(p_{1/2}) < 0$: & abklingende Schwingung, & $e^{-\delta t} \sin(\omega t + \phi)$ \\
+	einfaches, in der linken Halbebene gelegenes konjugiert komplexes Polpaar, & $p_{1/2} = -\delta \pm j \omega \in \mathbb{C}, \Re(p_{1/2}) < 0$: & abklingende Schwingung, & $e^{-\delta t} \sin(\omega t + \varphi)$ \\
 	einfaches, auf der imaginären Achse gelegenes komplexes Polpaar, & $p_{1/2} = \pm j \omega \in \mathbb{C} \backslash \mathbb{R}$: & harmonische Dauerschwingung, & $\sin(\omega t + \varphi)$ \\
 	einfaches, in der rechten Halbebene gelegenes konjugiert komplexes Polpaar, & $p_{1/2} = +\delta \pm j \omega \in \mathbb{C}, \Re(p_{1/2}) > 0$: & aufklingende Schwingung, & $e^{\delta t} \sin(\omega t + \varphi)$ \\
 \end{tabularx}
@@ -759,7 +782,7 @@ Die Impulsantwort dieses Systems ist:
 $$
 	g(t) = c^T e^{At} b \sigma(t)
 $$
-wobei $x(0) = 0$
+wobei $x(0) = 0$ und $u(t) = \delta(t)$
 
 \subsubsection{Sprungantwort}
 \begin{figure}[H]
@@ -768,17 +791,16 @@ wobei $x(0) = 0$
 Sei $Y(s) = G(s) U(s)$ ein lineares zeitinvariantes System mit der komplexen Übertragungsfunktion $G(s)$. \\
 Die Sprungantwort dieses Systems ist:
 $$
-	Y(s) = \frac{G(s)} s = H(s) ~\Laplace ~h(t) = \int_0^t g(\tau) d\tau
+	Y(s) = \frac{G(s)} s = H(s) ~\Laplace ~h(t) = \int_0^t g(\tau) ~d\tau
 $$
 mit $u(t) = \sigma(t) ~\laplace ~U(s) = 1/s$,
 
 \subsubsection{Systemantwort mittels Faltung}
 Sei ein lineares zeitinvariantes System gegeben mit Eingangssignal $u(t)$, Ausgangssignal $y(t)$ und der Übertragungsfunktion $g(t)$. \\
-Das Ein-Ausgangsverhalten dieses Systems lässt beschreiben durch:
+Das Ein-Ausgangsverhalten dieses Systems lässt sich durch die Faltungsoperation beschreiben:
 $$
-	y(t) = g(t) * u(t)
+	y(t) = g(t) * u(t) = \int_0^t g(t - \tau) u(\tau) ~d \tau
 $$
-wobei $g(t) * u(t) = \int_0^t g(t - \tau) u(\tau) d \tau$ die Faltungsoperation ist.
 
 \subsubsection{Anfangswertsatz der Laplace-Transformation}
 Sei $y(t)$ eine Zeitfunktion sowie $Y(s)$ deren Laplace-Transformierte. \\
@@ -806,13 +828,14 @@ $$
 
 \subsection{Stabilität}
 \subsubsection{Sprungantwortstabilität}
-Ein lineares zeitinvariantes System ist sprungantwortstabil, falls
-$$
-	h(t → ∞) = \int_0^∞ g(\tau) d \tau  = c < ∞
-$$
-wobei $h(t) = \int_0^t g(\tau) d \tau$ die Sprungantwort des Systems ist. \\
-
-Ein rationales Übertragungsglied (R-Glied) ist genau dann sprungantwortstabil, wenn alle Pole der Übertragungsfunktion $G(s)$ in der linken komplexen Halbebene liegen.
+\begin{itemize}
+	\item Ein lineares zeitinvariantes System ist sprungantwortstabil, falls
+	$$
+		h(t → ∞) = \int_0^∞ g(\tau) ~d \tau  = c < ∞
+	$$
+	wobei $h(t) = \int_0^t g(\tau) ~d \tau$ die Sprungantwort des Systems ist. \\
+	\item Ein rationales Übertragungsglied (R-Glied) ist genau dann sprungantwortstabil, wenn alle Pole der Übertragungsfunktion $G(s)$ in der linken komplexen Halbebene liegen.
+\end{itemize}
 
 \subsubsection{Übertragungsstabilität, BIBO-Stabilität}
 \begin{itemize}
@@ -826,7 +849,7 @@ Sei ein LZI-System gegeben mit $\dot x = Ax + bu$ und $y = c^T x$
 \begin{itemize}
 	\item Das Zustandsraummodell heißt asymptotisch stabil, wenn $x(t) → 0$ für $u(t) = 0$ und beliebige Anfangswerte $x(0)$
 	\item Das Zustandsraummodell ist genau dann asymptotisch stabil, wenn alle Eigenwerte der Matrix $A$ in der linken komplexen Halbebene liegen.
-	\item Andere Bezeichnungen sind: Zustandsstabilität, innere Stabilität
+	\item Andere Bezeichnungen sind: asymptotische Zustandsstabilität, innere Stabilität
 	\item Asymptotische Stabilität $\implies$ Übertragungsstabilität
 	\item Übertragungsstabilität $\implies$ Asymptotische Stabilität, falls \\ das Zählerpolynom der Übertragungsfunktion $G(s)$ keine der Nennernullstellen kürzt und der Nennergrad von $G(s)$ tatsächlich die Ordnung des Zustandsraummodells widerspiegelt.
 \end{itemize}
@@ -854,12 +877,12 @@ d.h. die Nullstelle blockiert.
 
 \paragraph{Wirkung der Nullstellenlage auf den Verlauf der Sprungantwort} ~\\
 \begin{itemize}
-	\item In der linken Halbebene gelegene Nullstellen
+	\item In der linken Halbebene gelegene Nullstellen:
 	\begin{itemize}
 		\item links von den dominanten Polen: geringe Wirkung
 		\item rechts von den dominanten Polen: Überschwingen oder sonstigen "Verbeulen" der Sprungantwort
 	\end{itemize}
-	\item In der rechten Halbebene gelegene Nullstellen
+	\item In der rechten Halbebene gelegene Nullstellen:
 	\begin{itemize}
 		\item schwieriger zu regeln
 		\item z.B. Allpassglied: $G(s) = - \frac{(Ts - 1)}{(Ts + 1)}$, Sprungantwort beginnt bei $-1$ und endet bei $1$ für alle $T > 0$
@@ -985,21 +1008,28 @@ $$
 Sei $Y(s) = G(s)U(s)$ die beschreibende Gleichung eines Systems. \\
 
 \textbf{Frequenzgangortskurve:} \\
+\begin{figure}[H]
+	\includegraphics[width=0.3\columnwidth]{imgs/frequenzgangortskurve.png}
+\end{figure}
 Die Frequenzgangortskurve ist die Ortskurve $G(j \omega)$ für $0 ≤ \omega < ∞$ in der komplexen Zahlenebene. \\
 Die Pfeilspitze zeigt in Richtung wachsender Frequenz $\omega$. \\
 
 \textbf{Amplitudengang:} \\
-Der Amplitudengang/Betragskennlinie ist $|G(j \omega)|$ für $0 < \omega < ∞$. \\
+\begin{figure}[H]
+	\includegraphics[width=0.3\columnwidth]{imgs/betragskennlinie.png}
+\end{figure}
+Der Amplitudengang/Betragskennlinie ist $|G(j \omega)|$ für $0 ≤ \omega < ∞$. \\
 Die $|G(j \omega)|$-Achse wird in Dezibel (dB) skaliert, mit $|G|_{dB} = 20\log|G|$. \\
 
 \textbf{Phasengang:} \\
-Der Phasengang/Phasenkennlinie ist $\angle G(j \omega)$ für $0 < \omega < ∞$. \\
+\begin{figure}[H]
+	\includegraphics[width=0.3\columnwidth]{imgs/phasenkennlinie.png}
+\end{figure}
+Der Phasengang/Phasenkennlinie ist $\angle G(j \omega)$ für $0 ≤ \omega < ∞$. \\
 Die $\angle G(j \omega)$-Achse wird in Grad angegeben; die $\omega$-Achse wird logarithmisch aufgetragen. \\
 
 \textbf{Bode-Diagramm:} \\
 Betrags- und Phasenkennlinie zusammen heißen Bode-Diagramm bzw. Frequenzkennlinien des Systems $G(s)$.
-
-%TODO Beispieldiagramme
 
 \subsubsection{Konstruktion von Bode-Diagramm}
 Sei die komplexe Übertragungsfunktion eines R-Gliedes als Produkt einfacher Glieder gegeben, d.h.:
@@ -1009,7 +1039,7 @@ $$
 
 Die Betragskennlinie ist:
 $$
-	|G(j \omega)|_{dB} = 20 \log |G_1| + \dots + 20 \log |G_{n + m}
+	|G(j \omega)|_{dB} = 20 \log |G_1| + \dots + 20 \log |G_{n + m}|
 $$
 
 Die Phasenkennlinie ist:
@@ -1149,7 +1179,7 @@ Rechts oder auf der imaginären Achse gelegene Pole und Nullstellen der Strecke 
 
 \subsection{Nyquist-Kriterium}
 \subsubsection{Einfaches Nyquist-Kriterium}
-Sei $F_o(j \omega)$ die Frequenzgangortskurve des offenen Kreises des Standardregelkreises (auch Nyquist-Kurve genannt) und
+Sei $F_o(j \omega)$ die Frequenzgangortskurve des offenen Kreises des Standardregelkreises (auch Nyquist-Ortskurve genannt) und
 seien die unten genannten Voraussetzungen erfüllt. \\
 Liegt der Punkt $-1$ links der von der in Richtung wachsender $\omega$ durchlaufenden Frequenzgangortskurve $F_o(j \omega)$, so ist der Regelkreis übertragungsstabil. \\
 
@@ -1270,15 +1300,16 @@ $$
 $$
 
 \subsubsection{Bode-Theorem}
-Sei der Regelkreis stabil, \\
+Sei der geschlossene Regelkreis übertragungsstabil, \\
 sei Zählergrad von $F_o(s) + 2 ≤ $ Nennergrad von $F_o(s)$ und \\
-sei $p_i$ die in der rechten komplexen Halbebene liegende Pol von $F_o(s)$
+sei $p_i$ die in der rechten komplexen Halbebene liegende Pole von $F_o(s)$ \\
 Es folgt:
 $$
-	\begin{array}{ll}
-		\int_0^∞ \ln|S(j \omega)| d \omega = 0, & \text{sofern $F_o(s)$ stabil} \\
-		\int_0^∞ \ln|S(j \omega)| d \omega = \pi \sum_i  \Re(p_i), & \text{sofern $F_o(s)$ instabil}
-	\end{array}
+	\int_0^∞ \ln|S(j \omega)| ~d \omega = 
+	\begin{cases}
+		0, & \text{sofern $F_o(s)$ stabil} \\
+		\pi \sum_i  \Re(p_i), & \text{sofern $F_o(s)$ instabil}
+	\end{cases}
 $$
 
 \textbf{Eigenschaften:}
@@ -1325,7 +1356,7 @@ $K_R:$ wird so gewählt, dass Phasen- und Amplitudenreserve groß genug sind, z.
 	\end{itemize}
 	\item Nachteile:
 	\begin{itemize}
-		\item stationäre Genauigkeit ist nicht gesichert (außer wenn $G(s)$ ein I-Glied enthält und die Störung erst hinter dem I-Glied eingreift)
+		\item keine stationäre Genauigkeit (außer wenn $G(s)$ ein I-Glied enthält und die Störung erst hinter dem I-Glied eingreift)
 	\end{itemize}
 \end{itemize}
 
@@ -1333,7 +1364,7 @@ $K_R:$ wird so gewählt, dass Phasen- und Amplitudenreserve groß genug sind, z.
 \textbf{Definition:}
 $$
 	\begin{array}{ll}
-	\text{Zeitbereich:} & u(t) = K_I \int_0^t e(\tau) d\tau \\
+	\text{Zeitbereich:} & u(t) = K_I \int_0^t e(\tau) ~d\tau \\
 	\text{Bildbereich:} & R(s) = \frac{K_I}{s}
 	\end{array}
 $$ \\
@@ -1362,7 +1393,7 @@ $K_I:$ wird so gewählt, dass Phasen- und Amplitudenreserve groß genug sind, z.
 \textbf{Definition:}
 $$
 	\begin{array}{ll}
-	\text{Zeitbereich:} & u(t) = K_R e(t) + K_I \int_0^t e(\tau) d\tau \\
+	\text{Zeitbereich:} & u(t) = K_R e(t) + K_I \int_0^t e(\tau) ~d\tau \\
 	\text{Bildbereich:} & R(s) = \frac{K_I}{s} (1 + T_R s) = \frac{K_I}{s} + K_R
 	\end{array}
 $$ \\
@@ -1434,7 +1465,7 @@ $T_N: \frac{T_R}{50} < T_N < \frac{T_R}{5}$ \\
 \begin{itemize}
 	\item Vorteile:
 	\begin{itemize}
-		\item hohe Dynamik erreichbar
+		\item hohe Dynamik der Regelung erreichbar
 	\end{itemize}
 	\item Nachteile:
 	\begin{itemize}
@@ -1452,8 +1483,8 @@ $T_N: \frac{T_R}{50} < T_N < \frac{T_R}{5}$ \\
 \textbf{Definition:}
 $$
 	\begin{array}{ll}
-	\text{Zeitbereich:} & u(t) = K_R e(t) + K_I \int_0^t e(\tau) d\tau + K_I ⋅ T_{R1} ⋅ T_{R2} ⋅ \dot e(t)\\
-	\text{Bildbereich:} & R(s) = K_I(T_{R1} + T_{R2}) + \frac{K_I}{s} + K_I ⋅ T_{R1} ⋅ T_{R2} ⋅ s \\
+	\text{Zeitbereich:} & u(t) = K_R e(t) + K_I \int_0^t e(\tau) ~d\tau + K_I ⋅ T_{R1} ⋅ T_{R2} ⋅ \dot e(t)\\
+	\text{Bildbereich:} & R(s) = \underbrace{K_I(T_{R1} + T_{R2})}_{\text{P-Glied}} + \underbrace{\frac{K_I}{s}}_{\text{I-Glied}} + \underbrace{K_I ⋅ T_{R1} ⋅ T_{R2} ⋅ s}_{\text{D-Glied}} \\
 	& = K_R(1 + \frac{1}{T_I ⋅ s} + T_D s) \\
 	& = \frac{K_I}{s}(1 + T_{R1} ⋅ s)(1 + T_{R2} ⋅ s)
 	\end{array}
@@ -1587,7 +1618,7 @@ $$
 $$
 
 \textbf{Stationäre Genauigkeit:} \\
-Sei stationäre Genauigkeit vorausgesetzt ($T(0) = \frac{Z_T(0)}{N_T(0) = 1}$), dann erhält $R(s)$ einen Pol in null (außer die Strecke besitzt bereits eine Pol in null). \\
+Sei stationäre Genauigkeit vorausgesetzt ($T(0) = \frac{Z_T(0)}{N_T(0)} = 1$), dann erhält $R(s)$ einen Pol in null (außer die Strecke besitzt bereits eine Pol in null). \\
 
 \textbf{Stabilität:} \\
 Für Stabilität der vier Übertragungsfunktionen ($T(s), S(s), F_{z2,y}(s), F_{w,u}(s)$) müssen alle Pole von $T$ in der linken komplexen Halbebene liegen.
@@ -1612,7 +1643,7 @@ $$
 $$
 
 \textbf{Stationäre Genauigkeit:}
-Für stationäre Genauigkeit ist $b_0 = 0$ zu wählen
+Für stationäre Genauigkeit ist $b_0 = 0$ zu wählen \\
 
 \textbf{Störübertragungsfunktion minimaler Ordnung} \\
 Die Störübertragungsfunktion minimaler Ordnung ($q = n - m$) mit stationärer Genauigkeit ist:
@@ -1641,8 +1672,11 @@ Weist sie starke Überhöhungen auf, so ist mit hohen Stellgrößenausschlägen 
 \subsection{Gütekriterien und optimale lineare Regelung}
 \subsubsection{Kennwerte der Sprungantwort}
 \begin{itemize}
-	\item Überschwingweite: Ziel: möglichst gering
-	\item Ausregelzeit: Zeit, die bis zum entgültigen Eintreten der Sprungantwort in einem $\pm 5 \%$-Toleranzbereich um den stationären Endwert verstreicht, Ziel: möglichst kurz.
+	\item Überschwingweite: soll möglichst gering
+	\item Ausregelzeit: \begin{itemize}
+		\item Zeit, die bis zum entgültigen Eintreten der Sprungantwort in einem $\pm 5 \%$-Toleranzbereich um den stationären Endwert verstreicht.
+		\item soll möglichst kurz sein
+	\end{itemize}
 \end{itemize}
 \begin{figure}[H]
 	\includegraphics[width = 0.4\columnwidth]{imgs/sprungantwort_kennwerte.png}
@@ -1653,28 +1687,28 @@ Die Integralkriterien bewerten den gesamten Verlauf der Regelabweichung $e(t)$ b
 
 \paragraph{Betragsregelfläche (IAE, Integral of Absolute Error)} ~\\
 $$
-	\int_0^∞ |e(t)| dt
+	\int_0^∞ |e(t)| ~dt
 $$
 
 Ein kleiner Wert des Integrals bedeutet einen kleinen mittleren Regelfehler.
 
 \paragraph{Zeitgewichtete Betragsregelfläche (ITAE, Integral of Time weighted Absolute Error)} ~\\
 $$
-	\int_0^∞ t|e(t)| dt
+	\int_0^∞ t|e(t)| ~dt
 $$
 
 Der Regelfehler wird für kleine Zeiten schwächer gewichtet als für große.
 
 \paragraph{Quadratische Regelfläche (ISE, Integral of Squared Error)} ~\\
 $$
-	\int_0^∞ e^2(t) dt
+	\int_0^∞ e^2(t) ~dt
 $$
 
 Hier gehen große Regelabweichungen besonders stark ein.
 
 \paragraph{Integralkriterium mit Berücksichtigung des Stellgrößenverlaufs}
 $$
-	\int_0^∞ [e^2(t) + qu^2(t)] dt
+	\int_0^∞ (e^2(t) + qu^2(t)) ~dt
 $$
 wobei $q$ eine positive reelle vorzugebene Konstante ist. \\
 Größere Werte für $q$ verringern die Stellgrößenausschläge und verbessern die Robustheit der Stabilität. \\
@@ -1693,7 +1727,7 @@ Kleinere Werte für $q$ erhöhen die Dynamik der Regelung.
 \subsection{Zwei-Freiheitsgrade-Regelung}
 \textbf{Grundsatz:}
 \begin{itemize}
-	\item Regelkreise sollen vorrangig auf gutes Störverhalten und Robustheit der Stabilität ausgelegt werden! Das Führungsverhalten kann unabhängig durch eine Steuereinrichtung (Vorsteuerung) manipuliert werden.
+	\item Regelkreise sollen vorrangig auf gutes Störverhalten und Robustheit der Stabilität ausgelegt werden. Das Führungsverhalten kann unabhängig durch eine Steuereinrichtung (Vorsteuerung) manipuliert werden.
 \end{itemize}
 
 \begin{figure}[H]
@@ -1704,7 +1738,7 @@ Kleinere Werte für $q$ erhöhen die Dynamik der Regelung.
 \begin{itemize}
 	\item Keine Störung ($z = 0$) und variable Führungsgröße $w$:
 	\begin{itemize}
-		\item $e = w - y$ (Regler bleibt inaktiv)
+		\item $e = w - y = 0$ (Regler bleibt inaktiv)
 		\item $Y(s) = G(s)G^{-1}(s)W(s) = W(s)$ (ideales Führungsverhalten)
 	\end{itemize}
 	\item $w = 0$ und $z(t) ≠ 0$:
@@ -1719,12 +1753,13 @@ Kleinere Werte für $q$ erhöhen die Dynamik der Regelung.
 	\begin{itemize}
 		\item Einfügen je eines PT$n$-Glieds bei $1$ und $2$ mit \\
 		$V(s) = G_{PTn}(s) = \frac{1}{(1 + Ts)^n}$
+		\item $n$ mindestens so groß wählen, dass $G^{-1}(s)G_{PTn}(s)$ realisierbar ist.
 		\item[→] Führungsverhalten nicht mehr ideal
 	\end{itemize}
 	\item $G(s)$ besitzt eine rechts gelegene Nullstelle $\eta$:
 	\begin{itemize}
 		\item Einfügen je eines Glieds bei $1$ und $2$ mit \\
-		$V(s) = \frac{1 - \frac 1 q s}{1 + Ts}$
+		$V(s) = \frac{1 - \frac 1 \eta s}{1 + Ts}$
 	\end{itemize}
 	\item  $G(s)$ enthält eine Totzeit $T_t$:
 	\begin{itemize}
@@ -1755,7 +1790,7 @@ $$ ~\\
 
 \textbf{Reale Störgrößenaufschaltung:}
 $$
-	F_A(s) = -\frac{1}{G_1(s)} ⋅ \frac{1}{(1 + Ts)^n}
+	F_A(s) = -\frac{1}{G_1(s)} ⋅ \underbrace{\frac{1}{(1 + Ts)^n}}_{\text{PTn-Glied}}
 $$ ~\\
 
 \textbf{Statische Störgrößenaufschaltung:}
@@ -1799,9 +1834,9 @@ $$
 	Bezeichnung & Var. & Beschreibung \\
 	\hline
 	Regler (innere Schleife) & $R_i$ & Wird für gutes Störverhalten der Strecke $G_i$ ausgelegt. \\
-	Vorsteuerung (innere Schleife) & $G_i^{-1}$ & Sorgt für ideales Führungsverhalten $T_i(s) = 1$ der inneren Schleife \\
-	Regler (äußere Schleife) & $R_a$ & wird für gutes Störverhalten der Strecke $G_a$ ausgelegt \\
-	Vorsteuerung (äußere Schleife) & $G_a^{-1}$ & sorgt für ideales Führungsverhalten der äußeren Schleife \\
+	Vorsteuerung (innere Schleife) & $G_i^{-1}$ & Sorgt für ideales Führungsverhalten $T_i(s) = \frac{Y_i(s)}{W_i(s)} = 1$ der inneren Schleife \\
+	Regler (äußere Schleife) & $R_a$ & Wird für gutes Störverhalten der Strecke $G_a$ ausgelegt \\
+	Vorsteuerung (äußere Schleife) & $G_a^{-1}$ & Sorgt für ideales Führungsverhalten der äußeren Schleife \\
 \end{tabularx}
 
 \subsection{Zustandsregelung}
@@ -1834,8 +1869,8 @@ $$ ~\\
 	P-Glied Verstärkung & $m_u \in \mathbb{R}$ \\
 	\tab - & $m_x \in \mathbb{R}^{n \times 1}$  \\
 	Zustands-Sollverlauf & $x_{soll}(t) = m_xw(t) \in \mathbb{R}^{n \times 1}$  \\
-	vektorielle Regelabweichung & $e(t) = \vect{e_1(t) \\ \vdots \\ e_n(t)} = x_{soll}(t) - x(t)$  \\
-	Faktoren & $r^T = \vect{r_1 & \dots & r_n}$ \\
+	vektorielle Regelabweichung & $e(t) = \vect{e_1(t) \\ \vdots \\ e_n(t)} = x_{soll}(t) - x(t) \in \mathbb{R}^{n \times 1}$  \\
+	Faktoren & $r^T = \vect{r_1 & \dots & r_n} \in \mathbb{R}^{1 \times n}$ \\
 	Systemordnung & $n$ (Zahl der Elemente von $x$)
 \end{tabularx} ~\\
 
@@ -1857,9 +1892,11 @@ Für asymptotische Stabilität müssen die Eigenwerte $p_1, \dots, p_n$ der Matr
 
 Entwurf:
 \begin{enumerate}
-	\item $\det(sI - A + br^T) = s^n + c_{n-1}(r_1, \dots, r_n) ⋅ s^{n-1} + \dots + c_0(r_1, \dots, r_n)$, \tab wobei $c_i = f(r_1, \dots, r_n)$
-	\item $P(s) = (s - p_1) ⋅ \dots ⋅ (s - p_n) = s^n + a_{n-1}s^{n - 1} + \dots + a_1s + a_0$, \tab wobei $p_i$ die gewünschten Eigenwerte sind
-	\item Auflösen nach $r_1, \dots, r_n$: \\
+	\item Aufstellen des charakteristischen Polynoms (in Abh. von $r^T$ und $s$)$: \\
+	\det(sI - A + br^T) = s^n + c_{n-1}(r_1, \dots, r_n) ⋅ s^{n-1} + \dots + c_0(r_1, \dots, r_n)$, \tab wobei $c_i = f(r_1, \dots, r_n)$
+	\item Aufstellen eines Polynoms mit den gewünschten Eigenwerten (in Abh. von $s$): \\
+	$P(s) = (s - p_1) ⋅ \dots ⋅ (s - p_n) = s^n + a_{n-1}s^{n - 1} + \dots + a_1s + a_0$, \tab wobei $p_i$ die gewünschten Eigenwerte sind
+	\item Einsetzten der Variablen aus 1. und 2. in folgende Gleichungen und auflösen nach $r_1, \dots, r_n$: \\
 	$$\begin{array}{c}
 		c_{n-1}(r_1, \dots, r_n) = a_{n-1} \\
 		\vdots \\
@@ -1876,7 +1913,7 @@ Entwurf:
 
 \paragraph{Berücksichtigung des Eingriffs einer äußeren Störung $z(t)$}
 $$
-	\dot x = (A - br^T) x + b (r^T m_x + m_u) w + \bar e z
+	\dot x = (A - br^T) x + b (r^T m_x + m_u) w + \bar e z = A_r x + b_r w + \bar e z
 $$
 $$
 	Y(s) = c^T(sI-A_r)^{-1}b_rW(s) + c^T(sI-A_r)^{-1}\bar eZ(s)
@@ -1960,7 +1997,7 @@ $$~\\
 \textbf{Variablen} ~\\
 \begin{tabularx}{\columnwidth}{llllll}
 	Stellgrößen & $u = \vect{u_1 \\ \vdots \\ u_p} \in \mathbb{R}^{p \times 1}$ \\
-	Regelgrößen & $y = \vect{y_1 \\ \vdots \\ y_n} \in \mathbb{R}^{p \times 1}$ \\
+	Regelgrößen & $y = \vect{y_1 \\ \vdots \\ y_p} \in \mathbb{R}^{p \times 1}$ \\
 	 $B \in \mathbb{R}^{n \times p}$, 
 	 & $C \in \mathbb{R}^{p \times n}$, 
 	 & $R \in \mathbb{R}^{p \times n}$, 
@@ -1988,16 +2025,16 @@ $$~\\
 	$\dot x = a(x) + b(x) u$ \\
 	$y = c(x) := c_0(x)$
 	\item Ableiten von $y$ nach $x$ solange bis $u$ auftaucht: \\
-	Wiederhole solange bis $b_q(x) ≠ 0$, starte mit $q = 0$, inkrementiere $q$ nach jedem Schritt um 1\\
+	Wiederhole solange bis $b_q(x) ≠ 0$; starte mit $q = 0$; inkrementiere $q$ nach jedem Schritt um 1\\
 	$y^{(q)} = \frac{\partial c_{q-1}}{\partial x_1} \dot x_1 + \dots + \frac{\partial c_{q-1}}{\partial x_n} \dot x_n = c_q(x) + b_q(x) u$
 	\item Einsetzen in Wunschdifferentialgleichung (hier: $y^{(q)} + a_{q - 1}y^{(q-1)} + \dots + a_1 \dot y + a_0y = a_0 w$): \\
 	$c_q(x) + b_q(x) u + a_{q-1} y^{(q-1)} + \dots + a_1 \dot y + a_0 y = a_0 w$
 	\item Auflösen nach $u$: \\
 	$u = \frac 1 {b_q(x)} (-c_q(x) - a_{q-1} y^{(q-1)} - a_1 \dot y - a_0 y + a_0 w)$
 	\item Einsetzen von $y^{(i)} = c_i(x)$ aus Schritt 2: \\
-	$u = \frac 1 {b_q(x)} (-c_q(x) - a_{q-1} c_{q-1}(x) - a_1 c_1(x) - a_0 c(x) + a_0 w)$
+	$u = \frac 1 {b_q(x)} (-c_q(x) - a_{q-1} c_{q-1}(x) - \dots - a_1 c_1(x) - a_0 c(x) + a_0 w)$
 \end{enumerate}
-Es folgt:
+Außerdem gilt:
 $$
 	Y(s) = \frac{a_0}{s^q + a_{q-1}s^{q-1} + \dots + a_0} W(s)
 $$
@@ -2006,7 +2043,8 @@ $$
 \begin{itemize}
 	\item Der sogenannte relative Grad $q$ ist bei technisch sinnvollen Systemen stets kleiner oder gleich der Systemordnung $n$.
 	\item Der Entwurf sichert lineares Ein-/Ausgangsverhalten.
-	\item Die Dynamik der Zustandsvariablen bleibt nichtlinear.	Falls $q < n$ ist, können nur $q$ Pole vorgegeben werden. Die verbleibenden $n − q$ Freiheitsgrade der Systemdynamik bleiben im Systeminnern „versteckt“. Diese versteckte, man sagt auch interne Dynamik, kann instabiles Verhalten von Zustandsvariablen aufweisen. Falls $q = n$ ist und alle oben verwendeten Ausdrücke frei von Singularitäten sind (zumindest im interessierenden Bereich des Zustandsraums), dann darf man im Allgemeinem von einem stabilen Systemverhalten ausgehen.
+	\item Die Dynamik der Zustandsvariablen bleibt nichtlinear.
+	\item Falls $q < n$ ist, können nur $q$ Pole vorgegeben werden. Die verbleibenden $n − q$ Freiheitsgrade der Systemdynamik bleiben im Systeminnern „versteckt“ und können instabiles Verhalten von Zustandsvariablen bewirken. Falls $q = n$ ist und alle oben verwendeten Ausdrücke frei von Singularitäten sind (zumindest im interessierenden Bereich des Zustandsraums), dann darf man im Allgemeinem von einem stabilen Systemverhalten ausgehen.
 \end{itemize}
 
 \section{Digitale Realisierung}
@@ -2030,7 +2068,7 @@ Die Tustin-Transformation ist definiert als:
 \renewcommand{\arraystretch}{2}
 $$
 	\begin{array}{lll}
-		R(z) = \frac{u[k]}{e[k]} = \frac{T(1+z^{-1})}{2(1 + z^{-1})} & \text{entspricht} & R(s) = \frac 1 s \\
+		R(z) = \frac{u[k]}{e[k]} = \frac{T(1+z^{-1})}{2(1 - z^{-1})} & \text{entspricht} & R(s) = \frac 1 s \\
 		R(z) = \frac{u[k]}{e[k]} = \frac{2(1-z^{-1})}{T(1 + z^{-1})} & \text{entspricht} & R(s) = s \\	
 	\end{array}
 $$
@@ -2043,7 +2081,7 @@ sei $e[k]$ die Regelabweichung zum Zeitpunkt $t = kT$ \\
 Sei das I-Glied definiert als $R(s) = \frac 1 s$ \\
 Der Algorithmus für das I-Glied ist definiert als:
 $$
-u[k] = u[k-1] + \frac T 2 (e[K-1] + e[k])
+u[k] = u[k-1] + \frac T 2 (e[k-1] + e[k])
 $$
 
 \subsubsection{Diskreter PD-Regler}
@@ -2135,9 +2173,12 @@ $$
 	z = |z|(\cos \varphi + j \sin \varphi) = |z|e^{j\varphi}
 $$
 wobei \\
-$\varphi = \arg(z) = \begin{cases}
+$\varphi = \arg(z) = \angle z = \begin{cases}
 	\arctan(\frac y x) & $für $x > 0 \\
-	\pi + \arctan(\frac y x) & $für $x < 0
+	\frac \pi 2 & $für $x = 0, y > 0 \\
+	- \frac \pi 2 & $für $x = 0, y < 0 \\
+	\pi + \arctan(\frac y x) & $für $x < 0, y ≥ 0 \\
+	- \pi + \arctan(\frac y x) & $für $x < 0, y < 0
 \end{cases}
 $
 
@@ -2183,12 +2224,12 @@ $\begin{array}{c}
 6. Setze $r_1$ bis $r_m$ in die Gleichung aus Schritt 2 ein ($R(s) = G_1 + \dots + G_m$)
 
 %\subsubsection{Integration mit Partialbruchzerlegung}
-%Sei $R(s) = \int \frac{b_ns^n + \dots + b_1s + b_0}{a_ms^m + \dots + a_1s + a_0} ds$ \\
+%Sei $R(s) = \int \frac{b_ns^n + \dots + b_1s + b_0}{a_ms^m + \dots + a_1s + a_0} ~ds$ \\
 %
 %Befolge Schritt 1 - 6 \\
 %
-%$\implies R(s) = \int \frac{r_1}{s - p_1} + \dots + \frac{r_m}{s - s_l} + G_{l+1} + \dots + G_m ds$ \\
-%$ = r_1\ln|s - p_1| + \dots + r_l\ln|s - p_l| + \int G_{l+1} + \dots + G_m ds$
+%$\implies R(s) = \int \frac{r_1}{s - p_1} + \dots + \frac{r_m}{s - s_l} + G_{l+1} + \dots + G_m ~ds$ \\
+%$ = r_1\ln|s - p_1| + \dots + r_l\ln|s - p_l| + \int G_{l+1} + \dots + G_m ~ds$
 
 \subsubsection{Beispiel}
 Sei $R(s) = \frac{5s-1}{s^2-1}$ \\
@@ -2231,7 +2272,7 @@ $$
 	a_{11} + b_{11} & \dots & a_{1m} + b_{1m}\\
 	\vdots & \ddots & \vdots \\
 	a_{n1} + b_{n1} & \dots & a_{nm} + b_{nm}
-	\end{bmatrix} \in \mathbb{n \times m}
+	\end{bmatrix} \in \mathbb{R}^{n \times m}
 $$
 
 \subsubsection{Multiplikation mit Skalar}
@@ -2253,7 +2294,7 @@ $$
 		c_{11} & \dots & c_{1n} \\
 		\vdots & \ddots & \vdots \\
 		c_{l1} & \dots & c_{ln}
-	\end{bmatrix} \in \mathbb{R}^{l \times n}, \tab c_{ik} = \sum_{j = 1}^m a_{ij}⋅b_{ik} \in \mathbb{R}, i \in \{1, \dots, l\}, k \in \{1, \dots, n\}
+	\end{bmatrix} \in \mathbb{R}^{l \times n}, \tab c_{ik} = \sum_{j = 1}^m a_{ij}⋅b_{jk} \in \mathbb{R}, i \in \{1, \dots, l\}, k \in \{1, \dots, n\}
 $$
  
 Es gelten folgende Gesetze:
@@ -2300,14 +2341,14 @@ $$
 $$
 
 \subsubsection{Determinante}
-\textbf{Determinante einer $2 \times 2$ Matrix}
+\textbf{Determinante einer $2 \times 2$ Matrix} \\
 Sei $A \in \mathbb{R}^{2 \times 2}$. \\
 Die Determinante dieser Matrix ist definiert als:
 $$
 	\det(A) = |A| = a_{11}a_{22} - a_{21}a_{12}
 $$
 
-\textbf{Determinante einer $3 \times 3$ Matrix}
+\textbf{Determinante einer $3 \times 3$ Matrix} \\
 Sei $A \in \mathbb{R}^{3 \times 3}$. \\
 Die Determinante dieser Matrix ist definiert als:
 $$
@@ -2382,7 +2423,7 @@ $$
 \end{figure}
 \textbf{Formel:}
 $$
-	U = R ⋅ I
+	u = R ⋅ i
 $$
 
 \subsection{Kondensator}
@@ -2392,7 +2433,7 @@ $$
 \end{figure}
 \textbf{Formel:}
 $$
-	U = \frac 1 C \int I \textrm{ dt} \iff \dot U = \frac I C
+	u = \frac 1 C \int i ~dt \iff \dot u = \frac i C
 $$
 
 \subsection{Spule}
@@ -2403,7 +2444,7 @@ $$
 \end{figure}
 \textbf{Formel:}
 $$
-	U = L ⋅ \dot I
+	u = L ⋅ \frac{di}{dt}
 $$
 
 \subsection{Kirchoff'sches Spannungsgesetz}
@@ -2429,8 +2470,9 @@ $$
 	I_C + I_L - I = 0
 $$
 
+\renewcommand{\arraystretch}{1}
 \section{Physikalische Grundlagen}
-\subsection{Kräfte}
+\subsection{Kraft}
 \textbf{Kräftegleichgewicht:} \\
 Die Summe aller Kräfte, die an einem Körper angreifen, addieren sich zu null.
 $$
@@ -2454,7 +2496,7 @@ $$
 $$
 
 
-\subsection{Drehmomente}
+\subsection{Drehmoment}
 \textbf{Momentengleichgewicht:} \\
 Die Summe aller Momente um jeden (einen) beliebigen Punkt eines Körpers addieren sich zu null.
 $$
@@ -2462,20 +2504,34 @@ $$
 $$
 
 \textbf{Berechnung in Abhängigheit von F:} \\
-$r$: Abstand der Wirkungslinie der Kraft von der Drehachse, $F$: wirkende Kraft
+\begin{tabularx}{\columnwidth}{lX}
+	$r$: & Abstand der Wirkungslinie der Kraft von der Drehachse \\
+	$F$: & wirkende Kraft
+\end{tabularx} \\
 $$
 	M = r \times F
 $$
 
+\textbf{Berechnung in Abhängigkeit von J:} \\
+\begin{tabularx}{\columnwidth}{lX}
+	$\ddot \varphi$: & Winkelbeschleunigung \\
+	$J$: & Trägheitsmoment
+\end{tabularx} \\
+$$
+	M = J ⋅ \ddot \varphi
+$$
+
+
 \subsection{Drehimpuls:}
-$J$: Trägheitsmoment, $\omega$: Winkelgeschwindigkeit
+\begin{tabularx}{\columnwidth}{lX}
+	$J$: & Trägheitsmoment \\
+	$\omega$: & Winkelgeschwindigkeit
+\end{tabularx} \\
 $$
 	L = J ⋅ \omega
 $$
 
-%TODO überarbeiten
-
-
+\renewcommand{\arraystretch}{1.5}
 \section{Tipps}
 \subsection{Zeichnen eines Blockschaltbildes}
 \begin{itemize}
@@ -2492,8 +2548,6 @@ $$
 	\item Summationsglieder für die höchste Ableitung bilden
 	\item Jeden Term der rechten Seite aus bestehenden Signalen bilden
 \end{enumerate}
-
-%TODO Impulsfunktion, Sprungfunktion
 
 %TODO Beispiel
 
