@@ -120,6 +120,8 @@
 \usepackage{mathpartir}
 \usepackage{trfsigns}
 \usepackage{multicol}
+\usepackage{ulem}
+\usepackage{multirow}
 
 
 %TODO
@@ -464,9 +466,9 @@ $$
 	\Delta y = f(\Delta u, u_s) = \frac{\partial F(u)}{\partial u}\bigg|_{u = u_s} ⋅ \Delta u
 $$
 mit
-$$
-	\Delta y = y - y_s
-$$
+%$$
+%	\Delta y = y - y_s
+%$$
 $$
 	y_s = F(u_s)
 $$
@@ -488,9 +490,9 @@ $$
 	\textrm{AP} ≡ u_1 = u_{1,s}, \dots, u_n = u_{n,s}
 $$
 mit
-$$
-	\Delta y = y - y_s
-$$
+%$$
+%	\Delta y = y - y_s
+%$$
 $$
 	y_s = F(u_s)
 $$
@@ -631,7 +633,8 @@ $\alpha$ beliebig komplex.
 	Linearität & $c_1f_1(t) + c_2f_2(t)$ & $c_1 F_1(s) + c_2 F_2(s)$ \\
 	\hline
 	Differenziation & $\dot f(t)$ & $sF(s) - f(0)$ \\
-	& $f^{(n)}(t)$ & $s^n F(s) - s^{n - 1} f(0) - \dots - f^{(n-1)}(0)$ \\
+	& $\ddot f(t)$ & $s^2 F(s) - sf(0) - \dot f(0)$ \\
+	& $f^{(n)}(t)$ & $s^n F(s) - \sum_{k=0}^{n-1} f^{(k)}(0) s^{n-k-1}$ \\
 	\hline
 	Integration & $\int_0^t f(\tau) ~d\tau$ & $\frac 1 s F(s)$ \\
 	\hline
@@ -977,14 +980,14 @@ Tabelle: \\
 
 \subsection{Frequenzgang}
 \subsubsection{Systemantwort auf harmonische Anregung}
-Sei $Y(s) = G(s)U(s)$ die beschreibende Gleichung eines R-Gliedes, welches mit $u(t) = \sin(\omega t)$ angeregt wird. \\
+Sei $Y(s) = G(s)U(s)$ die beschreibende Gleichung eines R-Gliedes, welches mit $u(t) = A\sin(\omega t)$ angeregt wird. \\
 Die Antwort diese R-Gliedes ist:
 $$
 	y(t) = y_D(t) + y_G(t)
 $$
 mit dem Dauerschwingungsanteil
 $$
-	y_D(t) = |G(j\omega)| \sin(\omega t + \angle G(j \omega))
+	y_D(t) = A|G(j\omega)| \sin(\omega t + \angle G(j \omega))
 $$ \\
 
 Ist das System $G(s)$ stabil, so gilt für große $t$:
@@ -1046,6 +1049,263 @@ Die Phasenkennlinie ist:
 $$
 	\angle G(j \omega) = \angle G_1 + \dots + \angle G_{n + m}
 $$
+
+\subsubsection{Graphische Konstruktion von Bode-Diagramm}
+Sei eine komplexe Übertragungsfunktion $G(s)$ gegeben. \\
+
+1. Bringe die Übertragungsfunktion in Zeitkonstantenform: \\
+\begin{tabularx}{\columnwidth}{lX}
+	
+\end{tabularx} \\
+$$
+	G(j \omega) = K ⋅ \frac{(j \omega)^k}{(j \omega)^l} ⋅ \frac{Z_1 ⋅ \dots ⋅ Z_m}{N_1 ⋅ \dots ⋅ N_n}
+$$
+wobei \\
+$\begin{array}{ll}
+	Z_i = (\tilde T_i j \omega + 1) & $für jede einfache Nullstelle $≠ 0  \\
+	Z_i = (\tilde T_i^2 (j \omega)^2 + 2\tilde d_i \tilde T_i j \omega + 1) & $für jedes konjugiert komplexe Nullstellenpaar/jede doppelte Nullstelle $≠0 \\
+	N_i = (T_i j \omega + 1) & $für jeden einfachen Pol $≠ 0  \\
+	N_i = (T_i^2 (j \omega)^2 + 2 d_i T_i j \omega + 1) & $für jedes konjugiert komplexe Polpaar/jeden doppelten Pol $≠0 \\
+\end{array}$ \\
+
+sowie \\
+$\begin{array}{ll}
+	K: & $Verstärkungsfaktor$ \\
+	k: & $Anzahl der Nullstellen im Ursprung$ \\
+	l: & $Anzahl der Pole im Ursprung$ \\
+\end{array}$ \\
+
+2. Ermittlung der Eckfrequenzen: \\
+\begin{itemize}
+	\item Für jede einfache Nullstelle $≠0$:
+	$$
+		\tilde \omega_i = \frac{1}{|\tilde T_i|}, \tab \text{Eckfrequenz der Nullstelle: } \eta_i = -\frac 1 {\tilde T_i}
+	$$
+	\item Für jede konjugiert komplexe Nullstelle/jede doppelte Nullstelle:
+	$$
+		\tilde \omega_i = \frac{1}{|\tilde T_i|}, \tab \text{Eckfrequenz der Nullstellen: } \eta_{i/i+1}: \tilde T_i^2 (j \omega)^2 + 2\tilde d_i \tilde T_i j \omega + 1 \overset{!}{=} 0
+	$$
+	\item Für jeden einfachen Pol $≠0$:
+	$$
+		\omega_i = \frac{1}{|T_i|}, \tab \text{Eckfrequenz des Pols: } p_i = -\frac 1 {T_i}
+	$$
+	\item Für jeden konjugiert komplexen Pol/jeden doppelten Pol:
+	$$
+	\omega_i = \frac{1}{|T_i|}, \tab \text{Eckfrequenz der Pole: } p_{i/i+1}: T_i^2 (j \omega)^2 + 2 d_i T_i j \omega + 1 \overset{!}{=} 0
+	$$
+\end{itemize} ~\\
+
+3. Approximation des Amplitudengang $A(\omega) = |G(j \omega)|$ \\
+3.1 Startwert des Amplitudengangs $A(\omega_{min})$: \\
+\begin{tabular}{ll}
+	$\omega_{min}$: & kleinste Frequenz im Diagramm
+\end{tabular}
+$$
+	A(\omega_{min}) = 20 \log_{10} \left(\frac{\omega_{min}^k}{\omega_{min}^l} ⋅ |K| \right) \tab[1] [dB]
+$$
+
+3.2 Anfangssteigung des Amplitudengangs $A'(\omega_{min})$: \\
+$$
+	A'(\omega_{min})  = (k - l) ⋅ \frac{20 dB}{Dekade} 
+$$
+
+3.3 Verlauf des Amplitudengangs: $A'(\omega_i)$: \\
+Sei $A'(\omega_i^-)$ die Steigung des Amplitudengangs bis zur Frequenz $\omega_i$. \\
+Die Steigung ab der Frequenz $\omega_i$ ist:
+\begin{itemize}
+	\item Für jede einfache Nullstelle mit Eckfrequenz $\tilde \omega_i$:
+	$$
+		A'(\tilde \omega_i^+) = A'(\omega_i^-) + \frac{20 dB}{Dekade}
+	$$
+	\item Für jedes konjugiert komplexe Nullstellenpaar/jede doppelte Nullstelle mit Eckfrequenz $\tilde \omega_i$:
+	$$
+		A'(\tilde \omega_i^+) = A'(\omega_i^-) + \frac{40 dB}{Dekade}
+	$$
+	\item Für jeden einfachen Pol mit Eckfrequenz $\omega_i$:
+	$$
+		A'(\omega_i^+) = A'(\omega_i^-) - \frac{20 dB}{Dekade}
+	$$
+	\item Für jedes konjugiert komplexe Polstellenpaar/jeden doppelten Pol mit Eckfrequenz $\omega_i$:
+	$$
+		A'(\omega_i^+) = A'(\omega_i^-) - \frac{40 dB}{Dekade}
+	$$
+\end{itemize} ~\\
+
+4. Approximation des Phasengangs $\varphi(\omega) = \angle G(j \omega)$ \\
+4.1 Startwert des Phasengangs $\varphi(\omega_{min})$: \\
+\begin{itemize}
+	\item Für $K > 0$:
+	$$
+		\varphi(\omega_{min}) = 0° + (k-l) ⋅ 90°
+	$$
+	\item Für $K < 0$:
+	$$
+		\varphi(\omega_{min}) = -180° + (k-l) ⋅ 90°
+	$$
+\end{itemize} ~\\
+
+4.2 Grobverlauf des Phasengangs $\varphi(\omega_i)$: \\
+Sei $\varphi(\omega_i^-)$ die Phase bis zur Frequenz $\omega_i$. \\
+Die Phase ab der Frequenz $\omega_i$ ist:
+\begin{itemize}
+	\item Für jede einfache Nullstelle $\eta_i$ mit Eckfrequenz $\tilde \omega_i$:
+	\begin{itemize}
+		\item Falls $\eta_i < 0$:
+		$$
+			\varphi(\tilde \omega_i^+) = \varphi(\omega_i^-) + 90°
+		$$
+		\item Falls $\eta_i > 0$:
+		$$
+			\varphi(\tilde \omega_i^+) = \varphi(\omega_i^-) - 90°
+		$$
+	\end{itemize}
+	\item Für jedes konjugiert komplexe Nullstellenpaar/jede doppelte Nullstelle $\eta_{i/i+1}$ mit Eckfrequenz $\tilde \omega_i$:
+	\begin{itemize}
+		\item Falls $\Re(\eta_{i/i+1}) ≤ 0$:
+		$$
+			\varphi(\tilde \omega_i^+) = \varphi(\omega_i^-) + 180°
+		$$
+		\item Falls $\Re(\eta_{i/i+1}) > 0$:
+		$$
+			\varphi(\tilde \omega_i^+) = \varphi(\omega_i^-) - 180°
+		$$
+	\end{itemize}
+	\item Für jeden einfachen Pol $p_i$ mit Eckfrequenz $\omega_i$:
+	\begin{itemize}
+		\item Falls $p_i < 0$:
+		$$
+			\varphi(\omega_i^+) = \varphi(\omega_i^-) - 90°
+		$$
+		\item Falls $p_i > 0$:
+		$$
+			\varphi(\omega_i^+) = \varphi(\omega_i^-) + 90°
+		$$
+	\end{itemize}
+	\item Für jedes konjugiert komplexe Polpaar/jeden doppelten Pol $p_{i/i+1}$ mit Eckfrequenz $\omega_i$:
+	\begin{itemize}
+		\item Falls $\Re(p_{i/i+1}) ≤ 0$:
+		$$
+			\varphi(\tilde \omega_i^+) = \varphi(\omega_i^-) - 180°
+		$$
+		\item Falls $\Re(p_{i/i+1}) > 0$:
+		$$
+			\varphi(\tilde \omega_i^+) = \varphi(\omega_i^-) + 180°
+		$$
+	\end{itemize}
+\end{itemize} ~\\
+
+4.3 Feinverlauf des Phasengangs:
+\begin{itemize}
+	\item Pfeile einzeichnen
+	\begin{itemize}
+		\item Für jede Phasenerhöhung $\varphi(\omega_i^+) = \varphi(\omega_i^-) + x ⋅ 90°$ an der Eckfrequenz $\omega_i$: \\
+		Zeichne $x$ Pfeile nach oben (↑) an der Frequenz $\omega_i - (1 ~Dekade)$ und $x$ Pfeile nach unten (↓) an der Frequenz $\omega_i + (1 ~Dekade)$
+		\item Für jede Phasensenkung $\varphi(\omega_i^+) = \varphi(\omega_i^-) - x ⋅ 90°$ an der Eckfrequenz $\omega_i$: \\
+		Zeichne $x$ Pfeile nach unten (↓) an der Frequenz $\omega_i - (1 ~Dekade)$ und $x$ Pfeile nach oben (↑) an der Frequenz $\omega_i + (1 ~Dekade)$
+	\end{itemize}
+	\item Feinverlauf einzeichnen: \\
+	Sei $\varphi'(\omega^-)$: die Steigung der Phase bis zur nächsten Frequenz mit einem oder mehreren Pfeilen, wobei $x$ Pfeile nach oben (↑) und $y$ Pfeile nach unten (↓) zeigen. \\
+	Die Steigung der Phase ab dieser Frequenz ist:
+	$$
+		\varphi'(\omega^+) = \varphi'(\omega^-) + (x - y) ⋅ 45°
+	$$
+\end{itemize}
+
+\subsubsection{Graphische Konstruktino von Bode-Diagramm (Kurzform)}
+1. Zeitkonstantenform:
+$$
+	G(j \omega) = K ⋅ \frac{(j \omega)^k}{(j \omega)^l} ⋅ \frac{(\tilde T_1 j \omega + 1) ⋅ \dots ⋅ (\tilde T_r j \omega + 1) ⋅ (\tilde T_{r+1}^2 (j \omega)^2 + 2\tilde d_{r+1} \tilde T_{r+1} j \omega + 1) ⋅ \dots ⋅ (\tilde T_m^2 (j \omega)^2 + 2\tilde d_m \tilde T_m j \omega + 1)}{(T_1 j \omega + 1) ⋅ \dots ⋅ (T_s j \omega + 1) ⋅ (T_{s+1}^2 (j \omega)^2 + 2 d_{s+1} T_{s+1} j \omega + 1) ⋅ \dots ⋅ (T_n^2 (j \omega)^2 + 2 d_n T_n j \omega + 1)}
+$$
+
+2. Eckfrequenzen:
+$$
+	\tilde \omega_i = \frac{1}{|\tilde T_i|}, \tab \eta_i = -\frac 1 {\tilde T_i} \text{ (falls einfache Nullstelle)}
+$$
+$$
+	\omega_i = \frac{1}{|T_i|}, \tab p_i = -\frac 1 {T_i} \text{ (falls einfacher Pol)}
+$$
+
+3. Amplitudengang: \\
+$$\begin{array}{ll}
+	\text{Startwert:} & A(\omega_{min}) = 20 \log_{10} \left(\frac{\omega_{min}^k}{\omega_{min}^l} ⋅ |K| \right) \tab[1] [dB] \\
+	\text{Anfangssteigung:} & A'(\omega_{min})  = (k - l) ⋅ \frac{20 dB}{Dekade}
+\end{array}$$
+\begin{center}
+\begin{tabular}{|l|l|c|}
+	\hline
+	\multicolumn{3}{|c|}{Verlauf} \\
+	\hline
+	\multicolumn{2}{|l|}{} & $A'(\omega_i^+) = A'(\omega_i^-) + \dots$ \\
+	\hline
+	\multirow{2}{*}{Nullstelle} & einfach & $20 dB/Dekade$ \\
+	\cline{2-3}
+	& doppelt/konjugiert komplex & $40 dB/Dekade$ \\
+	\hline
+	\multirow{2}{*}{Pol} & einfach & $-20 dB/Dekade$ \\
+	\cline{2-3}
+	& doppelt/konjugiert komplex & $-40 dB/Dekade$ \\
+	\hline
+\end{tabular}
+\end{center}
+
+4. Phasengang:
+\begin{center}
+	\begin{tabular}{|l|c|}
+		\hline
+		\multicolumn{2}{|c|}{Startwert} \\
+		\hline
+		Verstärkungsfaktor & $\varphi(\omega_{min})$ \\
+		\hline
+		$K > 0$ & $0° + (k-l) ⋅ 90°$ \\
+		\hline
+		$K < 0$ & $-180° + (k-l) ⋅ 90°$ \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|l|l|l|c|}
+		\hline
+		\multicolumn{4}{|c|}{Grobverlauf} \\
+		\hline
+		\multicolumn{3}{|l|}{} & $\varphi(\omega_i^+) = \varphi(\omega_i^-) + \dots$ \\
+		\hline
+		\multirow{4}{*}{Nullstelle} & \multirow{2}{*}{einfach} & $\eta_i < 0$ & $90°$ \\
+		\cline{3-4}
+		& & $\eta_i > 0$ & $-90°$ \\
+		\cline{2-4}
+		& \multirow{2}{*}{doppelt/konjugiert komplex} & $\Re(\eta_{i/i+1}) ≤ 0$ & $+180°$ \\
+		\cline{3-4}
+		& & $\Re(\eta_{i/i+1}) > 0$ & $-180°$ \\
+		\hline
+		\multirow{4}{*}{Pol} & \multirow{2}{*}{einfach} & $p_i < 0$ & $-90°$ \\
+		\cline{3-4}
+		& & $p_i > 0$ & $90°$ \\
+		\cline{2-4}
+		& \multirow{2}{*}{doppelt/konjugiert komplex} & $\Re(p_{i/i+1}) ≤ 0$ & $-180°$ \\
+		\cline{3-4}
+		& & $\Re(p_{i/i+1}) > 0$ & $+180°$ \\
+		\hline		
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		\multicolumn{5}{|c|}{Feinverlauf} \\
+		\hline
+		Änderung von Grobverlauf & \multicolumn{2}{c|}{Änderung bei -1 Dekade} & \multicolumn{2}{c|}{Änderung bei +1 Dekade} \\
+		$\varphi(\omega_i^+) = \varphi(\omega_i^-) + \dots $ & Pfeile & $\varphi'(\omega^+) = \varphi'(\omega^-) + \dots $ & Pfeile & $\varphi'(\omega^+) = \varphi'(\omega^-) + \dots$ \\
+		\hline
+		$x ⋅ 90°$ & $x ⋅ ↑$ & $ x ⋅ 45°$ & $x ⋅ ↓$ & $ -x ⋅ 45°$ \\
+		\hline
+		$-x ⋅ 90°$ & $x ⋅ ↓$ & $ -x ⋅ 45°$ & $x ⋅ ↑$ & $ x ⋅ 45°$ \\
+		\hline
+	\end{tabular}
+\end{center}
+	
+
+
 
 \section{Regelkreis und Stabilität}
 \subsection{Umformung von Blockschaltbildern}
@@ -2196,6 +2456,7 @@ $$
 $$
 
 \subsection{Partialbruchzerlegung}
+\subsubsection{Partialbruchzerlegung mit Koeffizientenvergleich}
 Sei $R(s) = \frac{b_ns^n + \dots + b_1s + b_0}{a_ms^m + \dots + a_1s + a_0}$ \\
 
 1. Finde alle Polstellen $p_i$ von $R(s)$ \\
@@ -2212,7 +2473,7 @@ $R(s) = G_1 + \dots + G_m = \frac{Z_1}{N_1} + \dots + \frac{Z_m}{N_m}, \tab G_i 
 $R(s) = \frac{Z_1}{N_1} + \dots + \frac{Z_m}{N_m} = \frac{Z_1(N_2 + \dots + N_m)}{N_1 ⋅ \dots ⋅ N_n} + \dots + \frac{Z_m(N_1 + \dots + N_{m-1})}{N_1 ⋅ \dots ⋅ N_n} = \frac{Z_1(N_2 + \dots + N_m) + \dots + Z_m(N_1 + \dots + N_{m-1})}{N_1 ⋅ \dots ⋅ N_n}$ \\
 
 4. Multipliziere den Zähler aus und forme um zu: \\
-$ f(x) = \frac{(c_{1,m}r_1 + \dots + c_{m,m}r_m)s^m + \dots + (c_{1,0}r_1 + \dots + c_{m,0}r_m)s^0}{N_1 ⋅ \dots ⋅ N_n}$ \\
+$ R(z) = \frac{(c_{1,m}r_1 + \dots + c_{m,m}r_m)s^m + \dots + (c_{1,0}r_1 + \dots + c_{m,0}r_m)s^0}{N_1 ⋅ \dots ⋅ N_n}$ \\
 
 5. Löse folgendes lineare Gleichungssystem: \\
 $\begin{array}{c}
@@ -2221,7 +2482,7 @@ $\begin{array}{c}
 (c_{1,0}r_1 + \dots + c_{m,0}r_m) = b_0
 \end{array}$ \\
 
-6. Setze $r_1$ bis $r_m$ in die Gleichung aus Schritt 2 ein ($R(s) = G_1 + \dots + G_m$)
+6. Setze $r_1$ bis $r_m$ in die Gleichung aus Schritt 2 ein ($R(s) = G_1 + \dots + G_m$) \\
 
 %\subsubsection{Integration mit Partialbruchzerlegung}
 %Sei $R(s) = \int \frac{b_ns^n + \dots + b_1s + b_0}{a_ms^m + \dots + a_1s + a_0} ~ds$ \\
@@ -2231,7 +2492,7 @@ $\begin{array}{c}
 %$\implies R(s) = \int \frac{r_1}{s - p_1} + \dots + \frac{r_m}{s - s_l} + G_{l+1} + \dots + G_m ~ds$ \\
 %$ = r_1\ln|s - p_1| + \dots + r_l\ln|s - p_l| + \int G_{l+1} + \dots + G_m ~ds$
 
-\subsubsection{Beispiel}
+\textbf{Beispiel:} ~\\
 Sei $R(s) = \frac{5s-1}{s^2-1}$ \\
 
 1. Finde alle Polstellen $p_i$ von $R(s):$ \\
@@ -2253,6 +2514,26 @@ $\implies r_1 = 2 \land r_2 = 3$ \\
 
 6. Setze $r_1$ und $r_2$ in die Gleichung aus Schritt 2 ein ($R(s) = \frac {r_1} {s - 1} + \frac {r_2} {s + 1}$): \\
 $R(s) = \frac {2} {s - 1} + \frac {3} {s + 1}$
+
+\subsubsection{Heavisidescher Zuhaltemethode}
+Sei $R(s) = \frac{b_ns^n + \dots + b_1s + b_0}{a_ms^m + \dots + a_1s + a_0}$ \\
+
+1. Finde alle Polstellen $p_i$ von $R(s)$ \\
+
+2. Setze Partialbrüche an: \\
+$R(s) = G_1 + \dots + G_m = \frac{Z_1}{N_1} + \dots + \frac{Z_m}{N_m}, \tab G_i = \frac{Z_i}{N_i}$, wobei
+\begin{itemize}
+	\item $G_i = \frac{r_i}{s - p_i}$, für jeden einfachen reellen Pol $p_i$
+	\item $G_i + G_{i+1} = \frac{r_i}{(s - p_i)} + \frac{r_i^*}{(s - p_{i + 1})}$, für jedes konjugiert komplexes Polpaar $p_i, p_{i+1} = p_i^*$
+	\item $G_i + \dots + G_k = \frac{r_i}{s - p_i} + \frac{r_{i+1}}{(s - p_i)^2} + \dots + \frac{r_{i + k - 1}}{(s - p_i)^k}$, für jeden k-fachen reellen Pol $p_i = p_{i+1} = \dots = p_{i + k - 1}$
+\end{itemize}
+
+3. Koeffizienten bestimmen: \\
+$$
+	r_i = \frac{b_ns^n + \dots + b_1s + b_0}{N_1 ⋅ \dots ⋅ N_{i-1} ⋅ N_{i+1} ⋅ \dots ⋅ N_{m}} \Bigg|_{s = p_i}
+$$
+
+4. Setze $r_1$ bis $r_m$ in die Gleichung aus Schritt 2 ein ($R(s) = G_1 + \dots + G_m$) \\
 
 \subsection{Matrizen}
 \subsubsection{Matrix}
@@ -2372,6 +2653,14 @@ $$
 Es gilt:
 $$
 	AA^{-1} = A^{-1}A = I
+$$
+
+\textbf{Inverse einer $2 \times 2$ Matrix}
+Sei $A \in \mathbb{R}^{2 \times 2}$ und \\
+sei $\det A ≠ 0$. \\
+Die Inverse von A ist definiert als:
+$$
+	\frac{1}{\det A} ⋅ \vect{a_{22} & -a_{12} \\ -a_{21} & a_{11}}
 $$
 
 \subsubsection{Adjunkte}
