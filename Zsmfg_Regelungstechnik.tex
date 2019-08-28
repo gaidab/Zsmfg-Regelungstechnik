@@ -1231,6 +1231,17 @@ $$\begin{array}{ll}
 	\text{Anfangssteigung:} & A'(\omega_{min})  = (k - l) ⋅ \frac{20 dB}{Dekade}
 \end{array}$$
 \begin{center}
+	$\begin{array}{|l|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\multicolumn{10}{|c|}{\text{Umrechnungstabelle}} \\
+		\hline
+		x & 0,01 & 0,1 & 0,32 & 0,5 & 1 & 2 & 3,2 & 10 & 100 \\
+		\hline
+		20 \log_{10}(x) & -40 & -20 & \approx -10 & \approx -6 & 0 & \approx 6 & \approx 10 & 20 & 40 \\
+		\hline
+	\end{array}$
+\end{center}
+\begin{center}
 \begin{tabular}{|l|l|c|}
 	\hline
 	\multicolumn{3}{|c|}{Verlauf} \\
@@ -1445,7 +1456,8 @@ Liegt der Punkt $-1$ links der von der in Richtung wachsender $\omega$ durchlauf
 
 \textbf{Voraussetzungen:}
 \begin{enumerate}
-	\item $F_o(s) = \frac{b_0 + b_1s + \dots + b_ms^m}{a_0 + a_1s + \dots + a_ns^n} ⋅ e^{-T_ts}$ mit $m < n$ und $T_t ≥ 0$
+	\item $F_o(s) = \frac{b_0 + b_1s + \dots + b_ms^m}{a_0 + a_1s + \dots + a_ns^n} ⋅ e^{-T_ts}$
+	\item $m < n$ und $T_t ≥ 0$
 	\item Eines der folgenden Voraussetzungen ist erfüllt:
 	\begin{enumerate}
 		\item Alle Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_0} > 0$
@@ -1455,28 +1467,46 @@ Liegt der Punkt $-1$ links der von der in Richtung wachsender $\omega$ durchlauf
 \end{enumerate}
 
 \subsubsection{Allgemeines Nyquist-Kriterium}
-Sei $F_o(j \omega)$ die Frequenzgangortskurve des offenen Kreises des Standardregelkreises, \\
-wobei $F_o(s) = \frac{b_0 + b_1s + \dots + b_ms^m}{a_0 + a_1s + \dots + a_ns^n} ⋅ e^{-T_ts}$ mit $m < n$ und $T_t ≥ 0$ ,\\
-sei $r_0$ die Anzahl der in der rechten komplexen Halbebene liegende Pole von $F_o(s)$ und \\
+Sei $F_o(j \omega)$ die Frequenzgangortskurve des offenen Kreises des Standardregelkreises und \\
+seien die unten genannten Voraussetzungen erfüllt. \\
+Außerdem sei $r_0$ die Anzahl der in der rechten komplexen Halbebene liegende Pole von $F_o(s)$ und \\
 sei $a_0$ die Anzahl der auf der imaginären Achse gelegenen Pole von $F_o(s)$ \\
 
 Der Regelkreis ist genau dann übertragungsstabil, wenn die Winkeländerung $\omega_+$ des Fahrstrahls vom Punkt $-1$ aus betrachtet
 $$
 	\omega_+ = r_0 \pi + a_0 \frac{\pi}{2}
 $$
-	beträgt, während die Nyquist-Ortskurve $F_o(j \omega)$ von $\omega = 0$ bis $\omega = ∞$ durchlaufen wird.
+beträgt, während die Nyquist-Ortskurve $F_o(j \omega)$ von $\omega = 0$ bis $\omega = ∞$ durchlaufen wird. \\
+
+\textbf{Voraussetzungen:}
+\begin{enumerate}
+	\item $F_o(s) = \frac{b_0 + b_1s + \dots + b_ms^m}{a_0 + a_1s + \dots + a_ns^n} ⋅ e^{-T_ts}$
+	\item $m < n$ und $T_t ≥ 0$
+\end{enumerate}
 
 \subsubsection{Vereinfachtes Nyquist-Kriterium im Bode-Diagramm}
 \begin{figure}[H]
 	\includegraphics[width = 0.4\columnwidth]{imgs/nyquist_bode.png}
 \end{figure}
-Sei $F_o(j \omega)$ die Frequenzgangortskurve des offenen Kreises des Standardregelkreises, \\
-wobei $F_o(s) = \frac{b_0 + b_1s + \dots + b_ms^m}{a_0 + a_1s + \dots + a_ns^n} ⋅ e^{-T_ts}$ mit $m < n$ und $T_t ≥ 0$ und \\
-sei $\omega_c$ die Durchtrittsfrequenz mit $|F_o(j \omega_c)| = 1$. \\
+Sei $F_o(j \omega)$ die Frequenzgangortskurve des offenen Kreises des Standardregelkreises und \\
+seien die unten genannten Voraussetzungen erfüllt. \\
 Der Regelkreis ist übertragungsstabil, wenn
 $$
 	-180° < \angle F_o(j \omega_c) < 0
 $$
+
+\textbf{Voraussetzungen:}
+\begin{enumerate}
+	\item $F_o(s) = \frac{b_0 + b_1s + \dots + b_ms^m}{a_0 + a_1s + \dots + a_ns^n} ⋅ e^{-T_ts}$
+	\item $m < n$ und $T_t ≥ 0$
+	\item Eines der folgenden Voraussetzungen ist erfüllt:
+	\begin{enumerate}
+		\item Alle Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_0} > 0$
+		\item Ein Pol liegt in null, alle anderen Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_1} > 0$
+		\item Zwei Pole liegen in null, alle anderen Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_2} > 0$
+	\end{enumerate}
+	\item Es gibt genau eine Durchtrittsfrequenz $\omega_c$ mit $|F_o(j \omega_c)| = 1 = 0 ~dB$. \\
+\end{enumerate}
 
 \paragraph{Phasenreserve} ~\\
 Die Phasenreserve $\varphi_r$ ist definiert als:
