@@ -1472,7 +1472,7 @@ seien die unten genannten Voraussetzungen erfüllt. \\
 Außerdem sei $r_0$ die Anzahl der in der rechten komplexen Halbebene liegende Pole von $F_o(s)$ und \\
 sei $a_0$ die Anzahl der auf der imaginären Achse gelegenen Pole von $F_o(s)$ \\
 
-Der Regelkreis ist genau dann übertragungsstabil, wenn die Winkeländerung $\omega_+$ des Fahrstrahls vom Punkt $-1$ aus betrachtet
+Der Regelkreis ist genau dann übertragungsstabil, wenn die Winkeländerung $\omega_+$ des Fahrstrahls vom Punkt $-1$ zur Ortskurve
 $$
 	\omega_+ = r_0 \pi + a_0 \frac{\pi}{2}
 $$
@@ -1621,6 +1621,41 @@ $$
 	\item Ein Erhöhen der Verstärkung $V$ verschlechtert sich die Robustheit der Stabilität und kann Instabilität bewirken.
 	\item Ein Einfügen eines I-Gliedes $\frac{K_I}{s}$ erschwert die Stabilisierung eines Regelkreises und macht ihn langsamer.
 \end{itemize}
+
+\subsection{Stationäre Genauigkeit}
+\subsubsection{Stationäre Genauigkeit bezüglich des Führungsverhalten}
+Ein Regelkreis ist stationär genau bezüglich des Führungsverhaltens genau dann, wenn
+\begin{itemize}
+	\item der geschlossene Regelkreis stabil ist
+	\item und eine der folgenden (äquivalenten) Voraussetzungen erfüllt ist:
+	\begin{itemize}
+		\item Ein freies I-Glied ist im offenen Kreis vorhanden
+		\item Die Übertragungsfunktion des offenen Kreises besitzt einen Pol im Ursprung
+		\item Die Führungsübertragungsfunktion des geschlossenen Regelkreises hat eine stationäre Verstärkung von $1$
+	\end{itemize}	
+\end{itemize}
+
+Es folgt:
+$$
+	\lim_{t → ∞} e(t) = 0 \text{ bzw. } \lim_{t → ∞} y(t) = \kappa, \tab \text{wobei } w(t) = \kappa \sigma(t), \kappa ≠ 0
+$$
+
+\subsubsection{Stationäre Genauigkeit bezüglich des Störverhaltens}
+Ein Regelkreis ist stationär genau bezüglich des Führungsverhaltens genau dann, wenn
+\begin{itemize}
+	\item stationär genau bezüglich des Führungsverhalten ist
+	\item und eine der folgenden (äquivalenten) Voraussetzungen erfüllt ist:
+	\begin{itemize}
+		\item Ein freies I-Glied ist im offenen Kreis zwischen Soll-/Istwert-Vergleich und Störeingriff vorhanden
+		\item Die Störübertragungsfunktion des geschlossenen Regelkreises besitzt eine Nullstelle im Ursprung
+		\item Die Störübertragungsfunktion des geschlossenen Regelkreises hat eine stationäre Verstärkung von $0$
+	\end{itemize}	
+\end{itemize}
+
+Es folgt:
+$$
+	\lim_{t → ∞} e(t) = 0 \text{ bzw. } \lim_{t → ∞} y(t) = \kappa, \tab \text{wobei } w(t) = \kappa \sigma(t), \kappa ≠ 0 \text{ und } z(t) = \zeta \sigma(t), \zeta ≠ 0
+$$
 
 \subsection{Grundtypen linearer Regler}
 Sei im folgenden die Regelabweichung $e(t)$ die Eingangsgröße der Regler und die Stellgröße $u(t)$ die Ausgangsgröße der Regler im Zeitbereich bzw. \\
@@ -2869,6 +2904,17 @@ $$
 \end{enumerate}
 
 %TODO Beispiel
+
+\subsection{Winkeländerung aus Nyquist-Ortskurve bestimmen}
+\begin{enumerate}
+	\item Man stehe auf dem Punkt $-1$ und blicke zum Beginn der Ortskurve (bei $\omega = 0$)
+	\item Nun drehe man sich so, dass man (immer auf die Ortskurve blickend) der Ortskurve bis zum Endpunkt ($\omega = ∞$) folgt.
+	\item Der Winkel der Drehung um die eigene Achse vom Startpunkt bis zum Endpunkt entspricht der Winkeländerung $\omega_+$, wobei
+	\begin{itemize}
+		\item Drehung im Uhrzeigersinn: negativer Winkel
+		\item Drehung gegen den Uhrzeigersinn: positiver Winkel
+	\end{itemize}
+\end{enumerate}
 
 
 
