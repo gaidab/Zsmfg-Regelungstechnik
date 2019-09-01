@@ -457,7 +457,7 @@ y = \vect{0 & \dots & 0 & 1} x
 $$
 Sie heißt Beobachtungsnormalform
 
-%TODO check
+
 \subsection{Linearisierung im Arbeitspunkt}
 \subsubsection{Ein Eingabeparameter} ~\\
 Sei $y = F(u)$ eine Übertragungsfunktion. \\
@@ -818,10 +818,14 @@ $$
 $$
 
 \subsubsection{Endwertsatz der Laplace-Transformation}
-Sei $y(t)$ eine Zeitfunktion sowie $Y(s)$ deren Laplace-Transformierte. \\
+Sei $y(t)$ eine Zeitfunktion sowie $Y(s)$ deren Laplace-Transformierte und
+\begin{itemize}
+	\item $y(t → ∞)$ existiert oder
+	\item das System ist übertragungsstabil und das Eingangssignal konvergiert
+\end{itemize}
 Es gilt:
 $$
-y(t → ∞) = \lim_{s → 0} [sY(s)], \tab \text{sofern $y(t → ∞)$ existiert}
+	y(t → ∞) = \lim_{s → 0} [sY(s)]
 $$
 
 Für die Sprungantwort gilt:
@@ -899,6 +903,29 @@ Entferne nicht dominierende Pole aus der komplexen Übertragungsfunktion und gel
 \textbf{Verfahren:} \\
 Aus $G(s) = \sum_{v = 1}^n \frac{r_v}{s - p_v}$ werden diejenigen Summanden ersatzlos gestrichen, deren Dominanzmaß $D_v = |\frac{r_v}{p_v}|$ vergleichsweise klein ist. \\
 Rechts oder auf der imaginären Achse gelegene Pole werden nicht gestrichen.
+
+\subsection{Stationäre Verstärkung}
+Sei $G(s) = \frac{Y(s)}{U(s)}$ die komplexe Übertragungsfunktion eines Systems und \\
+sei dieses System stabil. \\
+Außerdem werde dieses System mit einem Sprungsignal $u(t) = \kappa \sigma(t), \kappa ≠ 0$ angeregt. \\
+Die stationäre Verstärkung von $G(s)$ ist definiert als:
+$$
+	\frac{\lim_{t → ∞} y(t)}{\lim_{t → ∞} u(t)}
+$$
+
+\subsubsection{Stationäre Verstärkung eines PT1 Gliedes}
+Sei $\frac{K}{1 + Ts}$ die komplexe Übertragungsfunktion des PT1-Gliedes. \\
+Die stationäre Verstärkung ist:
+$$
+	\frac{\lim_{t → ∞} y(t)}{\lim_{t → ∞} u(t)} = K
+$$
+
+\subsubsection{Stationäre Verstärkung eines PT2 Gliedes}
+Sei $\frac{K}{1 + 2dTs + T^2 s^2}$ die komplexe Übertragungsfunktion des PT2-Gliedes. \\
+Die stationäre Verstärkung ist:
+$$
+	\frac{\lim_{t → ∞} y(t)}{\lim_{t → ∞} u(t)} = K
+$$
 
 \subsection{Approximation des Totzeitgliedes}
 Sei $G(s) = e^{-T_t s}$ die komplexe Übertragunsfunktion eines Totzeitgliedes. \\
@@ -1212,6 +1239,18 @@ Die Phase ab der Frequenz $\omega_i$ ist:
 \end{itemize}
 
 \subsubsection{Graphische Konstruktino von Bode-Diagramm (Kurzform)}
+\begin{center}
+	$\begin{array}{|l|c|c|c|c|c|c|c|c|c|}
+	\hline
+	\multicolumn{10}{|c|}{\text{Umrechnungstabelle}} \\
+	\hline
+	x & 0,01 & 0,1 & 0,32 & 0,5 & 1 & 2 & 3,2 & 10 & 100 \\
+	\hline
+	20 \log_{10}(x) & -40 & -20 & \approx -10 & \approx -6 & 0 & \approx 6 & \approx 10 & 20 & 40 \\
+	\hline
+	\end{array}$
+\end{center} ~\\
+
 1. Zeitkonstantenform:
 $$
 	G(j \omega) = K ⋅ \frac{(j \omega)^k}{(j \omega)^l} ⋅ \frac{(\tilde T_1 j \omega + 1) ⋅ \dots ⋅ (\tilde T_r j \omega + 1) ⋅ (\tilde T_{r+1}^2 (j \omega)^2 + 2\tilde d_{r+1} \tilde T_{r+1} j \omega + 1) ⋅ \dots ⋅ (\tilde T_m^2 (j \omega)^2 + 2\tilde d_m \tilde T_m j \omega + 1)}{(T_1 j \omega + 1) ⋅ \dots ⋅ (T_s j \omega + 1) ⋅ (T_{s+1}^2 (j \omega)^2 + 2 d_{s+1} T_{s+1} j \omega + 1) ⋅ \dots ⋅ (T_n^2 (j \omega)^2 + 2 d_n T_n j \omega + 1)}
@@ -1230,17 +1269,6 @@ $$\begin{array}{ll}
 	\text{Startwert:} & A(\omega_{min}) = 20 \log_{10} \left(\frac{\omega_{min}^k}{\omega_{min}^l} ⋅ |K| \right) \tab[1] [dB] \\
 	\text{Anfangssteigung:} & A'(\omega_{min})  = (k - l) ⋅ \frac{20 dB}{Dekade}
 \end{array}$$
-\begin{center}
-	$\begin{array}{|l|c|c|c|c|c|c|c|c|c|}
-		\hline
-		\multicolumn{10}{|c|}{\text{Umrechnungstabelle}} \\
-		\hline
-		x & 0,01 & 0,1 & 0,32 & 0,5 & 1 & 2 & 3,2 & 10 & 100 \\
-		\hline
-		20 \log_{10}(x) & -40 & -20 & \approx -10 & \approx -6 & 0 & \approx 6 & \approx 10 & 20 & 40 \\
-		\hline
-	\end{array}$
-\end{center}
 \begin{center}
 \begin{tabular}{|l|l|c|}
 	\hline
@@ -1405,6 +1433,20 @@ $$
 $$
 wobei $F_o(s) = G(s)R(s)$ die Übertragungsfunktion des offenen Kreises ist.
 
+\subsubsection{Führungsübertragungsfunktion $T(s)$}
+Sei $F_o(s) = \frac{Z_o(s)}{N_o(s)}$ die Übertragungsfunktion des offenen Kreises des Standardregelkreises. \\
+Die Führungsübertragungsfunktion des Standardregelkreises ist definiert als:
+$$
+	T(s) = \frac{F_o(s)}{1 + F_o(s)} = \frac{Z_o(s)}{Z_o(s) + N_o(s)}
+$$
+
+\subsubsection{Störübertragungsfunktion $S(s)$}
+Sei $F_o(s) = \frac{Z_o(s)}{N_o(s)}$ die Übertragungsfunktion des offenen Kreises des Standardregelkreises. \\
+Die Störübertragungsfunktion des Standardregelkreises ist definiert als:
+$$
+	S(s) = \frac{1}{1 + F_o(s)} = \frac{N_o(s)}{Z_o(s) + N_o(s)}
+$$
+
 \subsubsection{Eigenschaften des Standardregelkreises}
 \begin{itemize}
 	\item Die Führungsübertragungsfunktion $T(s)$ beschreibt den Einfluss der Führungsgröße $w(t)$ auf die Regelgröße $y(t)$
@@ -1524,6 +1566,11 @@ $$
 $$ \\
 
 Ist $A_r > 1$, so ist der Regelkreis stabil
+
+\paragraph{Amplituden- und Phasenreserve in der Frequenzgangortskurve} ~\\
+\begin{figure}[H]
+	\includegraphics[width = 0.4\columnwidth]{imgs/nyquist_ortskurve.png}
+\end{figure}
 
 \subsection{Robustheit der Stabilität}
 $\varphi_r$ und $A_r$ werden häufig als Maße der Robustheit der Stabilität gegenüber Fehlern oder Veränderungen des Modells $F_o(s)$ verwendet. Faustregel für gute Robustheit:
@@ -1725,7 +1772,7 @@ $$ \\
 
 \textbf{Wahl der Variablen:} \\
 $K_R = K_I ⋅ T_R$  \\
-$T_R =$ größte Nennerzeitkonstante der Strecke \\
+$T_R =$ größte Nennerzeitkonstante der Strecke (Zeitkonstantenform) \\
 $K_I:$ wird so gewählt, dass Phasen- und Amplitudenreserve groß genug sind, z.B: $A_r > 2, \varphi_r > 60°$ \\
 
 \textbf{Vorteile/Nachteile:}
@@ -1763,11 +1810,11 @@ $K_D = K_R + T_R $  \\
 \begin{itemize}
 	\item Vorteile:
 	\begin{itemize}
-		\item hohe Dynamik der Regelung erreichbar
+		\item hohe Dynamik der Regelung erreichbar (schnellerer Regelkreis)
 	\end{itemize}
 	\item Nachteile:
 	\begin{itemize}
-		\item Verstärkung der höherfrequenten Störwelligkeit in $e(t)$
+		\item Verstärkung von hochfrequenten Störsignalen und Rauschen
 		\item D-Anteil kann die Stellgröße in die Begrenzung treiben
 	\end{itemize}
 \end{itemize}
@@ -1821,17 +1868,20 @@ $K_R = K_I(T_{R1} + T_{R2})$  \\
 $T_I = \frac{K_R}{K_I}$ \\
 $T_D = \frac{K_I ⋅ T_{R1} ⋅ T_{R2}}{K_R}$ \\
 
-%\textbf{Vorteile/Nachteile}
-%\begin{itemize}
-%	\item Vorteile:
-%	\begin{itemize}
-%		\item 
-%	\end{itemize}
-%	\item Nachteile:
-%	\begin{itemize}
-%		\item 
-%	\end{itemize}
-%\end{itemize}
+\textbf{Vorteile/Nachteile:}
+\begin{itemize}
+	\item Vorteile:
+	\begin{itemize}
+		\item hohe Dynamik
+		\item stationäre Genauigkeit
+	\end{itemize}
+	\item Nachteile:
+	\begin{itemize}
+		\item Verstärkung von hochfrequenten Störsignalen und Rauschen
+		\item D-Anteil kann die Stellgröße in die Begrenzung treiben (unendlich hohe Impulse)
+		\item nicht realisierbar (da Zählergrad $>$ Nennergrad)
+	\end{itemize}
+\end{itemize}
 
 \subsubsection{Realer PID-Regler}
 \textbf{Definition:}
@@ -2074,7 +2124,7 @@ Kleinere Werte für $q$ erhöhen die Dynamik der Regelung.
 
 \textbf{Sonderfälle:}
 \begin{itemize}
-	\item Führungsgröße ist nicht beeinflussbar:
+	\item Vorsteuerung ist nicht realisierbar (Zählergrad $>$ Nennergrad):
 	\begin{itemize}
 		\item Einfügen je eines PT$n$-Glieds bei $1$ und $2$ mit \\
 		$V(s) = G_{PTn}(s) = \frac{1}{(1 + Ts)^n}$
@@ -2138,7 +2188,7 @@ $$
 	\item Entwurf eines Reglers $R_i(s)$ für die Regelstrecke $G_i(s)$, sodass ein günstiges Störverhalten von $y_i$ bei robuster Stabilität eintritt. \\
 	Die Führungsübertragungsfunktion ist:
 	$$
-		T_i(s) = \frac{Y_i(s)}{W_i(s)} = \frac{G_i R}{1 + G_i R_i}
+		T_i(s) = \frac{Y_i(s)}{W_i(s)} = \frac{G_i R_i}{1 + G_i R_i}
 	$$
 	\item Innere Schleife wird mit $G_a(s)$ zu der äußeren Schleife $\bar{G}_a(s) = T_i(s)G_a(s)$
 	\item Entwurf eines Reglers $R_a(s)$ für die Regelstrecke $\bar G_a(s)$, sodass ein günstiges Störverhalten von $y_a$ mit zumeist stationärer Genauigkeit eintritt. \\
@@ -2171,11 +2221,11 @@ $$
 	\includegraphics[width=0.7\columnwidth]{imgs/abb7_10.png}
 \end{figure}
 
-Sei die Strecke in Zustandsdarstellung. \\
+Sei die Strecke in Zustandsdarstellung mit $\dot x = Ax + bu$ und $y = c^T x$ \\
 
 \textbf{Formeln}
 $$
-	\dot x(t) = Ax(t) + bu(t)
+	\dot x(t) = (A - br^T)x + b(r^T m_x + m_u) w = A_r x + b_r w
 $$
 $$
 	y(t) = c^Tx(t)
@@ -2184,7 +2234,7 @@ $$
 	u(t) = r^Te(t) + m_uw(t) = r^T(m_xw(t)-x(t)) + m_u w(t)
 $$
 $$
-	G_{wy}(s) = \frac{Y(s)}{W(s)} = c^T(sI-A_r)^{-1}b_r \tab (\text{Komplexe Übertragungsfunktion:})
+	G_{wy}(s) = T(s) = \frac{Y(s)}{W(s)} = c^T(sI-A_r)^{-1}b_r \tab (\text{Komplexe Übertragungsfunktion:})
 $$ ~\\
 
 \textbf{Variablen} ~\\
@@ -2196,7 +2246,9 @@ $$ ~\\
 	Zustands-Sollverlauf & $x_{soll}(t) = m_xw(t) \in \mathbb{R}^{n \times 1}$  \\
 	vektorielle Regelabweichung & $e(t) = \vect{e_1(t) \\ \vdots \\ e_n(t)} = x_{soll}(t) - x(t) \in \mathbb{R}^{n \times 1}$  \\
 	Faktoren & $r^T = \vect{r_1 & \dots & r_n} \in \mathbb{R}^{1 \times n}$ \\
-	Systemordnung & $n$ (Zahl der Elemente von $x$)
+	Systemordnung & $n$ (Zahl der Elemente von $x$) \\
+	\tab - & $A_r = (A - br^T)$ \\
+	\tab - & $b_r = b(r^Tm_x + m_u)$ \\
 \end{tabularx} ~\\
 
 \textbf{Anforderungen} ~\\
@@ -2350,7 +2402,7 @@ $$~\\
 	$\dot x = a(x) + b(x) u$ \\
 	$y = c(x) := c_0(x)$
 	\item Ableiten von $y$ nach $x$ solange bis $u$ auftaucht: \\
-	Wiederhole solange bis $b_q(x) ≠ 0$; starte mit $q = 0$; inkrementiere $q$ nach jedem Schritt um 1\\
+	Wiederhole solange bis $b_q(x) ≠ 0$; starte mit $q = 1$; inkrementiere $q$ nach jedem Schritt um 1\\
 	$y^{(q)} = \frac{\partial c_{q-1}}{\partial x_1} \dot x_1 + \dots + \frac{\partial c_{q-1}}{\partial x_n} \dot x_n = c_q(x) + b_q(x) u$
 	\item Einsetzen in Wunschdifferentialgleichung (hier: $y^{(q)} + a_{q - 1}y^{(q-1)} + \dots + a_1 \dot y + a_0y = a_0 w$): \\
 	$c_q(x) + b_q(x) u + a_{q-1} y^{(q-1)} + \dots + a_1 \dot y + a_0 y = a_0 w$
@@ -2720,7 +2772,7 @@ $$
 	AA^{-1} = A^{-1}A = I
 $$
 
-\textbf{Inverse einer $2 \times 2$ Matrix}
+\textbf{Inverse einer $2 \times 2$ Matrix} \\
 Sei $A \in \mathbb{R}^{2 \times 2}$ und \\
 sei $\det A ≠ 0$. \\
 Die Inverse von A ist definiert als:
@@ -2905,6 +2957,28 @@ $$
 
 %TODO Beispiel
 
+\subsection{Komplexe Übertragungsfunktion aus Differentialgleichung bilden}
+Sei $y^{(n)} + a_{n-1} y^{(n-1)} + \dots + a_1 \dot y + a_0 y = b_{n-1} u^{n-1} + \dots + b_1 \dot u + b_0 u$ die beschreibende Differentialgleichung eines Systems \\
+Die komplexe Übertragungsfunktion $G(s)$ des Systems lässt sich wie folgt berechnen:
+\begin{enumerate}
+	\item Transformation in den Bildbereich (wobei $y(0) = u(0) = 0$):
+	$$
+		s^nY(s) + a_{n-1}s^{n-1} Y(s) + \dots + a_1 s Y(s) + a_0 Y(s) = b_{n-1} s^{n-1} U(s) + \dots + b_1 s U(s) + b_0 U(s)
+	$$
+	\item Dividieren durch die linke Seite:
+	$$
+		1 = \frac {b_{n-1} s^{n-1} U(s) + \dots + b_1 s U(s) + b_0 U(s)} {s^nY(s) + a_{n-1}s^{n-1} Y(s) + \dots + a_1 s Y(s) + a_0 Y(s)}
+	$$
+	\item Ausklammern von $Y(s)$ und $U(s)$:
+	$$
+		1 = \frac {b_{n-1} s^{n-1} + \dots + b_1 s + b_0} {s^n + a_{n-1}s^{n-1} + \dots + a_1 s + a_0} ⋅ \frac{U(s)}{Y(s)}
+	$$
+	\item Multiplikation mit $\frac{Y(s)}{U(s)}$:
+	$$
+		G(s) = \frac{Y(s)}{U(s)} = \frac {b_{n-1} s^{n-1} + \dots + b_1 s + b_0} {s^n + a_{n-1}s^{n-1} + \dots + a_1 s + a_0}
+	$$
+\end{enumerate}
+
 \subsection{Winkeländerung aus Nyquist-Ortskurve bestimmen}
 \begin{enumerate}
 	\item Man stehe auf dem Punkt $-1$ und blicke zum Beginn der Ortskurve (bei $\omega = 0$)
@@ -2914,6 +2988,32 @@ $$
 		\item Drehung im Uhrzeigersinn: negativer Winkel
 		\item Drehung gegen den Uhrzeigersinn: positiver Winkel
 	\end{itemize}
+\end{enumerate}
+
+\subsection{Berechnen des rekursiven Algorithmus für $u[k]$}
+Sei $R(s) = \frac{U(s)}{E(s)} = \frac {s^n + b_{n-1} s^{n-1} + \dots + b_1 s + b_0} {a_{n-1}s^{n-1} + \dots + a_1 s + a_0}$ die komplexe Übertragungsfunktion eines Reglers \\
+Der rekursive Algorithmus für $u[k]$ lässt sich wie folgt berechnen:
+\begin{enumerate}
+	\item Ersetze $s$ durch $\frac{2(1-z^{-1})}{T(1+z^{-1})}$ wobei $T$ die Abtastzeit zwischen zwei Samples sein soll:
+	$$
+		R(z) = \frac{u[k]}{e[k]} = \frac {(\frac{2(1-z^{-1})}{T(1+z^{-1})})^n + b_{n-1} ⋅ (\frac{2(1-z^{-1})}{T(1+z^{-1})})^{n-1} + \dots + b_1 ⋅ \frac{2(1-z^{-1})}{T(1+z^{-1})} + b_0} {a_{n-1} ⋅ (\frac{2(1-z^{-1})}{T(1+z^{-1})})^{n-1} + \dots + a_1 ⋅ \frac{2(1-z^{-1})}{T(1+z^{-1})} + a_0}
+	$$
+	\item Forme die Gleichung in folgende Darstellungsform um:
+	$$
+		R(z) = \frac{u[k]}{e[k]} = \frac {d_0 + d_1z^{-1} + \dots + d_{n-1} z^{-n+1} + \dots + d_n z^{-n}}{1 - c_1 z^{-1} - \dots - c_{n-1}z^{-n+1} - c_n z^{-n}}
+	$$
+	\item Multipliziere beide Seiten mit den rechten und linken Nenner:
+	$$
+		(1 - c_1 z^{-1} - \dots - c_{n-1}z^{-n+1} - c_n z^{-n}) ⋅ u[k] = (d_0 + d_1z^{-1} + \dots + d_{n-1} z^{-n+1} + \dots + d_n z^{-n}) ⋅ e[k]
+	$$
+	\item Multipliziere aus, wobei gilt: $z^{-1} ⋅ u[k] = u[k-1], z^{-2} ⋅ u[k] = u[k-2], \dots, z^{-n} ⋅ u[k] = u[k-n]$:
+	$$
+		u[k] - c_1 u[k-1] - \dots - c_{n-1}u[k-n-1] - c_n u[k-n] = d_0 + d_1 e[k-1] + \dots + d_{n-1} e[k-n-1] + \dots + d_n e[k-n]
+	$$
+	\item Löse nach $u[k]$ auf:
+	$$
+		u[k]  = c_1 u[k-1] + \dots + c_{n-1}u[k-n-1] + c_n u[k-n] + d_0 + d_1 e[k-1] + \dots + d_{n-1} e[k-n-1] + \dots + d_n e[k-n]
+	$$		
 \end{enumerate}
 
 
