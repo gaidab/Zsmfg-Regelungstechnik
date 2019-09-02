@@ -732,64 +732,55 @@ in der linken komplexen Halbebene liegen und alle eventuelle Pol-Nullstellenkür
 
 
 \subsection{Nyquist-Kriterium}
-\subsubsection{Einfaches Nyquist-Kriterium}
-Sei $F_o(j \omega)$ die Frequenzgangortskurve des offenen Kreises des Standardregelkreises (auch Nyquist-Ortskurve genannt) und
-seien die unten genannten Voraussetzungen erfüllt. \\
-Liegt der Punkt $-1$ links der von der in Richtung wachsender $\omega$ durchlaufenden Frequenzgangortskurve $F_o(j \omega)$, so ist der Regelkreis übertragungsstabil. \\
+\renewcommand{\arraystretch}{1}
+\begin{tabular}{ll}
+	$F_o(j \omega)$: & Frequenzgangortskurve des offenen Kreises des Standardregelkreises
+\end{tabular}
 
-\textbf{Voraussetzungen:}
-\begin{enumerate}
-	\item $F_o(s) = \frac{b_0 + b_1s + \dots + b_ms^m}{a_0 + a_1s + \dots + a_ns^n} ⋅ e^{-T_ts}$
-	\item $m < n$ und $T_t ≥ 0$
-	\item Eines der folgenden Voraussetzungen ist erfüllt:
+\subsubsection{Voraussetzungen}
+\begin{itemize}
+	\item Allgemeines Nyquist-Kriterium
 	\begin{enumerate}
-		\item Alle Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_0} > 0$
-		\item Ein Pol liegt in null, alle anderen Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_1} > 0$
-		\item Zwei Pole liegen in null, alle anderen Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_2} > 0$
+		\item $F_o(s) = \frac{b_0 + b_1s + \dots + b_ms^m}{a_0 + a_1s + \dots + a_ns^n} ⋅ e^{-T_ts}$
+		\item $m < n$ und $T_t ≥ 0$
 	\end{enumerate}
-\end{enumerate}
+	\item Einfaches Nyquist-Kriterium (zusätzlich)
+	\begin{enumerate}
+		\item Eines der folgenden Voraussetzungen ist erfüllt:
+		\begin{enumerate}
+			\item Alle Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_0} > 0$
+			\item Ein Pol liegt in null, alle anderen Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_1} > 0$
+			\item Zwei Pole liegen in null, alle anderen Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_2} > 0$
+		\end{enumerate}
+	\end{enumerate}
+	\item Einfaches Nyquist-Kriterium im Bode-Diagramm (zusätzlich)
+	\begin{enumerate}
+		\item Es gibt genau eine Durchtrittsfrequenz $\omega_c$ mit $|F_o(j \omega_c)| = 1 = 0 ~dB$. \\
+	\end{enumerate}
+\end{itemize}
 
 \subsubsection{Allgemeines Nyquist-Kriterium}
-Sei $F_o(j \omega)$ die Frequenzgangortskurve des offenen Kreises des Standardregelkreises und \\
-seien die unten genannten Voraussetzungen erfüllt. \\
-Außerdem sei $r_0$ die Anzahl der in der rechten komplexen Halbebene liegende Pole von $F_o(s)$ und \\
-sei $a_0$ die Anzahl der auf der imaginären Achse gelegenen Pole von $F_o(s)$ \\
-
-Der Regelkreis ist genau dann übertragungsstabil, wenn die Winkeländerung $\omega_+$ des Fahrstrahls vom Punkt $-1$ zur Ortskurve
+\begin{tabular}{ll}
+	$r_0$: & Anzahl der in der rechten komplexen Halbebene liegende Pole von $F_o(s)$ \\
+	$a_0$: & Anzahl der auf der imaginären Achse gelegenen Pole von $F_o(s)$ \\
+\end{tabular}
+er Regelkreis ist genau dann übertragungsstabil, wenn die Winkeländerung $\omega_+$ des Fahrstrahls vom Punkt $-1$ zur Ortskurve
 $$
 	\omega_+ = r_0 \pi + a_0 \frac{\pi}{2}
 $$
 beträgt, während die Nyquist-Ortskurve $F_o(j \omega)$ von $\omega = 0$ bis $\omega = ∞$ durchlaufen wird. \\
 
-\textbf{Voraussetzungen:}
-\begin{enumerate}
-	\item $F_o(s) = \frac{b_0 + b_1s + \dots + b_ms^m}{a_0 + a_1s + \dots + a_ns^n} ⋅ e^{-T_ts}$
-	\item $m < n$ und $T_t ≥ 0$
-\end{enumerate}
+\subsubsection{Einfaches Nyquist-Kriterium}
+Liegt der Punkt $-1$ links der von der in Richtung wachsender $\omega$ durchlaufenden Frequenzgangortskurve $F_o(j \omega)$, so ist der Regelkreis übertragungsstabil. \\
 
-\subsubsection{Vereinfachtes Nyquist-Kriterium im Bode-Diagramm}
+\subsubsection{Einfaches Nyquist-Kriterium im Bode-Diagramm}
 \begin{figure}[H]
 	\includegraphics[width = 0.4\columnwidth]{imgs/nyquist_bode.png}
 \end{figure}
-Sei $F_o(j \omega)$ die Frequenzgangortskurve des offenen Kreises des Standardregelkreises und \\
-seien die unten genannten Voraussetzungen erfüllt. \\
 Der Regelkreis ist übertragungsstabil, wenn
 $$
 	-180° < \angle F_o(j \omega_c) < 0
 $$
-
-\textbf{Voraussetzungen:}
-\begin{enumerate}
-	\item $F_o(s) = \frac{b_0 + b_1s + \dots + b_ms^m}{a_0 + a_1s + \dots + a_ns^n} ⋅ e^{-T_ts}$
-	\item $m < n$ und $T_t ≥ 0$
-	\item Eines der folgenden Voraussetzungen ist erfüllt:
-	\begin{enumerate}
-		\item Alle Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_0} > 0$
-		\item Ein Pol liegt in null, alle anderen Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_1} > 0$
-		\item Zwei Pole liegen in null, alle anderen Pole von $F_o(s)$ liegen in der linken komplexen Halbebene und $\frac{b_0}{a_2} > 0$
-	\end{enumerate}
-	\item Es gibt genau eine Durchtrittsfrequenz $\omega_c$ mit $|F_o(j \omega_c)| = 1 = 0 ~dB$. \\
-\end{enumerate}
 
 \paragraph{Phasenreserve} ~\\
 Die Phasenreserve $\varphi_r$ ist definiert als:
@@ -819,15 +810,16 @@ $$
 	\varphi_r > 60° \tab \text{und/oder} \tab A_r > 2
 $$ \\
 
+\renewcommand{\arraystretch}{1.5}
 \section{Reglerentwurf}
 \subsection{Anforderungen an das Regelverhalten}
-\begin{enumerate}
-	\item \textbf{Dynamisches Verhalten:}
-	\item \textbf{Stationäre Genauigkeit:}
-	\item \textbf{Robuste Stabilität:}
-	\item \textbf{Realisierbarkeit des Reglers:}
-	\item \textbf{Einhaltung von Begrenzungen:}
-\end{enumerate}
+\begin{itemize}
+	\item Dynamisches Verhalten:
+	\item Stationäre Genauigkeit:
+	\item Robuste Stabilität:
+	\item Realisierbarkeit des Reglers:
+	\item Einhaltung von Begrenzungen:
+\end{itemize}
 
 \subsection{Dynamik, Robustheit der Stabilität und Grenzen der Regelgüte}
 \subsubsection{Bode-Theorem}
@@ -842,19 +834,6 @@ $$
 		\pi \sum_i  \Re(p_i), & \text{sofern $F_o(s)$ instabil}
 	\end{cases}
 $$
-
-\textbf{Eigenschaften:}
-\begin{itemize}
-	\item Die Summe der Flächen, wo $|S(s)| < 1|$ gleicht der Summe der Flächen, wo $|S(s) > 1$, sofern $F_o(s)$ stabil ist.
-	\item Jede Verbesserung des Störverhaltens in einem gewissen Frequenzbereich muss mit einer Verschlechterung in einem anderen Frequenzbereich bezahlt werden.
-	\item Die störungsmindernde Wirkung einer Regelung findet vor allem bei niedrigen Frequenzen statt und endet im Wesentlichen beim kleinsten $\omega$ für das gilt: $|S(j \omega)| = 1$.
-\end{itemize}
-
-\textbf{Voraussetzungen für gute Robustheit der Stabilität und gute Dämpfung des Einschwingverhaltens}
-\begin{itemize}
-	\item Die Ortskurve $F_o(j \omega)$ soll dem Punkt $-1$ nicht sehr nahe kommen bzw. es soll gelten $|S(j \omega)| < 2 = 6dB, \forall \omega$.
-	\item Oberhalb von $\omega_1$ soll $F_o(j \omega)$ sehr klein werden, wobei $\omega_1$ das kleinste $\omega$ ist, für das $|S(j \omega)| = 1$ ist.
-\end{itemize}
 
 \subsection{Stationäre Genauigkeit}
 \subsubsection{Stationäre Genauigkeit bezüglich des Führungsverhalten}
@@ -943,11 +922,6 @@ $K_I:$ wird so gewählt, dass Phasen- und Amplitudenreserve groß genug sind, z.
 	\end{itemize}
 \end{itemize}
 
-\textbf{Bode-Diagramm:}
-\begin{figure}[H]
-	\includegraphics[width = 0.4\columnwidth]{imgs/i-regler.png}
-\end{figure}
-
 \subsubsection{PI-Regler}
 \textbf{Definition:}
 $$
@@ -958,7 +932,7 @@ $$
 $$ \\
 
 \textbf{Wahl der Variablen:} \\
-$K_R = K_I ⋅ T_R$  \\
+$K_R = K_I ⋅ T_R$ \\
 $T_R =$ größte Nennerzeitkonstante der Strecke (Zeitkonstantenform) \\
 $K_I:$ wird so gewählt, dass Phasen- und Amplitudenreserve groß genug sind, z.B: $A_r > 2, \varphi_r > 60°$ \\
 
@@ -975,43 +949,14 @@ $K_I:$ wird so gewählt, dass Phasen- und Amplitudenreserve groß genug sind, z.
 %	\end{itemize}
 \end{itemize}
 
-\textbf{Bode-Diagramm:}
-\begin{figure}[H]
-	\includegraphics[width = 0.4\columnwidth]{imgs/pi-regler.png}
-\end{figure}
 
-
-\subsubsection{Idealer PD-Regler}
+\subsubsection{PD-Regler}
 \textbf{Definition:}
 $$
 	\begin{array}{ll}
-	\text{Zeitbereich:} & u(t) = K_R (e(t) + T_R \dot e(t)) = K_R e(t) + K_D \dot e(t) \\
-	\text{Bildbereich:} & R(s) = K_R(1 + T_R s) = K_R + K_D s
-	\end{array}
-$$ \\
-
-\textbf{Wahl der Variablen:} \\
-$K_D = K_R + T_R $  \\
-
-\textbf{Vorteile/Nachteile:}
-\begin{itemize}
-	\item Vorteile:
-	\begin{itemize}
-		\item hohe Dynamik der Regelung erreichbar (schnellerer Regelkreis)
-	\end{itemize}
-	\item Nachteile:
-	\begin{itemize}
-		\item Verstärkung von hochfrequenten Störsignalen und Rauschen
-		\item D-Anteil kann die Stellgröße in die Begrenzung treiben
-	\end{itemize}
-\end{itemize}
-
-
-\subsubsection{Realer PD-Regler}
-\textbf{Definition:}
-$$
-	\begin{array}{ll}
-	\text{Bildbereich:} & R(s) = K_R \frac{1 + T_R s}{1 + T_N s}, \tab T_N < T_R
+	\text{Zeitbereich (ideal):} & u(t) = K_R (e(t) + T_R \dot e(t)) = K_R e(t) + K_D \dot e(t) \\
+	\text{Bildbereich (ideal):} & R(s) = K_R(1 + T_R s) \\
+	\text{Bildbereich (real):} & R(s) = K_R \frac{1 + T_R s}{1 + T_N s}, \tab T_N < T_R
 	\end{array}
 $$ \\
 
@@ -1024,59 +969,27 @@ $T_N: \frac{T_R}{50} < T_N < \frac{T_R}{5}$ \\
 \begin{itemize}
 	\item Vorteile:
 	\begin{itemize}
-		\item hohe Dynamik der Regelung erreichbar
+		\item hohe Dynamik der Regelung erreichbar (schnellerer Regelkreis)
 	\end{itemize}
 	\item Nachteile:
 	\begin{itemize}
-		\item D-Anteil kann Messstörungen verstärken
+		\item Verstärkung von hochfrequenten Störsignalen und Rauschen
 		\item D-Anteil kann die Stellgröße in die Begrenzung treiben
+		\item idealer PD-Regler ist nicht realisierbar (da Zählergrad $>$ Nennergrad)
 	\end{itemize}
 \end{itemize}
-
-\textbf{Bode-Diagramm:}
-\begin{figure}[H]
-	\includegraphics[width = 0.4\columnwidth]{imgs/pd-regler.png}
-\end{figure}
 
 \subsubsection{Idealer PID-Regler}
 \textbf{Definition:}
 $$
 	\begin{array}{ll}
-	\text{Zeitbereich:} & u(t) = K_R e(t) + K_I \int_0^t e(\tau) ~d\tau + K_I ⋅ T_{R1} ⋅ T_{R2} ⋅ \dot e(t)\\
-	\text{Bildbereich:} & R(s) = \underbrace{K_I(T_{R1} + T_{R2})}_{\text{P-Glied}} + \underbrace{\frac{K_I}{s}}_{\text{I-Glied}} + \underbrace{K_I ⋅ T_{R1} ⋅ T_{R2} ⋅ s}_{\text{D-Glied}} \\
-	& = K_R(1 + \frac{1}{T_I ⋅ s} + T_D s) \\
-	& = \frac{K_I}{s}(1 + T_{R1} ⋅ s)(1 + T_{R2} ⋅ s)
+	\text{Zeitbereich (ideal):} & u(t) = K_R e(t) + K_I \int_0^t e(\tau) ~d\tau + K_I ⋅ T_{R1} ⋅ T_{R2} ⋅ \dot e(t)\\
+	\text{Bildbereich (ideal):} & R(s) = \underbrace{K_I(T_{R1} + T_{R2})}_{\text{P-Glied}} + \underbrace{\frac{K_I}{s}}_{\text{I-Glied}} + \underbrace{K_I ⋅ T_{R1} ⋅ T_{R2} ⋅ s}_{\text{D-Glied}} \\
+	& = \frac{K_I}{s}(1 + T_{R1} ⋅ s)(1 + T_{R2} ⋅ s) \\
+	\text{Bildbereich (real):} & R(s) = \frac{K_I(1 + T_{R1} ⋅ s)(1 + T_{R2} ⋅ s)}{s(1 + T_N ⋅ s)}
 	\end{array}
 $$ \\
 
-
-\textbf{Wahl der Variablen:} \\
-$K_R = K_I(T_{R1} + T_{R2})$  \\
-$T_I = \frac{K_R}{K_I}$ \\
-$T_D = \frac{K_I ⋅ T_{R1} ⋅ T_{R2}}{K_R}$ \\
-
-\textbf{Vorteile/Nachteile:}
-\begin{itemize}
-	\item Vorteile:
-	\begin{itemize}
-		\item hohe Dynamik
-		\item stationäre Genauigkeit
-	\end{itemize}
-	\item Nachteile:
-	\begin{itemize}
-		\item Verstärkung von hochfrequenten Störsignalen und Rauschen
-		\item D-Anteil kann die Stellgröße in die Begrenzung treiben (unendlich hohe Impulse)
-		\item nicht realisierbar (da Zählergrad $>$ Nennergrad)
-	\end{itemize}
-\end{itemize}
-
-\subsubsection{Realer PID-Regler}
-\textbf{Definition:}
-$$
-	\begin{array}{ll}
-	\text{Bildbereich:} & R(s) = \frac{K_I(1 + T_{R1} ⋅ s)(1 + T_{R2} ⋅ s)}{s(1 + T_N ⋅ s)}
-	\end{array}
-$$ \\
 
 \textbf{Wahl der Variablen:} \\
 $T_{R1} =$ größte Streckenzeitkonstante  \\
@@ -1093,39 +1006,18 @@ $T_N: \frac{T_R}{50} < T_N < \frac{T_R}{5}$ \\
 	\end{itemize}
 	\item Nachteile:
 	\begin{itemize}
-		\item D-Anteil kann Messstörungen verstärken
-		\item D-Anteil kann die Stellgröße in die Begrenzung treiben 
+		\item Verstärkung von hochfrequenten Störsignalen und Rauschen
+		\item D-Anteil kann die Stellgröße in die Begrenzung treiben (unendlich hohe Impulse)
+		\item idealer PID-Regler ist nicht realisierbar (da Zählergrad $>$ Nennergrad)
 	\end{itemize}
 \end{itemize}
 
-\textbf{Bode-Diagramm:}
-\begin{figure}[H]
-	\includegraphics[width = 0.4\columnwidth]{imgs/pid-regler.png}
-\end{figure}
-
 \section{Erweiterte Regelstrukturen und Zustandsregelung}
 \subsection{Zwei-Freiheitsgrade-Regelung}
-\textbf{Grundsatz:}
-\begin{itemize}
-	\item Regelkreise sollen vorrangig auf gutes Störverhalten und Robustheit der Stabilität ausgelegt werden. Das Führungsverhalten kann unabhängig durch eine Steuereinrichtung (Vorsteuerung) manipuliert werden.
-\end{itemize}
 
 \begin{figure}[H]
 	\includegraphics[width=0.5\columnwidth]{imgs/abb7_2.png}
 \end{figure}
-
-\textbf{Verhalten der Regelung:}
-\begin{itemize}
-	\item Keine Störung ($z = 0$) und variable Führungsgröße $w$:
-	\begin{itemize}
-		\item $e = w - y = 0$ (Regler bleibt inaktiv)
-		\item $Y(s) = G(s)G^{-1}(s)W(s) = W(s)$ (ideales Führungsverhalten)
-	\end{itemize}
-	\item $w = 0$ und $z(t) ≠ 0$:
-	\begin{itemize}
-		\item Steuereinrichtung bleibt ohne Einfluss.
-	\end{itemize}
-\end{itemize}
 
 \textbf{Sonderfälle:}
 \begin{itemize}
@@ -1148,7 +1040,6 @@ $T_N: \frac{T_R}{50} < T_N < \frac{T_R}{5}$ \\
 	\end{itemize}
 	\item Für alle Fälle gilt:
 	\begin{itemize}
-		\item Führungsübertragungsverhalten ist: $V(s)$
 		\item $Y(s) = V(s) ⋅ W(s) + \frac{1}{1 + G(s) R(s)} Z(s)$
 	\end{itemize}
 	
@@ -1182,11 +1073,6 @@ $$
 \begin{figure}[H]
 	\includegraphics[width=0.8\columnwidth]{imgs/abb7_5.png}
 \end{figure}
-
-\textbf{Ziel:}
-\begin{itemize}
-	\item Schnelleres Reagieren auf Störungen in der inneren Schleife durch Verwenden einer zusätzlichen verfügbaren Messgröße
-\end{itemize}
 
 \textbf{Entwurf:}
 \begin{enumerate}
@@ -1224,35 +1110,17 @@ $$ ~\\
 
 \textbf{Variablen} ~\\
 \begin{tabularx}{\columnwidth}{ll}
-	Bezeichnung & Var. \\
-	\hline
-	P-Glied Verstärkung & $m_u \in \mathbb{R}$ \\
-	\tab - & $m_x \in \mathbb{R}^{n \times 1}$  \\
-	Zustands-Sollverlauf & $x_{soll}(t) = m_xw(t) \in \mathbb{R}^{n \times 1}$  \\
-	vektorielle Regelabweichung & $e(t) = \vect{e_1(t) \\ \vdots \\ e_n(t)} = x_{soll}(t) - x(t) \in \mathbb{R}^{n \times 1}$  \\
-	Faktoren & $r^T = \vect{r_1 & \dots & r_n} \in \mathbb{R}^{1 \times n}$ \\
-	Systemordnung & $n$ (Zahl der Elemente von $x$) \\
 	\tab - & $A_r = (A - br^T)$ \\
 	\tab - & $b_r = b(r^Tm_x + m_u)$ \\
 \end{tabularx} ~\\
 
-\textbf{Anforderungen} ~\\
-\textbf{1. Anforderung:} ~\\
-Im stationären Fall (d.h. im eingeschwungenen Zustand mit $\dot x = 0$) soll die Regelgröße $y$ den Sollwert $w$ annehmen, also $y = w$, und die vektorielle Regelabweichung $e = x_{soll} − x$ soll null werden, also $x = x_{soll}$ \\
-Es folgt:
+\textbf{Entwurf:} ~\\
+$m_u, m_v$ bestimmen: ~\\
 $$
 	\vect{A & b \\ c^T & 0} ⋅ \vect{m_x \\ m_u} = \vect{0 \\ 1}
 $$
 
-\textbf{2. Anforderung:} ~\\
-Das dynamische Verhalten der Regelung soll asymptotisch stabil sein und eine gewünschte Schnelligkeit und Dämpfung aufweisen. \\
-Es folgt:
-$$
-	\dot x(t) = (A - br^T)x(t)
-$$
-Für asymptotische Stabilität müssen die Eigenwerte $p_1, \dots, p_n$ der Matrix $A - br^T$ (Regelungseigenwerte) in der linken komplexen Halbebene liegen. \\
-
-Entwurf:
+$r^T$ bestimmen: ~\\
 \begin{enumerate}
 	\item Aufstellen des charakteristischen Polynoms (in Abh. von $r^T$ und $s$)$: \\
 	\det(sI - A + br^T) = s^n + c_{n-1}(r_1, \dots, r_n) ⋅ s^{n-1} + \dots + c_0(r_1, \dots, r_n)$, \tab wobei $c_i = f(r_1, \dots, r_n)$
@@ -1266,23 +1134,10 @@ Entwurf:
 	\end{array}$$
 \end{enumerate}
 
-\textbf{Eigenschaften}
-\begin{itemize}
-	\item Alle Eigenwerte und somit die vollstädige Dynamik der Regelung können vom Entwerfer vorgegeben werden. Dazu ist die Messung aller n Zustandsvariablen nötig (oder deren Schätzung durch einen sogenannten Zustandsbeobachter).
-	\item Die Entwürfe des Reglers $r^T$ und der Vorsteuerung $m_u, m_x$ geschehen unabhängig.
-	\item Die Vorgabe der Eigenwerte erlaubt eine sehr gezielte und umfassende Gestaltung der gesamten Systemdynamik. Je weiter links die Regelungseigenwerte platziert werden, desto schneller das Regelverhalten, desto höher	aber auch die Stellgrößenausschläge.
-\end{itemize}
-
 \subsubsection{Zustandsbeobachter}
 \begin{figure}[H]
 	\includegraphics[width=0.7\columnwidth]{imgs/abb7_12.png}
 \end{figure}
-
-\textbf{Ziel:}
-\begin{itemize}
-	\item Schätzung des Zustandsvektors $x$ (, da $x(t)$ nicht messbar)
-	\item Einführung eines Vektors $\hat x$ als Schätzung für $x$
-\end{itemize} ~\\
 
 \textbf{Formeln:} ~\\
 $
@@ -1306,19 +1161,7 @@ $ \\~\\
 	\end{array}$$
 \end{enumerate} ~\\
 
-\textbf{Eigenschaften:}
-\begin{itemize}
-	\item $\lim_{t → ∞} \hat x = x$
-	\item Der Zustandsbeobachter wird vollständig im Digitalrechner	realisiert.
-	\item Der Zustandsbeobachter kann auf Fälle erweitert werden, in denen nicht nur eine, sondern mehrere Messgrößen zur Verfügung stehen.
-	\item Je weiter links die Eigenwerte liegen, desto schneller klingt der Schätzfehler ab, desto empfindlicher wird die Schätzung aber gegenüber Störungen durch Messrauschen.
-\end{itemize}
-
 \subsection{Nichtlineare Zustandsregelung durch Ein-/Ausgangslinearisierung}
-\textbf{Ziel:}
-\begin{itemize}
-	\item Verfahren, mit dem man gewisse nichtlineare Strecken durch ein nichtlineares Zustandsrückführungsgesetz derart regeln kann, dass lineares Ein-/Ausgangsverhalten (lineares Führungsverhalten) eintritt.
-\end{itemize}
 
 \textbf{Vorgehen:}
 \begin{enumerate}
@@ -1328,25 +1171,14 @@ $ \\~\\
 	\item Ableiten von $y$ nach $x$ solange bis $u$ auftaucht: \\
 	Wiederhole solange bis $b_q(x) ≠ 0$; starte mit $q = 1$; inkrementiere $q$ nach jedem Schritt um 1\\
 	$y^{(q)} = \frac{\partial c_{q-1}}{\partial x_1} \dot x_1 + \dots + \frac{\partial c_{q-1}}{\partial x_n} \dot x_n = c_q(x) + b_q(x) u$
-	\item Einsetzen in Wunschdifferentialgleichung (hier: $y^{(q)} + a_{q - 1}y^{(q-1)} + \dots + a_1 \dot y + a_0y = a_0 w$): \\
-	$c_q(x) + b_q(x) u + a_{q-1} y^{(q-1)} + \dots + a_1 \dot y + a_0 y = a_0 w$
+	\item Einsetzen von $y^{(i)} = c_i(x)$ in Wunschdifferentialgleichung \\
+	$c_q(x) + b_q(x) u + a_{q-1} c_{q-1}(x) + \dots + a_0 c_0(x) = a_0 w$
 	\item Auflösen nach $u$: \\
-	$u = \frac 1 {b_q(x)} (-c_q(x) - a_{q-1} y^{(q-1)} - a_1 \dot y - a_0 y + a_0 w)$
-	\item Einsetzen von $y^{(i)} = c_i(x)$ aus Schritt 2: \\
-	$u = \frac 1 {b_q(x)} (-c_q(x) - a_{q-1} c_{q-1}(x) - \dots - a_1 c_1(x) - a_0 c(x) + a_0 w)$
 \end{enumerate}
 Außerdem gilt:
 $$
 	Y(s) = \frac{a_0}{s^q + a_{q-1}s^{q-1} + \dots + a_0} W(s)
 $$
-
-\textbf{Eigenschaften:}
-\begin{itemize}
-	\item Der sogenannte relative Grad $q$ ist bei technisch sinnvollen Systemen stets kleiner oder gleich der Systemordnung $n$.
-	\item Der Entwurf sichert lineares Ein-/Ausgangsverhalten.
-	\item Die Dynamik der Zustandsvariablen bleibt nichtlinear.
-	\item Falls $q < n$ ist, können nur $q$ Pole vorgegeben werden. Die verbleibenden $n − q$ Freiheitsgrade der Systemdynamik bleiben im Systeminnern „versteckt“ und können instabiles Verhalten von Zustandsvariablen bewirken. Falls $q = n$ ist und alle oben verwendeten Ausdrücke frei von Singularitäten sind (zumindest im interessierenden Bereich des Zustandsraums), dann darf man im Allgemeinem von einem stabilen Systemverhalten ausgehen.
-\end{itemize}
 
 \section{Digitale Realisierung}
 \subsection{Tustin-Transformation}
@@ -1468,42 +1300,17 @@ $$
 $$
 
 \section{Elektrotechnische Grundlagen}
-\subsection{Widerstand}
-\textbf{Schaltzeichen:} \\
-\begin{figure}[H]
-	\includegraphics[width=0.15\columnwidth]{imgs/widerstand.pdf}
-\end{figure}
-\textbf{Formel:}
-$$
-	u = R ⋅ i
-$$
-
-\subsection{Kondensator}
-\textbf{Schaltzeichen:} \\
-\begin{figure}[H]
-	\includegraphics[width=0.1\columnwidth]{imgs/kondensator.pdf}
-\end{figure}
-\textbf{Formel:}
-$$
-	u = \frac 1 C \int i ~dt \iff \dot u = \frac i C
-$$
-
-\subsection{Spule}
-\textbf{Schaltzeichen:} \\
-\begin{figure}[H]
-	\includegraphics[width=0.1\columnwidth]{imgs/spule.pdf} bzw. 
-	\includegraphics[width=0.1\columnwidth]{imgs/spule_alt.pdf}	
-\end{figure}
-\textbf{Formel:}
-$$
-	u = L ⋅ \frac{di}{dt}
-$$
+\begin{tabular}{ll}
+	Widerstand: & $U = R ⋅ I$ \\
+	Kondensator: & $U = \frac{1}{C} \int I ~dt$, $I = C ⋅ \dot U$ \\
+	Induktivität: & $U = L ⋅ \dot I$
+\end{tabular}
 
 \renewcommand{\arraystretch}{1}
 \section{Physikalische Grundlagen}
 \textbf{Masse-Feder-Dämpfer System}
 \begin{figure}[H]
-	\includegraphics[width=0.5\columnwidth]{imgs/mass-spring-damper.png}
+	\includegraphics[width=0.3\columnwidth]{imgs/mass-spring-damper.png}
 \end{figure}
 $m$: Masse des Körpers, $d$: Dämpferkonstante, $k$: Federkonstante, $F$: Stellkraft
 $$
@@ -1516,7 +1323,7 @@ $$
 
 \pagebreak
 \section*{Anmerkungen}
-Dies ist eine Zusammenfassung der Vorlesung Regelungstechnik an der Technischen Universität München.
+Dies ist eine Kurzzusammenfassung der Vorlesung Regelungstechnik an der Technischen Universität München.
 Gehalten wurde diese Vorlesung durch Lohmann B. im Sommersemester 2019.
 Ersteller dieser Zusammenfassung ist Gaida B.
 Alle Angaben sind ohne Gewähr.
